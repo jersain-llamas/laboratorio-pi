@@ -1,0 +1,2493 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Expediente 047</title>
+<style>
+:root{
+  --paper:#f3f0e8;
+  --sheet:#fffdf8;
+  --sheet-2:#f8f5ee;
+  --ink:#1b2027;
+  --ink-2:#3a414a;
+  --muted:#5d636b;
+  --rule:#d8d1c3;
+  --rule-strong:#b9b0a0;
+  --accent:#213d55;
+  --accent-soft:#e3e9ef;
+  --tag:#7a5512;
+  --tag-soft:#f4ead3;
+  --focus:#1f63b8;
+  --serif:"Iowan Old Style","Palatino Linotype",Palatino,"Book Antiqua",Georgia,"Times New Roman",serif;
+  --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+  --mono:ui-monospace,SFMono-Regular,Menlo,Consolas,"Liberation Mono",monospace;
+  --radius:6px;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:16px;line-height:1.55;overflow-x:hidden}
+img,svg{max-width:100%}
+a{color:var(--accent)}
+h1,h2,h3,h4{font-family:var(--serif);font-weight:600;line-height:1.25;margin:0 0 .5em;color:var(--ink)}
+h1{font-size:2rem;letter-spacing:.01em}
+h2{font-size:1.45rem}
+h3{font-size:1.15rem}
+h4{font-size:1rem}
+p{margin:0 0 .8em}
+small{font-size:.85rem}
+button,input,select,textarea{font:inherit;color:inherit}
+:focus-visible{outline:3px solid var(--focus);outline-offset:2px}
+.sr-only{position:absolute!important;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+.skip{position:absolute;left:8px;top:-60px;background:var(--ink);color:#fff;padding:8px 14px;border-radius:4px;z-index:100;text-decoration:none}
+.skip:focus{top:8px}
+
+/* ---------- Header ---------- */
+.topbar{position:sticky;top:0;z-index:30;background:var(--ink);color:#f3f0e8;border-bottom:3px solid var(--accent)}
+.topbar-inner{max-width:1320px;margin:0 auto;padding:10px 20px;display:flex;flex-wrap:wrap;align-items:center;gap:10px 22px}
+.brand{font-family:var(--mono);font-size:.82rem;letter-spacing:.18em;font-weight:700;text-transform:uppercase;white-space:nowrap}
+.brand span{display:block;font-family:var(--sans);letter-spacing:.02em;text-transform:none;font-weight:400;font-size:.78rem;opacity:.75}
+.clock{display:flex;flex-direction:column;line-height:1.2}
+.clock-time{font-family:var(--mono);font-size:1.05rem;font-weight:700;letter-spacing:.04em}
+.clock-stage{font-size:.8rem;opacity:.8}
+.stagenav{display:flex;gap:4px;flex-wrap:wrap;margin-left:auto}
+.stagenav button{background:transparent;border:1px solid rgba(243,240,232,.35);color:#f3f0e8;border-radius:4px;padding:4px 9px;font-size:.78rem;font-family:var(--mono);cursor:pointer;min-width:34px}
+.stagenav button[aria-current="step"]{background:#f3f0e8;color:var(--ink);font-weight:700}
+.stagenav button.is-closed::after{content:" ✓";}
+.stagenav button:disabled{opacity:.35;cursor:not-allowed}
+.progress{font-size:.78rem;opacity:.85;white-space:nowrap}
+.panel-toggles{display:none;gap:6px}
+.panel-toggles button{background:#f3f0e8;color:var(--ink);border:0;border-radius:4px;padding:5px 10px;font-size:.8rem;font-weight:600;cursor:pointer}
+
+.notice{max-width:1320px;margin:10px auto 0;padding:8px 20px;font-size:.85rem;color:var(--ink-2)}
+.notice div{background:var(--tag-soft);border:1px solid #e3d3ae;border-radius:4px;padding:6px 10px}
+
+/* ---------- Layout ---------- */
+.layout{max-width:1320px;margin:0 auto;padding:22px 20px 60px;display:grid;grid-template-columns:minmax(0,1fr) 340px;gap:28px;align-items:start}
+.layout.no-panel{grid-template-columns:minmax(0,1fr)}
+main{min-width:0;outline:none}
+.panel{position:sticky;top:76px;max-height:calc(100vh - 92px);overflow:auto;background:var(--sheet);border:1px solid var(--rule);border-radius:var(--radius);padding:0}
+.panel[hidden]{display:none}
+.panel-head{display:none;justify-content:space-between;align-items:center;padding:10px 14px;border-bottom:1px solid var(--rule)}
+.panel-tabs{display:flex;border-bottom:1px solid var(--rule)}
+.panel-tabs button{flex:1;background:var(--sheet-2);border:0;border-right:1px solid var(--rule);padding:10px 6px;font-size:.82rem;font-weight:600;cursor:pointer;color:var(--ink-2)}
+.panel-tabs button:last-child{border-right:0}
+.panel-tabs button[aria-selected="true"]{background:var(--sheet);color:var(--ink);box-shadow:inset 0 -3px 0 var(--accent)}
+.panel-body{padding:14px}
+
+/* ---------- Generic blocks ---------- */
+.stage-head{border-bottom:2px solid var(--ink);padding-bottom:12px;margin-bottom:20px}
+.stage-kicker{font-family:var(--mono);font-size:.78rem;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-bottom:4px}
+.stage-head h1{font-size:1.9rem;margin:0}
+.stage-intro{font-family:var(--serif);font-size:1.12rem;line-height:1.55;color:var(--ink-2);margin:16px 0 0;max-width:62ch}
+.readonly-banner{background:var(--accent-soft);border:1px solid #c4d0dc;border-radius:4px;padding:8px 12px;font-size:.9rem;margin-bottom:18px}
+.section{background:var(--sheet);border:1px solid var(--rule);border-radius:var(--radius);padding:20px 22px;margin:0 0 20px}
+.section > h2{font-size:1.2rem;display:flex;gap:10px;align-items:baseline}
+.section > h2 .num{font-family:var(--mono);font-size:.8rem;color:var(--muted);font-weight:700;letter-spacing:.05em}
+.hint{color:var(--muted);font-size:.92rem;margin-top:-4px}
+.muted{color:var(--muted)}
+.mono{font-family:var(--mono)}
+
+fieldset{border:0;margin:0 0 14px;padding:0;min-width:0}
+legend{font-weight:600;padding:0;margin-bottom:6px}
+fieldset[disabled] .choice{cursor:default}
+
+/* choice rows: compact segmented */
+.qrow{border-top:1px solid var(--rule);padding:12px 0}
+.qrow:first-of-type{border-top:0}
+.qrow legend{float:left;width:100%;font-weight:500;font-family:var(--serif);font-size:1.02rem;line-height:1.4}
+.qrow .seg{clear:both}
+.seg{display:flex;flex-wrap:wrap;gap:6px}
+.seg label{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--rule-strong);border-radius:4px;padding:5px 10px;font-size:.9rem;cursor:pointer;background:#fff}
+.seg input{margin:0;accent-color:var(--accent)}
+.seg label.is-on{border-color:var(--accent);background:var(--accent-soft);font-weight:600}
+
+/* option cards */
+.cards{display:grid;gap:8px}
+.card-opt{display:grid;grid-template-columns:auto 1fr;gap:10px;align-items:start;border:1px solid var(--rule-strong);border-radius:var(--radius);padding:11px 13px;background:#fff;cursor:pointer}
+.card-opt input{margin-top:4px;accent-color:var(--accent)}
+.card-opt.is-on{border-color:var(--accent);box-shadow:inset 3px 0 0 var(--accent);background:#f9fbfc}
+.card-opt .opt-title{font-weight:600}
+.card-opt .opt-mark{font-family:var(--mono);font-size:.72rem;letter-spacing:.06em;color:var(--accent);margin-left:6px;white-space:nowrap}
+.card-opt .opt-detail{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin-top:8px;font-size:.88rem}
+.card-opt .opt-detail div{border-top:1px solid var(--rule);padding-top:6px}
+.card-opt .opt-detail b{display:block;font-family:var(--mono);font-size:.7rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:700}
+.card-opt.is-disabled{opacity:.55;cursor:not-allowed}
+
+/* questions to Tomás */
+.qlist{display:grid;gap:8px}
+.qitem{border:1px solid var(--rule);border-radius:var(--radius);background:#fff;padding:10px 12px}
+.qitem.asked{border-color:var(--accent);background:#f9fbfc}
+.qitem .q{display:flex;justify-content:space-between;gap:12px;align-items:flex-start}
+.qitem .q span{font-weight:500}
+.qitem .ans{margin:10px 0 2px;padding:8px 12px;border-left:3px solid var(--accent);font-family:var(--serif);background:var(--sheet-2)}
+.qitem .order{font-family:var(--mono);font-size:.75rem;color:var(--accent);font-weight:700;margin-right:6px}
+
+.btn{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--ink);background:var(--ink);color:#fff;border-radius:4px;padding:9px 16px;font-weight:600;cursor:pointer;text-decoration:none;font-size:.95rem}
+.btn:hover{background:#2b333d}
+.btn.secondary{background:#fff;color:var(--ink)}
+.btn.secondary:hover{background:var(--sheet-2)}
+.btn.small{padding:5px 10px;font-size:.85rem}
+.btn:disabled{opacity:.45;cursor:not-allowed}
+.btn-row{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+
+textarea,input[type=text],select{width:100%;border:1px solid var(--rule-strong);border-radius:4px;padding:9px 11px;background:#fff;line-height:1.5}
+textarea{min-height:120px;resize:vertical;font-family:var(--serif);font-size:1.02rem}
+textarea[readonly],input[readonly]{background:var(--sheet-2)}
+.counter{font-family:var(--mono);font-size:.82rem;color:var(--muted);margin-top:4px}
+.counter.out{color:#7a2e1f;font-weight:700}
+.field{margin-bottom:14px}
+.field label{display:block;font-weight:600;margin-bottom:5px}
+
+/* close bar */
+.closebar{border-top:2px solid var(--ink);padding-top:16px;margin-top:8px}
+.missing{margin-top:12px;background:var(--tag-soft);border:1px solid #e3d3ae;border-radius:4px;padding:10px 14px;font-size:.92rem}
+.missing ul{margin:6px 0 0;padding-left:20px}
+
+/* document cards in stage */
+.doccards{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:10px}
+.doccard{text-align:left;display:block;width:100%;border:1px solid var(--rule-strong);border-radius:var(--radius);background:#fff;padding:10px 12px;cursor:pointer;position:relative}
+.doccard:hover{border-color:var(--accent)}
+.doccard .did{font-family:var(--mono);font-size:.75rem;color:var(--muted);font-weight:700;letter-spacing:.06em}
+.doccard .dtitle{display:block;font-family:var(--serif);font-weight:600;margin:2px 0 4px;line-height:1.3}
+.doccard .dmeta{font-size:.78rem;color:var(--muted)}
+.tag{display:inline-block;font-family:var(--mono);font-size:.68rem;letter-spacing:.06em;text-transform:uppercase;border:1px solid currentColor;border-radius:3px;padding:0 5px;margin-right:4px;line-height:1.6}
+.tag.late{color:var(--tag);background:var(--tag-soft)}
+.tag.unread{color:var(--accent)}
+.tag.read{color:var(--muted)}
+
+/* tray list in panel */
+.tray{list-style:none;margin:0;padding:0}
+.tray li{border-bottom:1px solid var(--rule)}
+.tray li:last-child{border-bottom:0}
+.tray button{display:block;width:100%;text-align:left;background:transparent;border:0;padding:9px 2px;cursor:pointer}
+.tray button:hover .ttitle{text-decoration:underline}
+.tray .ttitle{display:block;font-weight:600;font-size:.92rem;line-height:1.3}
+.tray .tmeta{display:block;font-size:.76rem;color:var(--muted);margin-top:2px}
+.tray-group{font-family:var(--mono);font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin:12px 0 2px}
+.tray-group:first-child{margin-top:0}
+
+.log{list-style:none;margin:0;padding:0;border-left:2px solid var(--rule-strong)}
+.log li{position:relative;padding:0 0 12px 14px;font-size:.88rem}
+.log li::before{content:"";position:absolute;left:-6px;top:6px;width:10px;height:10px;border-radius:50%;background:var(--sheet);border:2px solid var(--rule-strong)}
+.log time{display:block;font-family:var(--mono);font-size:.74rem;color:var(--muted);font-weight:700}
+
+.advice{list-style:none;margin:0;padding:0}
+.advice li{border:1px solid var(--rule);border-radius:4px;padding:9px 11px;margin-bottom:8px;background:#fff}
+.advice .when{font-family:var(--mono);font-size:.74rem;color:var(--muted);font-weight:700;display:block}
+.advice .what{font-size:.9rem}
+.advice .lock{font-size:.72rem;color:var(--muted)}
+
+/* ---------- Document viewer ---------- */
+dialog{border:0;padding:0;background:transparent;max-width:min(860px,96vw);width:100%;max-height:92vh}
+dialog::backdrop{background:rgba(20,24,30,.55)}
+.viewer{background:var(--sheet);border-radius:8px;max-height:92vh;display:flex;flex-direction:column;overflow:hidden;box-shadow:0 20px 60px rgba(0,0,0,.35)}
+.viewer-head{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;padding:14px 18px;border-bottom:1px solid var(--rule);background:var(--sheet-2)}
+.viewer-head .did{font-family:var(--mono);font-size:.75rem;color:var(--muted);font-weight:700}
+.viewer-head h2{margin:0;font-size:1.2rem}
+.viewer-body{overflow:auto;padding:20px}
+.doc{background:#fff;border:1px solid var(--rule);box-shadow:0 1px 0 var(--rule);padding:26px 28px;font-family:var(--serif);font-size:1.02rem;line-height:1.6;color:#1d1d1d}
+.doc p{margin:0 0 .85em}
+.doc .lh{font-family:var(--mono);font-size:.78rem;letter-spacing:.1em;text-transform:uppercase;border-bottom:2px solid #1d1d1d;padding-bottom:8px;margin-bottom:16px;display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap}
+.doc .lh b{letter-spacing:.14em}
+.doc .mailhead{font-family:var(--sans);font-size:.88rem;border:1px solid var(--rule);background:var(--sheet-2);padding:8px 12px;margin-bottom:14px;border-radius:3px}
+.doc .mailhead div{display:flex;gap:8px}
+.doc .mailhead b{min-width:58px;color:var(--muted);font-weight:600}
+.doc .sep{border:0;border-top:1px dashed var(--rule-strong);margin:16px 0}
+.doc table{width:100%;border-collapse:collapse;font-family:var(--sans);font-size:.88rem;margin:8px 0 14px}
+.doc th,.doc td{border:1px solid var(--rule);padding:6px 8px;text-align:left;vertical-align:top}
+.doc th{background:var(--sheet-2);font-weight:600}
+.doc .props td:first-child{font-family:var(--mono);font-size:.82rem;width:38%;background:var(--sheet-2)}
+.doc .note{font-family:var(--sans);font-size:.88rem;background:var(--tag-soft);border-left:3px solid var(--tag);padding:6px 10px;margin:10px 0}
+.doc .quote{border-left:3px solid var(--rule-strong);padding-left:12px;margin:10px 0;color:#2b2b2b}
+.doc ol,.doc ul{margin:0 0 .9em;padding-left:22px}
+.doc .sig{margin-top:18px}
+.doc .legend{font-family:var(--sans);font-size:.78rem;color:var(--muted);font-style:italic;border-top:1px solid var(--rule);margin-top:20px;padding-top:8px}
+.doc .simlabel{font-family:var(--mono);font-size:.74rem;letter-spacing:.06em;text-transform:uppercase;border:1px dashed var(--rule-strong);padding:4px 8px;display:inline-block;margin-bottom:10px;color:var(--ink-2)}
+.doc .layer-hidden{font-weight:700}
+.doc .version-tag{font-family:var(--mono);font-size:.74rem;border:1px solid var(--rule-strong);padding:1px 6px;border-radius:3px;margin-left:6px}
+.doc .scrawl{font-family:var(--sans);font-size:.9rem;font-style:italic}
+
+/* ---------- Timeline 3.1 ---------- */
+.tl-grid{display:grid;gap:10px}
+.tl-card{border:1px solid var(--rule);border-radius:4px;padding:10px 12px;background:#fff;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,260px);gap:10px;align-items:center}
+.tl-card .tl-name{font-weight:600}
+.tl-compare{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;margin-top:16px}
+.tl-col h3{font-size:1rem}
+.tl-zone{border-top:1px solid var(--rule);padding:6px 0}
+.tl-zone b{display:block;font-family:var(--mono);font-size:.72rem;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.tl-zone ul{margin:4px 0 0;padding-left:18px;font-size:.9rem}
+.doclist{list-style:none;padding:0;margin:0;font-size:.9rem}
+.doclist li{display:grid;grid-template-columns:110px 1fr;gap:10px;padding:5px 0;border-bottom:1px dotted var(--rule)}
+.doclist li span:first-child{font-family:var(--mono);font-size:.8rem;color:var(--muted)}
+
+/* ---------- Classification ---------- */
+.defs{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin-bottom:14px}
+.defs div{border:1px solid var(--rule);border-radius:4px;padding:8px 10px;background:var(--sheet-2);font-size:.88rem}
+.defs b{display:block;font-size:.92rem}
+.rewrite{list-style:none;margin:10px 0 0;padding:0;counter-reset:rw}
+.rewrite li{counter-increment:rw;border-left:3px solid var(--accent);background:#fff;padding:8px 12px;margin-bottom:8px;font-family:var(--serif)}
+.rewrite li::before{content:counter(rw) ". ";font-family:var(--mono);font-size:.8rem;color:var(--muted)}
+
+/* ---------- Revelations ---------- */
+.news{border-left:3px solid var(--accent);padding:4px 0 4px 14px;margin:0 0 18px}
+.news ul{margin:6px 0 0;padding-left:20px}
+
+/* ---------- Cover ---------- */
+.cover{max-width:760px;margin:30px auto;background:var(--sheet);border:1px solid var(--rule);border-radius:8px;overflow:hidden}
+.cover-band{background:var(--ink);color:#f3f0e8;padding:30px 34px 26px;position:relative}
+.cover-band .fileno{font-family:var(--mono);letter-spacing:.24em;font-size:.82rem;opacity:.75;margin-bottom:10px}
+.cover-band h1{color:#f3f0e8;font-size:2.6rem;letter-spacing:.06em;margin:0}
+.cover-band .subtitle{font-family:var(--serif);font-style:italic;font-size:1.2rem;margin-top:8px;opacity:.92}
+.cover-body{padding:26px 34px 30px}
+.cover-body ul{padding-left:20px;margin:0 0 18px}
+.cover-body li{margin-bottom:4px}
+.stamp{display:inline-block;border:2px solid var(--accent);color:var(--accent);font-family:var(--mono);font-weight:700;letter-spacing:.14em;font-size:.72rem;padding:3px 8px;transform:rotate(-2deg);margin-bottom:14px}
+.resume{background:var(--accent-soft);border:1px solid #c4d0dc;border-radius:6px;padding:14px 16px;margin-bottom:18px}
+
+/* ---------- Closing / report ---------- */
+.evo{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin:14px 0 6px;position:relative}
+.evo-pt{border:1px solid var(--rule-strong);border-radius:4px;background:#fff;padding:10px;font-size:.88rem;align-self:start}
+.evo-pt .when{font-family:var(--mono);font-size:.74rem;font-weight:700;color:var(--muted);display:block}
+.evo-pt .opt{font-weight:600;display:block;margin:4px 0}
+.evo-pt .between{font-size:.8rem;color:var(--muted);border-top:1px dotted var(--rule);padding-top:5px;margin-top:5px}
+.evo-scale{display:flex;justify-content:space-between;font-size:.74rem;color:var(--muted);font-family:var(--mono)}
+.obs{list-style:none;padding:0;margin:8px 0 0}
+.obs li{padding:8px 0 8px 14px;border-left:2px solid var(--rule-strong);margin-bottom:6px;font-family:var(--serif)}
+.dim{border-top:1px solid var(--rule);padding:14px 0}
+.dim:first-of-type{border-top:0}
+.dim h3{font-size:1.05rem;margin-bottom:6px}
+.dim dl{margin:0;display:grid;grid-template-columns:150px minmax(0,1fr);gap:6px 14px}
+.dim dt{font-family:var(--mono);font-size:.74rem;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);padding-top:3px}
+.dim dd{margin:0;font-family:var(--serif)}
+.traj-detail{border:1px solid var(--rule-strong);border-radius:6px;padding:16px 18px;background:#fff}
+.traj-detail dl{margin:0;display:grid;grid-template-columns:200px minmax(0,1fr);gap:8px 14px}
+.traj-detail dt{font-weight:600;font-size:.9rem}
+.traj-detail dd{margin:0}
+.traj-others{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px;margin-top:10px}
+.traj-others div{border:1px solid var(--rule);border-radius:6px;padding:12px;background:var(--sheet-2);font-size:.9rem}
+.traj-others h4{margin-bottom:6px}
+.report{background:#fff;border:1px solid var(--rule);border-radius:4px;padding:28px 32px}
+.report-title{border-bottom:3px double var(--ink);padding-bottom:10px;margin-bottom:16px}
+.report-title .rk{font-family:var(--mono);font-size:.78rem;letter-spacing:.2em;color:var(--muted)}
+.report-title h2{font-size:1.6rem;margin:2px 0 0}
+.rsec{margin:0 0 18px;break-inside:avoid;page-break-inside:avoid}
+.rsec.long{break-inside:auto;page-break-inside:auto}
+.rsec h3{font-size:1.02rem;border-bottom:1px solid var(--rule);padding-bottom:4px;margin-bottom:8px}
+.rsec h3 .n{font-family:var(--mono);font-size:.78rem;color:var(--muted);margin-right:6px}
+.rsec table{width:100%;border-collapse:collapse;font-size:.88rem;margin:4px 0}
+.rsec th,.rsec td{border:1px solid var(--rule);padding:5px 7px;text-align:left;vertical-align:top}
+.rsec th{background:var(--sheet-2)}
+.rsec .free{white-space:pre-wrap;font-family:var(--serif);border-left:3px solid var(--rule-strong);padding:4px 0 4px 12px}
+.rsec ul{margin:0;padding-left:20px}
+.report-foot{font-size:.8rem;color:var(--muted);font-style:italic;border-top:1px solid var(--rule);padding-top:8px;margin-top:20px}
+.table-wrap{overflow-x:auto;max-width:100%}
+
+/* ---------- Responsive ---------- */
+@media (max-width:1100px){
+  .layout{grid-template-columns:minmax(0,1fr)}
+  .panel{position:fixed;top:0;right:0;bottom:0;width:min(400px,100vw);max-height:none;z-index:50;border-radius:0;border:0;border-left:1px solid var(--rule);box-shadow:-10px 0 40px rgba(0,0,0,.25)}
+  .panel-head{display:flex}
+  .panel-toggles{display:flex}
+  .stagenav{margin-left:0;order:5;width:100%}
+}
+@media (max-width:640px){
+  body{font-size:15.5px}
+  .topbar-inner{padding:6px 12px;gap:6px 12px}
+  .brand span,.clock-stage{display:none}
+  .stagenav button{padding:3px 7px;min-width:30px}
+  .panel-toggles button{padding:4px 8px}
+  .layout{padding:16px 12px 50px}
+  .section{padding:16px 14px}
+  .stage-head h1{font-size:1.5rem}
+  .card-opt .opt-detail{grid-template-columns:minmax(0,1fr)}
+  .tl-card{grid-template-columns:minmax(0,1fr)}
+  .tl-compare{grid-template-columns:minmax(0,1fr)}
+  .defs{grid-template-columns:minmax(0,1fr)}
+  .evo{grid-template-columns:minmax(0,1fr)}
+  .dim dl,.traj-detail dl{grid-template-columns:minmax(0,1fr)}
+  .doc{padding:18px 16px}
+  .viewer-body{padding:12px}
+  .report{padding:18px 14px}
+  .cover-band{padding:24px 20px}
+  .cover-band h1{font-size:2rem}
+  .cover-body{padding:20px}
+  .doclist li{grid-template-columns:minmax(0,1fr)}
+}
+
+/* ---------- Print ---------- */
+@media print{
+  @page{margin:16mm 14mm}
+  body{background:#fff;color:#000;font-size:9.5pt;line-height:1.4}
+  .report h2{font-size:15pt}
+  .rsec{margin-bottom:10px}
+  .rsec h3{font-size:10.5pt;margin-bottom:4px}
+  .rsec table{font-size:8.5pt}
+  .rsec th,.rsec td{padding:3px 5px}
+  .rsec .free{font-size:9.5pt}
+  .rsec ul{font-size:9pt}
+  .rsec tr{break-inside:avoid;page-break-inside:avoid}
+  .topbar,.panel,.skip,.notice,.no-print,.btn,button,dialog,#live{display:none!important}
+  .layout{display:block;padding:0;max-width:none}
+  main > *:not(#informe-wrap){display:none!important}
+  #informe-wrap{display:block!important}
+  .report{border:0;padding:0}
+  .rsec th{background:#eee!important;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  .rsec th,.rsec td{border-color:#888}
+  .rsec .free{border-left-color:#888}
+  a{color:#000;text-decoration:none}
+  .table-wrap{overflow:visible}
+  h3{break-after:avoid;page-break-after:avoid}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Saltar al contenido</a>
+<header class="topbar" id="topbar" hidden>
+  <div class="topbar-inner">
+    <div class="brand">Expediente 047<span>Casa Albor · Carta de Estudio Nácar</span></div>
+    <div class="clock" aria-live="polite"><span class="clock-time" id="clockTime"></span><span class="clock-stage" id="clockStage"></span></div>
+    <div class="progress" id="progressText"></div>
+    <nav class="stagenav" id="stageNav" aria-label="Momentos del expediente"></nav>
+    <div class="panel-toggles" id="panelToggles">
+      <button type="button" data-panel-open="bandeja" aria-controls="panel">Bandeja</button>
+      <button type="button" data-panel-open="bitacora" aria-controls="panel">Bitácora</button>
+      <button type="button" data-panel-open="consejo" aria-controls="panel">Tu consejo</button>
+    </div>
+  </div>
+</header>
+<div class="notice" id="storageNotice" hidden><div role="status">El navegador no permite guardar el avance: puedes completar el expediente, pero se perderá si cierras o recargas la página.</div></div>
+<div class="layout no-panel" id="layout">
+  <main id="main" tabindex="-1"></main>
+  <aside class="panel" id="panel" hidden aria-label="Expediente: bandeja, bitácora y consejo">
+    <div class="panel-head"><strong>Expediente</strong><button type="button" class="btn secondary small" id="panelClose">Cerrar</button></div>
+    <div class="panel-tabs" role="tablist" aria-label="Secciones del expediente">
+      <button type="button" role="tab" id="tab-bandeja" aria-controls="tp-bandeja" data-tab="bandeja">Bandeja</button>
+      <button type="button" role="tab" id="tab-bitacora" aria-controls="tp-bitacora" data-tab="bitacora">Bitácora</button>
+      <button type="button" role="tab" id="tab-consejo" aria-controls="tp-consejo" data-tab="consejo">Tu consejo</button>
+    </div>
+    <div class="panel-body">
+      <div role="tabpanel" id="tp-bandeja" aria-labelledby="tab-bandeja"></div>
+      <div role="tabpanel" id="tp-bitacora" aria-labelledby="tab-bitacora" hidden></div>
+      <div role="tabpanel" id="tp-consejo" aria-labelledby="tab-consejo" hidden></div>
+    </div>
+  </aside>
+</div>
+<div id="live" class="sr-only" aria-live="polite" aria-atomic="true"></div>
+
+<dialog id="docDialog" aria-labelledby="docDialogTitle">
+  <div class="viewer">
+    <div class="viewer-head">
+      <div><div class="did" id="docDialogId"></div><h2 id="docDialogTitle"></h2><div class="muted" id="docDialogMeta" style="font-size:.82rem"></div></div>
+      <button type="button" class="btn secondary small" id="docDialogClose">Cerrar</button>
+    </div>
+    <div class="viewer-body" id="docDialogBody"></div>
+  </div>
+</dialog>
+
+<dialog id="confirmDialog" aria-labelledby="confirmTitle" aria-describedby="confirmText">
+  <div class="viewer" style="max-width:520px;margin:auto">
+    <div class="viewer-head"><h2 id="confirmTitle">Confirmar</h2></div>
+    <div class="viewer-body">
+      <p id="confirmText"></p>
+      <div class="btn-row"><button type="button" class="btn" id="confirmOk">Confirmar</button><button type="button" class="btn secondary" id="confirmCancel">Volver</button></div>
+    </div>
+  </div>
+</dialog>
+<script>
+(function(){
+'use strict';
+
+/* =========================================================
+   CONSTANTES Y DATOS DEL CASO
+   ========================================================= */
+var KEY = 'labpi_expediente_047_v1';
+var SCHEMA = 1;
+
+var STAGES = [
+  {n:0, title:'Apertura del expediente', day:'Martes 10 de noviembre', time:'09:15', short:'Mar 10 · 09:15', next:'10:00'},
+  {n:1, title:'Primera llamada', day:'Martes 10 de noviembre', time:'10:00', short:'Mar 10 · 10:00', next:'13:00'},
+  {n:2, title:'El expediente crece', day:'Martes 10 de noviembre', time:'13:00', short:'Mar 10 · 13:00', next:'16:30'},
+  {n:3, title:'La contradicción', day:'Martes 10 de noviembre', time:'16:30', short:'Mar 10 · 16:30', next:'08:30 del miércoles'},
+  {n:4, title:'Decisión del cliente', day:'Miércoles 11 de noviembre', time:'08:30', short:'Mié 11 · 08:30', next:'11:00 del viernes'},
+  {n:5, title:'Respuesta y cierre', day:'Viernes 13 de noviembre', time:'11:00', short:'Vie 13 · 11:00', next:null}
+];
+
+var FRENTES = [
+  {id:'A1', name:'Forma de la lámpara'},
+  {id:'A2', name:'Información técnica y ex colaboradora'},
+  {id:'A3', name:'Ilustración del empaque'},
+  {id:'A4', name:'Nombre ESTELA'}
+];
+var PREOC = [
+  {v:'alta', l:'Alta'}, {v:'media', l:'Media'}, {v:'baja', l:'Baja'}, {v:'no_evaluable', l:'Todavía no puedo evaluarla'}
+];
+var PREOC_RANK = {no_evaluable:0, baja:1, media:2, alta:3};
+
+var AFIRMABLES = [
+  {id:'c1', t:'Nácar alega cuatro cosas distintas en su carta', ref:'si'},
+  {id:'c2', t:'El lanzamiento es el 17 y hay 8,000 unidades empacadas', ref:'si'},
+  {id:'c3', t:'ESTELA infringe el diseño registrado de Nácar', ref:'no'},
+  {id:'c4', t:'Nadie vinculado a Nácar participó en el desarrollo', ref:'no'},
+  {id:'c5', t:'El empaque se diseñó íntegramente dentro de Albor', ref:'no'},
+  {id:'c6', t:'Nácar tiene un registro de diseño que cubre ESTELA', ref:'no'},
+  {id:'c7', t:'La búsqueda previa descartó riesgos con el nombre', ref:'no'}
+];
+
+var PREGUNTAS = [
+  {id:'T1', q:'¿Quién más participó, dentro o fuera de Albor?', a:'«El diseño es de Rafael. Rombo hizo moldes e ingeniería de producción, como cualquier maquilador. El empaque lo llevó Sofía con un ilustrador.»'},
+  {id:'T2', q:'¿Alguien de Nácar trabaja o trabajó con ustedes?', a:'«Nadie de Nácar trabaja en Albor. Lo revisé con Recursos Humanos anoche.»'},
+  {id:'T3', q:'¿De dónde salió la forma?', a:'«Rafael lleva años con esa línea. Tuvimos una lámpara parecida hace tiempo.»'},
+  {id:'T4', q:'¿Qué ya está hecho y qué todavía se puede mover?', a:'«Las 8,000 están empacadas. La campaña pagada arranca el domingo 15 y el evento con Domo es el 17. Lo pagado en medios se puede pausar hasta el sábado 14.»'},
+  {id:'T5', q:'¿Revisaron si el nombre estaba disponible?', a:'«Sofía hizo una búsqueda en junio y salió limpia.»'},
+  {id:'T6', q:'¿Qué documentos de desarrollo existen y dónde están?', a:'«Todo está en la carpeta compartida de Producto. Sofía tiene lo de marca en su propia carpeta.»'},
+  {id:'T7', q:'¿Alguien ha hablado con Nácar?', a:'«No. Pero Lucía quiere contestarles hoy.»'}
+];
+
+var LUCIA = [
+  {id:'La', t:'Pedirle que no envíe nada y que todo contacto con Nácar pase por el despacho'},
+  {id:'Lb', t:'Enviar hoy un acuse breve, sin posición de fondo, que redactas tú'},
+  {id:'Lc', t:'Dejar que lo envíe tal cual: es su empresa y su voz'},
+  {id:'Ld', t:'Que lo envíe, pero sin «todo se hizo internamente»'}
+];
+
+var CONS1 = [
+  {id:'amplia', t:'Instrucción escrita hoy a Albor, Taller Rombo y Daniel Prado: conservar archivos, correos y chats del proyecto tal como están'},
+  {id:'interna', t:'Instrucción sólo al personal de Albor; a los proveedores se les pedirá después'},
+  {id:'diferida', t:'Esperar a saber más para no alarmar al equipo'},
+  {id:'ordenar', t:'Pedir que cada área ordene y depure sus carpetas para entregar algo limpio a las 16:00'}
+];
+
+var VERIF = [
+  {id:'V1', t:'Entrevistar a Rafael Quiroz y pedir los archivos fuente de la forma', doc:'DOC-06', src:'interna'},
+  {id:'V2', t:'Revisar contrato y comunicaciones con Taller Rombo', doc:'DOC-07', src:'terceros'},
+  {id:'V3', t:'Pedir los archivos nativos del empaque y revisar sus propiedades', doc:'DOC-08', src:'terceros'},
+  {id:'V4', t:'Revisar la búsqueda de marca previa', doc:'DOC-09', src:'contraparte'},
+  {id:'V5', t:'Revisar el registro invocado y material público de Nácar y del sector', doc:'DOC-10', src:'contraparte'},
+  {id:'V6', t:'Reconstruir la cronología con correos de compras y dirección', doc:'DOC-11', src:'interna'}
+];
+var SRC_LABEL = {interna:'interna', terceros:'terceros', contraparte:'contraparte o registros'};
+
+var P1 = [
+  {id:'P1-A', t:'Seguir con el lanzamiento según lo previsto', R:0, c:false},
+  {id:'P1-B', t:'Seguir, sin asumir compromisos nuevos difíciles de revertir mientras se verifica', R:1, c:false},
+  {id:'P1-C', t:'Seguir, pero pausar desde ya el material de campaña que todavía no sale', R:2, c:false},
+  {id:'P1-D', t:'Pedir a Nácar que precise sus alegaciones y pruebas antes de decidir', R:1, c:true},
+  {id:'P1-E', t:'Recomendar desde hoy aplazar el lanzamiento', R:4, c:false},
+  {id:'P1-F', t:'No dar recomendación hasta después de la reunión de las 16:00', R:null, c:false}
+];
+var P2 = [
+  {id:'P2-A', t:'Lanzar el 17 sin cambios', R:0, c:false},
+  {id:'P2-B', t:'Lanzar el 17 sin tocar el producto y pausar la campaña pagada mientras se aclara el empaque', R:1, c:false},
+  {id:'P2-C', t:'Lanzar el 17 cubriendo o sustituyendo el empaque y retirando la ilustración de web y anuncios', R:2, c:false},
+  {id:'P2-D', t:'Lo mismo que la opción anterior y, además, abrir contacto con Nácar', R:2, c:true},
+  {id:'P2-E', t:'Lanzar sólo en la tienda en línea y posponer el evento y la exhibición en Domo', R:3, c:false},
+  {id:'P2-F', t:'Aplazar todo el lanzamiento', R:4, c:false}
+];
+var AUTODESC = [{id:'mantengo', t:'La mantengo'},{id:'ajusto', t:'La ajusto'},{id:'cambio', t:'La cambio'}];
+
+var HALLAZGOS = {
+  V1:[{id:'V1a', t:'CÁNTARO se vendió en 2022 con estrías y anillo', ref:[3,3], f:'A1'},
+      {id:'V1b', t:'El anillo funcional entra en abril de 2026 por propuesta de Rombo', ref:[2,2], f:'A2'}],
+  V2:[{id:'V2a', t:'Una ex ingeniera de Nácar trabajó el anillo en Rombo', ref:[2,3], f:'A2'},
+      {id:'V2b', t:'La hoja de tolerancias tiene «Estudio Nácar» en sus propiedades', ref:[3,3], f:'A2'}],
+  V3N:[{id:'V3aN', t:'Capa oculta con la página 14 de Nácar', ref:[3,3], f:'A3'},
+       {id:'V3bN', t:'Seis de nueve líneas siguen el mismo recorrido', ref:[3,3], f:'A3'}],
+  V3P:[{id:'V3aP', t:'El archivo entregado se creó hoy y no tiene capas', ref:null, f:null},
+       {id:'V3bP', t:'Daniel no explica cómo hizo la ilustración', ref:[2,2], f:'A3'}],
+  V4:[{id:'V4a', t:'ESTELIA apareció en la búsqueda', ref:[2,2], f:'A4'},
+      {id:'V4b', t:'El «OK» no tuvo revisión jurídica', ref:[2,2], f:'A4'}],
+  V5:[{id:'V5a', t:'El registro muestra otra silueta y ningún anillo', ref:[3,3], f:'A1'},
+      {id:'V5b', t:'Las estrías verticales existían en el sector en 2019', ref:[2,2], f:'A1'}],
+  V6:[{id:'V6a', t:'Tomás sabía desde marzo que Valeria venía de Nácar', ref:[2,2], f:'A2'},
+      {id:'V6b', t:'La preventa con Domo prevé penalización y Rombo publicó la colaboración', ref:null, f:null}]
+};
+var GRADO = [{v:'mucho',l:'Mucho',n:3},{v:'algo',l:'Algo',n:2},{v:'poco',l:'Poco',n:1},{v:'nada',l:'Nada',n:0}];
+var GRADO_N = {mucho:3, algo:2, poco:1, nada:0};
+var FRENTE_OPTS = [{v:'A1',l:'Forma'},{v:'A2',l:'Información técnica'},{v:'A3',l:'Empaque'},{v:'A4',l:'Nombre'},{v:'ninguno',l:'Ninguno'}];
+
+var TARJETAS = [
+  {id:'K1', t:'CÁNTARO a la venta'},
+  {id:'K2', t:'Bocetos de ESTELA'},
+  {id:'K3', t:'El anillo se vuelve funcional'},
+  {id:'K4', t:'Nácar solicita su registro de diseño'},
+  {id:'K5', t:'Sofía envía el moodboard a Daniel'},
+  {id:'K6', t:'Se crea la hoja de tolerancias'}
+];
+var ZONAS = [
+  {v:'antes', l:'Antes de OLEA (marzo 2024)'},
+  {v:'entre', l:'Entre OLEA y la llegada de Valeria a Rombo (marzo 2026)'},
+  {v:'despues', l:'Después de la llegada de Valeria'},
+  {v:'no_ubicable', l:'No puedo ubicarlo con lo que tengo'}
+];
+
+var HIPOTESIS = [
+  {id:'H1', t:'La forma de ESTELA se desarrolló con independencia de OLEA'},
+  {id:'H2', t:'El mecanismo incorpora información técnica de Nácar'},
+  {id:'H3', t:'La ilustración reproduce elementos de la campaña OLEA'},
+  {id:'H4', t:'Albor puede usar la ilustración en todos sus canales'}
+];
+var HIP_OPTS = [{v:'reforzada',l:'Reforzada'},{v:'debilitada',l:'Debilitada'},{v:'abierta',l:'Sigue abierta'},{v:'descartada',l:'Descartada'}];
+
+var CATS = [
+  {v:'hecho', l:'Hecho documentado', d:'Un documento del expediente lo muestra directamente'},
+  {v:'afirmacion', l:'Afirmación de una parte', d:'Alguien identificable lo dice (cliente, contraparte, proveedor), pero ningún documento lo muestra'},
+  {v:'inferencia', l:'Inferencia', d:'Conclusión que se saca de otros hechos; puede ser razonable, pero nadie la ha demostrado'},
+  {v:'no_confirmado', l:'Dato no confirmado', d:'No consta en documento ni como dicho de alguien identificable: rumor o suposición'}
+];
+var CAT_L = {hecho:'Hecho documentado', afirmacion:'Afirmación de una parte', inferencia:'Inferencia', no_confirmado:'Dato no confirmado'};
+
+var AFS = [
+  {id:'AF1', t:'Valeria Montes trabajó en Nácar hasta febrero de 2026', ind:'Valeria Montes trabajó en Nácar hasta febrero de 2026', sub:'Valeria Montes haya trabajado en Nácar hasta febrero de 2026', src:'la nota de Taller Rombo', p:'hecho', alt:'afirmacion'},
+  {id:'AF2', t:'Valeria usó información confidencial de Nácar en nuestro anillo', ind:'Valeria usó información confidencial de Nácar en nuestro anillo', sub:'Valeria haya usado información confidencial de Nácar en nuestro anillo', src:'Estudio Nácar', p:'inferencia', alt:'afirmacion'},
+  {id:'AF3', t:'La hoja de tolerancias que compartió Valeria dice «Estudio Nácar» en sus propiedades', ind:'la hoja de tolerancias que compartió Valeria dice «Estudio Nácar» en sus propiedades', sub:'la hoja de tolerancias que compartió Valeria diga «Estudio Nácar» en sus propiedades', src:'el correo de Valeria Montes', p:'hecho', alt:null},
+  {id:'AF4', t:'Albor vendió CÁNTARO en 2022, con estrías y anillo en la base', ind:'Albor vendió CÁNTARO en 2022, con estrías y anillo en la base', sub:'Albor haya vendido CÁNTARO en 2022, con estrías y anillo en la base', src:'Rafael Quiroz', p:'hecho', alt:null},
+  {id:'AF5', t:'La forma de ESTELA es una creación independiente de OLEA', ind:'la forma de ESTELA es una creación independiente de OLEA', sub:'la forma de ESTELA sea una creación independiente de OLEA', src:'Rafael Quiroz', p:'inferencia', alt:null},
+  {id:'AF6', t:'Daniel usó la página 14 del catálogo de Nácar como base de la ilustración', ind:'Daniel usó la página 14 del catálogo de Nácar como base de la ilustración', sub:'Daniel haya usado la página 14 del catálogo de Nácar como base de la ilustración', src:'Daniel Prado', p:'*', alt:'*'},
+  {id:'AF7', t:'Podemos usar la ilustración en la web y en los anuncios', ind:'podemos usar la ilustración en la web y en los anuncios', sub:'podamos usar la ilustración en la web y en los anuncios', src:'el equipo de marca', p:'inferencia', alt:'no_confirmado'},
+  {id:'AF8', t:'En Galerías Domo nos dijeron que Nácar ya presentó una acción contra nosotros', ind:'Nácar ya presentó una acción contra nosotros', sub:'Nácar ya haya presentado una acción contra nosotros', src:'personal de Galerías Domo', p:'no_confirmado', alt:null}
+];
+
+var KMED = [
+  {id:'K1', t:'Carta de conservación a Rombo y a Daniel Prado'},
+  {id:'K2', t:'Exportar y resguardar correos y chats del proyecto, con fecha'},
+  {id:'K3', t:'Congelar la carpeta compartida de Producto y la de marca: sólo lectura'},
+  {id:'K4', t:'Recuperar el moodboard desde el correo del 19 de mayo y documentar cómo se recuperó'},
+  {id:'K5', t:'Levantar una minuta fechada de quién supo qué y cuándo'},
+  {id:'K6', t:'Pedir a Rombo los valores finales del anillo y conservarlos junto a la hoja de Valeria'},
+  {id:'K7', t:'Pedir a Valeria que borre de su equipo cualquier archivo de Nácar'},
+  {id:'K8', t:'Pedir a Daniel una versión «limpia» del archivo nativo, sin la capa de referencia'}
+];
+
+var DECISIONES = [
+  {id:'D1', t:'Lanzamiento íntegro el 17 y respuesta que rechaza todas las alegaciones', prot:'Temporada, Domo, mensaje de firmeza', cuesta:'Exposición máxima del empaque; una negativa escrita que los hechos ya matizan', abierto:'Los cuatro frentes', R:0},
+  {id:'D2', t:'Lanzar el 17 con manga neutra; retirar la ilustración de web y anuncios; responder rechazando forma e información confidencial e informando que el empaque está en revisión, sin admitir infracción', prot:'Temporada y Domo; reduce el frente del empaque', cuesta:'$96,000 en mangas; puede leerse como reconocimiento parcial', abierto:'Información técnica, nombre y el uso ya hecho de la ilustración', R:2},
+  {id:'D3', t:'Lanzar el 17 sólo en línea con manga neutra; negociar con Domo otra fecha; proponer a Nácar una reunión sin perjuicio', prot:'Parte de la temporada; abre un canal para cerrar frentes', cuesta:'Mangas, posible penalización o pérdida del espacio en Domo; revela qué preocupa', abierto:'Información técnica y nombre hasta que haya acuerdo', R:3},
+  {id:'D4', t:'Aplazar el lanzamiento 4–6 semanas: caja nueva con ilustración nueva y documento de derechos, revisión técnica independiente del anillo; responder informando la revisión', prot:'Lanzar con menos frentes abiertos', cuesta:'Temporada, penalización de Domo, señal de concesión', abierto:'El nombre; la revisión técnica puede no ser concluyente', R:4},
+  {id:'D5', t:'Lanzar el 17 sin cambios en producto ni empaque, pausar la campaña pagada y pedir a Nácar que precise alegaciones y pruebas', prot:'Temporada y Domo sin gasto; gana tiempo', cuesta:'El empaque sigue en anaqueles; Nácar puede precisar con pruebas', abierto:'Los cuatro frentes, con el empaque visible', R:1}
+];
+
+var FINALES = [
+  {id:'F1', t:'Mantener la decisión del miércoles sin cambios'},
+  {id:'F2', t:'Mantener o retomar el lanzamiento, acotado con medidas concretas'},
+  {id:'F3', t:'Negociar un acuerdo sin admisión de responsabilidad'},
+  {id:'F4', t:'Modificar elementos antes de ampliar la distribución'},
+  {id:'F5', t:'Suspender total o parcialmente hasta aclarar el frente técnico'}
+];
+var MEDIDAS = [
+  {id:'M1', t:'Manga neutra o caja nueva'},
+  {id:'M2', t:'Retirar la ilustración de todos los canales'},
+  {id:'M3', t:'Encargar una ilustración nueva, sin referencias de terceros, con documento escrito sobre derechos'},
+  {id:'M4', t:'Ampliar por escrito con Daniel los usos de la ilustración actual'},
+  {id:'M5', t:'Comparación técnica independiente y confidencial del anillo'},
+  {id:'M6', t:'Aislar la hoja de tolerancias y pedir a Rombo que no la use, sin borrarla'},
+  {id:'M7', t:'Opinión formal sobre ESTELA frente a ESTELIA antes de invertir más en la marca'},
+  {id:'M8', t:'Cláusulas futuras con proveedores sobre información de terceros y derechos'},
+  {id:'M9', t:'Coordinar con Galerías Domo lo que se comunica'},
+  {id:'M10', t:'Respuesta escrita a Nácar'}
+];
+var AUTORREV = ['Mi texto dice qué sabemos.','Mi texto dice qué no sabemos.','Mi texto dice qué recomendamos.','Mi texto dice qué se conserva o investiga.','Mi texto dice qué riesgo queda abierto.'];
+
+var RIESGOS = [
+  {id:'RA1', t:'Si la hoja de tolerancias contiene información de Nácar protegible y si algo de ella quedó en el anillo final.', kw:'mecanismo', med:['M5','M6']},
+  {id:'RA2', t:'Si ESTELA y ESTELIA pueden considerarse semejantes y qué implica la línea ESTELIA que Nácar dice preparar.', kw:'nombre', med:['M7']},
+  {id:'RA3', t:'El uso ya hecho de la ilustración (teaser, preventa, web) frente a Nácar y frente a Daniel.', kw:'empaque', med:['M2','M4']},
+  {id:'RA4', t:'El matiz residual de la forma: los bocetos de ESTELA son posteriores a que Rafael viera OLEA.', kw:'forma', med:[]},
+  {id:'RA5', t:'La relación comercial con Galerías Domo y la temporada.', kw:'domo', med:['M9']}
+];
+
+/* =========================================================
+   UTILIDADES
+   ========================================================= */
+function esc(s){ return String(s == null ? '' : s).replace(/[&<>"']/g, function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]; }); }
+function byId(arr, id){ for (var i=0;i<arr.length;i++){ if (arr[i].id === id) return arr[i]; } return null; }
+function countWords(text){
+  // Una palabra = secuencia de caracteres separada por espacios o saltos de línea.
+  // El contador y la validación usan EXCLUSIVAMENTE esta función.
+  var t = String(text == null ? '' : text).trim();
+  if (!t) return 0;
+  return t.split(/\s+/).length;
+}
+function norm(t){ return String(t||'').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,''); }
+var KW = {
+  empaque: /\bempaques?\b|\bcajas?\b|\bilustracion\w*|\bdaniel\b|\bcotizacion\w*|\bmangas?\b/,
+  mecanismo: /\bvaleria\b|\brombo\b|\banillos?\b|\btolerancias?\b|\bconfidencial\w*/,
+  forma: /\bformas?\b|\bcantaro\b|\bregistros?\b|\bestrias?\b/,
+  nombre: /\bestelia\b|\bmarcas?\b|\bnombres?\b/,
+  incert: /no sabemos|pendiente|\babiert[oa]s?\b|no consta|sin confirmar|desconocemos/,
+  investig: /\bconserv\w*|\bpreserv\w*|\binvestig\w*|\bcompara\w*|\brevis\w*|\bverific\w*|\bperit\w*/,
+  domo: /\bdomo\b/
+};
+function mentions(text, k){ return KW[k].test(norm(text)); }
+function listJoin(arr){
+  if (!arr.length) return '';
+  if (arr.length === 1) return arr[0];
+  return arr.slice(0,-1).join(', ') + ' y ' + arr[arr.length-1];
+}
+function lower1(s){ return s.charAt(0).toLowerCase() + s.slice(1); }
+
+/* =========================================================
+   ESTADO
+   ========================================================= */
+function freshState(){
+  return {
+    schemaVersion: SCHEMA,
+    creado: new Date().toISOString(),
+    actualizado: new Date().toISOString(),
+    fechaRealizacion: new Date().toISOString(),
+    etapaActual: -1,              // -1 portada; 0..5 etapas; 6 cierre
+    participante: {nombre:'', id:''},
+    preocupacion0: {}, afirmables: {},
+    preguntas: [], correoLucia: null, conservacion1: null, verificaciones1: [], POSICION_1: null, hechoAConfirmar: '',
+    impacto: {}, verificacion2: null, ampliaConservacion2: null,
+    tarjetas: {}, tarjetasConfirmadas: false, hipotesis: {}, POSICION_2: null, autodescripcion2: null, cambioCalculado2: null, notaIrene: '',
+    clasificacion: {}, clasificacionConfirmada: false, conservacion4: [], DECISION_NEGOCIO: null, fraseLucia: '',
+    preocupacionF: {}, POSICION_FINAL: null, medidas: [], recomendacion: '', autorrevision: [false,false,false,false,false],
+    aperturas: {}, etapasCerradas: {}
+  };
+}
+
+/* =========================================================
+   DERIVADOS (funciones puras a partir de las respuestas)
+   ========================================================= */
+function momentoVerificacion(s, v){
+  if (s.verificaciones1.indexOf(v) >= 0) return 2;
+  if (s.verificacion2 === v) return 3;
+  return 4;
+}
+function amplioVigente(s, etapa){
+  if (s.conservacion1 === 'amplia') return true;
+  if (s.ampliaConservacion2 === 'si' && etapa >= 3) return true;
+  return false;
+}
+function moodboardDepurado(s){ return s.conservacion1 === 'diferida' || s.conservacion1 === 'ordenar'; }
+
+/* Entregas de DOC-08 según la tabla de decisión de la arquitectura. */
+function entregasDoc08(s){
+  var m = momentoVerificacion(s, 'V3');
+  var out = [];
+  if (s.conservacion1 === 'amplia'){
+    out.push({id:'DOC-08', version:'N', etapa:m});
+  } else if (s.ampliaConservacion2 === 'si'){
+    if (m === 2){
+      out.push({id:'DOC-08', version:'P', etapa:2});
+      out.push({id:'DOC-08N', version:'N', etapa:3});
+    } else {
+      out.push({id:'DOC-08', version:'N', etapa:m});
+    }
+  } else {
+    out.push({id:'DOC-08', version:'P', etapa:m});
+  }
+  return out;
+}
+function versionDoc08At(s, etapa){
+  var v = null;
+  entregasDoc08(s).forEach(function(e){ if (e.etapa <= etapa) v = e.version; });
+  return v;
+}
+function versionDoc08Final(s){ var e = entregasDoc08(s); return e[e.length-1].version; }
+function existeDoc17(s){ return s.correoLucia === 'Lc' || s.correoLucia === 'Ld'; }
+function versionDoc17(s){ return s.correoLucia === 'Lc' ? 'completa' : (s.correoLucia === 'Ld' ? 'editada' : null); }
+function versionDoc16(s){
+  var d = s.DECISION_NEGOCIO;
+  if (d === 'D1' || d === 'D5') return 'R1';
+  if (d === 'D2') return 'R2';
+  if (d === 'D3') return 'R3';
+  if (d === 'D4') return 'R4';
+  return null;
+}
+
+var DOC_TITLES = {
+  'DOC-01':'Asignación del asunto','DOC-02':'Carta de Estudio Nácar','DOC-03':'Ficha de producto ESTELA','DOC-04':'Cronología preparada por el cliente',
+  'DOC-05':'Notas de la llamada de las 10:00','DOC-06':'Rafael Quiroz: entrevista y archivos','DOC-07':'Taller Rombo: contrato y correo',
+  'DOC-08':'Archivo del empaque: propiedades','DOC-08N':'Archivo del empaque: archivo de trabajo','DOC-09':'Búsqueda de ESTELA',
+  'DOC-10':'Registro invocado y material del sector','DOC-11':'Correos de compras y publicación de Rombo','DOC-12':'Minuta de la reunión de las 16:00',
+  'DOC-13':'Correo de Daniel Prado y cotización','DOC-14':'Notas de Tomás para dirección','DOC-15':'Planteamiento de dirección',
+  'DOC-16':'Respuesta de Estudio Nácar','DOC-17':'Correo de Lucía Ferrer a Nácar'
+};
+var DOC_SUMMARY = {
+  'DOC-06':'Entrevista y archivos de diseño','DOC-07':'Contrato y correo de Rombo','DOC-08':'Propiedades del archivo del empaque',
+  'DOC-09':'Búsqueda de nombre de junio','DOC-10':'Registro invocado y catálogos','DOC-11':'Correos de compras y una publicación'
+};
+function docCode(id){ return id === 'DOC-08N' ? 'DOC-08' : id; }
+
+/* Lista completa de documentos con su momento de llegada. */
+function docsAll(s){
+  var L = [];
+  L.push({id:'DOC-01', etapa:0, hora:'Mar 10 · 08:52', ord:1});
+  L.push({id:'DOC-02', etapa:0, hora:'Mar 10 · 09:15', ord:2});
+  L.push({id:'DOC-03', etapa:0, hora:'Mar 10 · 09:15', ord:3});
+  L.push({id:'DOC-04', etapa:0, hora:'Mar 10 · 09:15', ord:4});
+  L.push({id:'DOC-05', etapa:1, hora:'Mar 10 · 10:00', ord:5});
+  if (existeDoc17(s)) L.push({id:'DOC-17', etapa:2, hora:'Mar 10 · 11:05', ord:6, version:versionDoc17(s)});
+  var horaDe = {2:'Mar 10 · 13:00', 3:'Mar 10 · 16:30', 4:'Mar 10 · 22:40'};
+  VERIF.forEach(function(v, i){
+    if (v.id === 'V3'){
+      entregasDoc08(s).forEach(function(e, j){
+        L.push({id:e.id, etapa:e.etapa, hora: e.id === 'DOC-08N' ? 'Mar 10 · 16:31' : horaDe[e.etapa], tarde:e.etapa===4, version:e.version, ord:10 + e.etapa*10 + i + j*0.5, via:'V3'});
+      });
+    } else {
+      var m = momentoVerificacion(s, v.id);
+      L.push({id:v.doc, etapa:m, hora:horaDe[m], tarde:m===4, ord:10 + m*10 + i, via:v.id});
+    }
+  });
+  L.push({id:'DOC-12', etapa:3, hora:'Mar 10 · 16:30', ord:38});
+  L.push({id:'DOC-13', etapa:3, hora:'Mar 10 · 16:31', ord:39});
+  L.push({id:'DOC-14', etapa:4, hora:'Mié 11 · 07:50', ord:60});
+  L.push({id:'DOC-15', etapa:4, hora:'Mié 11 · 09:30', ord:61});
+  L.push({id:'DOC-16', etapa:5, hora:'Vie 13 · 11:00', ord:70, version:versionDoc16(s)});
+  L.sort(function(a,b){ return a.ord - b.ord; });
+  return L;
+}
+function docsHasta(s, etapa){ return docsAll(s).filter(function(d){ return d.etapa <= etapa; }); }
+function tieneDoc(s, docId, etapa){ return docsHasta(s, etapa).some(function(d){ return docCode(d.id) === docId; }); }
+
+/* Bitácora del expediente (sólo eventos ya ocurridos según la etapa alcanzada). */
+function bitacora(s){
+  var E = [];
+  var a = s.etapaActual;
+  function add(et, hora, txt){ if (et <= a) E.push({etapa:et, hora:hora, t:txt}); }
+  add(0, 'Mar 10 · 08:52', 'Irene Calvo asigna el asunto de Casa Albor.');
+  add(0, 'Mar 10 · 09:15', 'Se abre el expediente con la carta de Estudio Nácar, la ficha de producto y la cronología del cliente.');
+  add(1, 'Mar 10 · 10:00', 'Llamada con Tomás Iturbe, director de producto.');
+  add(1, 'Mar 10 · 10:24', 'Mensaje de Lucía Ferrer: quiere contestar hoy a Nácar.');
+  if (a >= 2){
+    var c = s.conservacion1;
+    var lab = {amplia:'instrucción escrita de conservación a Albor, Taller Rombo y Daniel Prado', interna:'instrucción de conservación al personal de Albor', diferida:'se decide esperar antes de dar una instrucción de conservación', ordenar:'se pide a cada área ordenar y depurar sus carpetas antes de las 16:00'}[c];
+    add(2, 'Mar 10 · 10:40', 'Al cerrar la llamada: ' + lab + '.');
+    var lu = {La:'Lucía no enviará nada; todo contacto con Nácar pasa por el despacho.', Lb:'Se envía a Nácar un acuse breve, sin posición de fondo.', Lc:'Lucía envía a Nácar su correo tal como lo escribió.', Ld:'Lucía envía a Nácar su correo, sin la frase «todo se hizo internamente».'}[s.correoLucia];
+    add(2, 'Mar 10 · 11:05', lu);
+    if (c === 'amplia') add(2, 'Mar 10 · 11:20', 'Albor, Rombo y Daniel Prado confirman recepción de la instrucción de conservación.');
+    if (c === 'interna') add(2, 'Mar 10 · 11:20', 'El personal de Albor confirma la instrucción. Proveedores: pendiente.');
+    if (momentoVerificacion(s,'V3') === 2 && versionDoc08At(s,2) === 'P') add(2, 'Mar 10 · 11:40', 'Daniel Prado envía el archivo final del empaque en PDF.');
+    if (c === 'diferida') add(2, 'Mar 10 · 12:10', 'Sofía Landa depuró la carpeta «Marca ESTELA» para dejarla ordenada antes de la reunión. Se eliminaron «referencias viejas».');
+    if (c === 'ordenar') add(2, 'Mar 10 · 12:10', 'Sofía Landa depuró la carpeta «Marca ESTELA» para dejarla ordenada antes de la reunión, según la instrucción recibida a las 10:40. Se eliminaron «referencias viejas».');
+    add(2, 'Mar 10 · 13:00', 'Llegan los resultados de las tres primeras verificaciones.');
+  }
+  if (a >= 3){
+    if (s.ampliaConservacion2 === 'si') add(3, 'Mar 10 · 13:15', 'Instrucción ampliada a proveedores.');
+    add(3, 'Mar 10 · 15:00', 'Sofía pide a Daniel Prado una explicación por escrito.');
+    add(3, 'Mar 10 · 16:00', 'Reunión con Tomás, Rafael, Sofía y Héctor.');
+    add(3, 'Mar 10 · 16:31', 'Correo de Daniel Prado con la cotización adjunta.');
+  }
+  if (a >= 4){
+    add(4, 'Mar 10 · 22:40', 'Llegan los resultados de las verificaciones no elegidas.');
+    add(4, 'Mié 11 · 07:50', 'Tomás envía sus notas para la junta con dirección.');
+    add(4, 'Mié 11 · 09:30', 'Lucía pregunta: ¿lanzamos?');
+  }
+  if (a >= 5){
+    var dl = {D1:'Dirección decide el lanzamiento íntegro; se envía la respuesta que rechaza todas las alegaciones.', D2:'Dirección decide lanzar con manga neutra y retirar la ilustración de web y anuncios; se envía la respuesta.', D3:'Dirección decide lanzar sólo en línea con manga neutra y propone a Nácar una reunión sin perjuicio.', D4:'Dirección decide aplazar el lanzamiento; se envía la respuesta que informa la revisión.', D5:'Dirección decide lanzar sin cambios y pausar la campaña pagada; se pide a Nácar precisar alegaciones y pruebas.'}[s.DECISION_NEGOCIO];
+    add(5, 'Mié 11 · 12:00', dl);
+    if (s.DECISION_NEGOCIO === 'D3') add(5, 'Jue 12', 'Llamada con Estudio Nácar.');
+    add(5, 'Vie 13 · 11:00', 'Llega la respuesta de Estudio Nácar.');
+  }
+  return E;
+}
+
+/* Niveles internos (nunca se muestran). */
+function R_P1(id){ var o = byId(P1, id); return o ? o.R : null; }
+function R_P2(id){ var o = byId(P2, id); return o ? o.R : null; }
+function R_D(id){ var o = byId(DECISIONES, id); return o ? o.R : null; }
+function R_F(s){
+  var f = s.POSICION_FINAL, d = s.DECISION_NEGOCIO, rd = R_D(d);
+  if (f === 'F1') return rd;
+  if (f === 'F2') return 2;
+  if (f === 'F3') return rd;
+  if (f === 'F4') return (d === 'D3' || d === 'D4') ? 3 : 2;
+  if (f === 'F5') return d === 'D4' ? 4 : 3;
+  return null;
+}
+function contactoP1(id){ var o = byId(P1,id); return o ? o.c : false; }
+function contactoP2(id){ var o = byId(P2,id); return o ? o.c : false; }
+function cambioCalculado(s){
+  var a = s.POSICION_1, b = s.POSICION_2;
+  if (!a || !b) return null;
+  // P1-F se registra como «reserva»: pasar de no recomendar a recomendar se trata como cambio.
+  if (a === 'P1-F') return 'cambia';
+  var d = Math.abs(R_P2(b) - R_P1(a));
+  var dc = contactoP1(a) !== contactoP2(b);
+  if (d === 0 && !dc) return 'mantiene';
+  if (d >= 2) return 'cambia';
+  return 'ajusta';
+}
+
+/* Referencias internas: tarjetas, hipótesis, AF6. */
+/* Etapa 3: cinco tarjetas universales y una sexta condicional, K6, disponible
+   únicamente cuando DOC-07 ya forma parte del expediente (etapa 2 o cuarta verificación). */
+function tarjetasVisibles(s){
+  var d7 = tieneDoc(s,'DOC-07',3);
+  return TARJETAS.filter(function(k){ return k.id !== 'K6' || d7; });
+}
+function refTarjetas(s){
+  var d6 = tieneDoc(s,'DOC-06',3), d10 = tieneDoc(s,'DOC-10',3), d7 = tieneDoc(s,'DOC-07',3);
+  var r = {
+    K1:'antes',
+    K2: d6 ? 'entre' : 'no_ubicable',
+    K3: d6 ? 'despues' : 'no_ubicable',
+    K4: d10 ? 'antes' : 'no_ubicable',
+    K5:'despues'
+  };
+  if (d7) r.K6 = 'antes';
+  return r;
+}
+function refHipotesis(s){
+  var h1 = (tieneDoc(s,'DOC-06',3) || tieneDoc(s,'DOC-10',3)) ? 'reforzada' : 'abierta';
+  return {H1:h1, H2:'abierta', H3:'reforzada', H4:'debilitada'};
+}
+function refAF(s, id){
+  var a = byId(AFS, id);
+  if (id === 'AF6'){
+    return versionDoc08Final(s) === 'N' ? {p:'hecho', alt:'afirmacion'} : {p:'afirmacion', alt:null};
+  }
+  return {p:a.p, alt:a.alt};
+}
+function afConsistente(s, id){
+  var v = s.clasificacion[id]; var r = refAF(s,id);
+  return v === r.p || (r.alt && v === r.alt);
+}
+
+/* Trayectorias */
+var TRAY = {
+  acotar:{name:'Acotar pronto', idea:'Reducir la incertidumbre hablando con la contraparte y cerrando frentes por acuerdo.', recorrido:'Pedir precisiones o seguir sin compromisos a las 10:00; limitar el empaque y abrir contacto a las 16:30; lanzar en línea y proponer reunión; negociar al cierre.', protege:'Una salida pactada e información sobre lo que de verdad le importa a Nácar.', cuesta:'Revela el punto débil (empaque); abre la puerta a una compensación; pérdida parcial del canal Domo.', necesita:'No admitir responsabilidad; separar el empaque (débil) de la forma (fuerte); fijar qué se compara del anillo y bajo qué confidencialidad.', riesgo:'Que el acuerdo no llegue antes del 17 o cueste más de lo esperado.'},
+  perimetro:{name:'Avanzar con perímetro', idea:'Lanzar a tiempo, retirando lo que está claramente expuesto y aclarando el resto en paralelo.', recorrido:'Seguir con cautelas o pausar material a las 10:00; cubrir el empaque a las 16:30; lanzar con manga y retirar la ilustración; acotar al cierre.', protege:'La temporada, la relación con Domo y la señal de que la forma no se discute.', cuesta:'$96,000 en mangas; el frente técnico sigue vivo con el producto en anaqueles.', necesita:'Retirar de verdad la ilustración de todos los canales; activar la comparación técnica del anillo; no afirmar por escrito más de lo que consta.', riesgo:'Que la comparación técnica resulte desfavorable con producto vendido.'},
+  verificar:{name:'Verificar antes de comprometer', idea:'No comprometer el producto en el mercado hasta tener evidencia firme de los frentes técnicos y gráficos.', recorrido:'Seguir sin compromisos o aplazar a las 10:00; limitar canales o aplazar a las 16:30; aplazar el lanzamiento; suspender o modificar al cierre.', protege:'La posición probatoria de Albor y un relanzamiento sin frentes gráficos ni técnicos abiertos.', cuesta:'La temporada alta, la penalización de Domo y una señal de concesión que Nácar intenta ampliar.', necesita:'No aceptar el compromiso amplio sobre la forma que pide Nácar; usar el tiempo para resolver, no sólo para esperar.', riesgo:'Que la revisión técnica no sea concluyente y el tiempo no compre certeza.'},
+  firme:{name:'Recorrido de posición firme', idea:'Mantener el producto y el empaque intactos y sostener la posición frente a Nácar.', recorrido:'Lanzar según lo previsto a lo largo del expediente y mantener la decisión al cierre.', protege:'La temporada, la relación con Domo y una señal de firmeza sin gasto adicional.', cuesta:'El empaque sigue en anaqueles con los hechos conocidos; la respuesta escrita queda expuesta a lo que Nácar pueda probar.', necesita:'Una razón documentada para considerar que la ilustración no reproduce la página 14 o que su uso está justificado, y una respuesta escrita que no afirme más de lo que consta. Con los documentos de este caso esa razón es difícil de construir.', riesgo:'Que Nácar concrete su exigencia con pruebas mientras el producto está a la venta.'}
+};
+function trayectoria(s){
+  var f = s.POSICION_FINAL, d = s.DECISION_NEGOCIO;
+  if (f === 'F3') return 'acotar';
+  if (f === 'F5') return 'verificar';
+  if (f === 'F2' || f === 'F4') return 'perimetro';
+  if (f === 'F1'){
+    if (d === 'D2') return 'perimetro';
+    if (d === 'D3') return 'acotar';
+    if (d === 'D4') return 'verificar';
+    return 'firme';
+  }
+  return null;
+}
+var MAP_P1 = {'P1-D':'acotar','P1-C':'perimetro','P1-E':'verificar'};
+var MAP_P2 = {'P2-D':'acotar','P2-C':'perimetro','P2-E':'verificar','P2-F':'verificar'};
+var MAP_D = {'D3':'acotar','D2':'perimetro','D4':'verificar'};
+function mezcla(s){
+  var fin = trayectoria(s);
+  if (!fin || fin === 'firme') return null;
+  var pts = [
+    {m:MAP_P1[s.POSICION_1], after:'lo que supiste a las 16:30 (la minuta y el correo de Daniel Prado)'},
+    {m:MAP_P2[s.POSICION_2], after:'los documentos recibidos fuera de tiempo y las notas de la noche'},
+    {m:MAP_D[s.DECISION_NEGOCIO], after:'la respuesta de Estudio Nácar'}
+  ];
+  var ini = null, lastIdx = -1;
+  for (var i=0;i<pts.length;i++){ if (pts[i].m){ if (!ini){ ini = pts[i].m; } if (pts[i].m === ini) lastIdx = i; } }
+  if (!ini || ini === fin) return null;
+  return {ini:ini, fin:fin, hecho:pts[lastIdx].after};
+}
+
+window.E047 = {
+  KEY:KEY, SCHEMA:SCHEMA, STAGES:STAGES, FRENTES:FRENTES, PREOC:PREOC, PREOC_RANK:PREOC_RANK, AFIRMABLES:AFIRMABLES, PREGUNTAS:PREGUNTAS,
+  LUCIA:LUCIA, CONS1:CONS1, VERIF:VERIF, SRC_LABEL:SRC_LABEL, P1:P1, P2:P2, AUTODESC:AUTODESC, HALLAZGOS:HALLAZGOS, GRADO:GRADO, GRADO_N:GRADO_N,
+  FRENTE_OPTS:FRENTE_OPTS, TARJETAS:TARJETAS, ZONAS:ZONAS, HIPOTESIS:HIPOTESIS, HIP_OPTS:HIP_OPTS, CATS:CATS, CAT_L:CAT_L, AFS:AFS, KMED:KMED,
+  DECISIONES:DECISIONES, FINALES:FINALES, MEDIDAS:MEDIDAS, AUTORREV:AUTORREV, RIESGOS:RIESGOS, TRAY:TRAY,
+  esc:esc, byId:byId, countWords:countWords, norm:norm, mentions:mentions, listJoin:listJoin, lower1:lower1,
+  freshState:freshState, momentoVerificacion:momentoVerificacion, amplioVigente:amplioVigente, moodboardDepurado:moodboardDepurado,
+  entregasDoc08:entregasDoc08, versionDoc08At:versionDoc08At, versionDoc08Final:versionDoc08Final, existeDoc17:existeDoc17, versionDoc17:versionDoc17,
+  versionDoc16:versionDoc16, DOC_TITLES:DOC_TITLES, DOC_SUMMARY:DOC_SUMMARY, docCode:docCode, docsAll:docsAll, docsHasta:docsHasta, tieneDoc:tieneDoc,
+  bitacora:bitacora, R_P1:R_P1, R_P2:R_P2, R_D:R_D, R_F:R_F, contactoP1:contactoP1, contactoP2:contactoP2, cambioCalculado:cambioCalculado,
+  tarjetasVisibles:tarjetasVisibles, refTarjetas:refTarjetas, refHipotesis:refHipotesis, refAF:refAF, afConsistente:afConsistente, trayectoria:trayectoria, mezcla:mezcla
+};
+})();
+</script>
+<script>
+(function(){
+'use strict';
+var E = window.E047, esc = E.esc;
+var LEG = '<p class="legend">Documento simulado para fines de entrenamiento.</p>';
+
+function mail(from, to, when, subject){
+  return '<div class="mailhead">' +
+    '<div><b>De:</b><span>' + from + '</span></div>' +
+    (to ? '<div><b>Para:</b><span>' + to + '</span></div>' : '') +
+    '<div><b>Fecha:</b><span>' + when + '</span></div>' +
+    (subject ? '<div><b>Asunto:</b><span>' + subject + '</span></div>' : '') +
+    '</div>';
+}
+
+/* Renderizado de cada documento. `s` = estado; `entry` = registro de la bandeja. */
+function renderDoc(id, s, entry){
+  var h = '';
+  switch(id){
+
+  case 'DOC-01':
+    h = mail('Irene Calvo, socia responsable', 'Asesor asignado', 'Martes 10 de noviembre, 08:52', 'Casa Albor · carta de Estudio Nácar') +
+      '<p>Casa Albor nos llamó ayer tarde. Recibieron una carta de Estudio Nácar y lanzan una lámpara el martes 17. Te dejo la carta, la ficha del producto y una cronología que preparó su director de producto, Tomás Iturbe. Tomás te llama a las 10:00. A las 16:00 hay reunión con su equipo.</p>' +
+      '<p>La directora general quiere saber hoy si hay que frenar algo. Dale una respuesta que puedas sostener mañana. Estoy en audiencia todo el día: déjame tu posición en el expediente cada vez que cambie.</p>' +
+      '<p class="sig">Irene</p>';
+    break;
+
+  case 'DOC-02':
+    h = '<div class="lh"><b>Estudio Nácar, S.A. de C.V.</b><span>Dirección Jurídica</span></div>' +
+      '<p>Ciudad de México, 6 de noviembre de 2026</p>' +
+      '<p><strong>Casa Albor, S.A. de C.V.</strong><br>Presente</p>' +
+      '<ol>' +
+      '<li>Estudio Nácar es titular del diseño de la lámpara OLEA, comercializada desde marzo de 2024 y protegida mediante registro de diseño industrial.</li>' +
+      '<li>El 3 de noviembre ustedes difundieron la lámpara ESTELA. Reproduce las características esenciales de OLEA: difusor de estrías verticales, anillo giratorio de atenuación en la base y proporciones equivalentes. La semejanza no puede ser casual.</li>' +
+      '<li>Nos consta que una persona que participó en el desarrollo técnico de OLEA colabora actualmente en el desarrollo de su producto. La información técnica de OLEA es confidencial.</li>' +
+      '<li>Asimismo, el empaque mostrado utiliza elementos gráficos de nuestra campaña OLEA 2024.</li>' +
+      '<li>Nos reservamos las acciones que correspondan respecto del signo ESTELA, semejante a nuestra marca registrada ESTELIA.</li>' +
+      '</ol>' +
+      '<p>Les requerimos abstenerse de lanzar ESTELA e informarnos en un plazo de cinco días hábiles qué personas participaron en su desarrollo.</p>' +
+      '<p class="sig">Atentamente,<br><strong>Lic. Andrea Solís</strong><br>Dirección Jurídica, Estudio Nácar</p>';
+    break;
+
+  case 'DOC-03':
+    h = '<div class="lh"><b>Casa Albor</b><span>Ficha interna · rev. octubre 2026</span></div>' +
+      '<h3 style="font-family:var(--serif)">Lámpara ESTELA</h3>' +
+      '<p>Lámpara portátil recargable, 24 cm. Cuerpo cilíndrico de cerámica esmaltada; difusor de policarbonato con estrías verticales; anillo giratorio en la base para atenuar. Tres colores. Precio objetivo: $1,890 MXN.</p>' +
+      '<table class="props"><tbody>' +
+      '<tr><td>Diseño de producto</td><td>R. Quiroz (interno)</td></tr>' +
+      '<tr><td>Ingeniería de mecanismo y moldes</td><td>Taller Rombo (proveedor)</td></tr>' +
+      '<tr><td>Empaque</td><td>Dirección de marca (S. Landa); ilustración externa (D. Prado)</td></tr>' +
+      '<tr><td>Fabricación</td><td>Planta propia, Tlaquepaque</td></tr>' +
+      '<tr><td>Empaque · descripción</td><td>Caja tubular blanca; ilustración de líneas onduladas azules con la silueta de la lámpara</td></tr>' +
+      '<tr><td>Estado</td><td>8,000 unidades empacadas. Lanzamiento 17-nov: evento en Galerías Domo y tienda en línea. Campaña pagada desde 15-nov.</td></tr>' +
+      '<tr><td>Marca</td><td>ESTELA, solicitud presentada en julio de 2026, en trámite</td></tr>' +
+      '</tbody></table>';
+    break;
+
+  case 'DOC-04':
+    h = mail('Tomás Iturbe', 'Irene Calvo', 'Lunes 9 de noviembre, 21:40', 'Lo que pasó') +
+      '<ul>' +
+      '<li>2024: Rafael empieza los bocetos.</li>' +
+      '<li>Noviembre 2025: arranca el desarrollo; moldes con proveedor.</li>' +
+      '<li>Mayo 2026: marca y empaque.</li>' +
+      '<li>Junio 2026: búsqueda del nombre, sin problema.</li>' +
+      '<li>Agosto 2026: producción y empaque.</li>' +
+      '<li>3 de noviembre: teaser en redes.</li>' +
+      '<li>9 de noviembre: llega la carta.</li>' +
+      '</ul>' +
+      '<p>No copiamos nada. Todo se desarrolló internamente.</p>' +
+      '<p class="sig">Tomás</p>';
+    break;
+
+  case 'DOC-05':
+    var qs = s.preguntas || [];
+    h = '<div class="lh"><b>Notas de llamada</b><span>Martes 10 · 10:00 · Tomás Iturbe</span></div>';
+    if (!qs.length){
+      h += '<p class="muted">Todavía no hay preguntas registradas.</p>';
+    } else {
+      qs.forEach(function(q, i){
+        var o = E.byId(E.PREGUNTAS, q);
+        h += '<p><strong>' + (i+1) + '. ' + esc(o.q) + '</strong><br>' + esc(o.a) + '</p>';
+      });
+    }
+    h += '<hr class="sep"><p><strong>Mensaje de Lucía Ferrer, 10:24:</strong> «Quiero contestarles hoy que esto es absurdo, que todo se hizo internamente y que lanzamos el 17. ¿Lo mando?»</p>';
+    break;
+
+  case 'DOC-06':
+    h = '<div class="lh"><b>Notas de entrevista</b><span>Rafael Quiroz · diseño de producto</span></div>' +
+      '<p class="quote">«La forma viene de CÁNTARO, una lámpara de mesa que sacamos en 2022; vendimos como 1,200. Tenía el difusor estriado y el anillo en la base, pero ahí el anillo era decorativo. Para ESTELA la hice portátil y le pedimos a Rombo que el anillo atenuara. Sí vi OLEA en una feria en 2024; me pareció cercana a CÁNTARO, la verdad. No usé archivos de nadie.»</p>' +
+      '<h4 style="font-family:var(--sans);font-size:.9rem">Archivos entregados</h4>' +
+      '<div class="table-wrap"><table><thead><tr><th>Archivo</th><th>Creado</th><th>Autor</th><th>Nota</th></tr></thead><tbody>' +
+      '<tr><td class="mono">CANTARO_ficha_comercial.pdf</td><td>14-03-2022</td><td>rquiroz</td><td>Estrías verticales; anillo decorativo en la base</td></tr>' +
+      '<tr><td class="mono">CANTARO_fotos_catalogo.zip</td><td>02-04-2022</td><td>rquiroz</td><td>18 fotos de producto</td></tr>' +
+      '<tr><td class="mono">ESTELA_bocetos_v01.pdf</td><td>21-08-2024</td><td>rquiroz</td><td>Escaneo de libreta</td></tr>' +
+      '<tr><td class="mono">ESTELA_3D_v07</td><td>30-10-2025</td><td>rquiroz</td><td>Anillo fijo</td></tr>' +
+      '<tr><td class="mono">ESTELA_3D_v09</td><td>22-04-2026</td><td>rquiroz</td><td>«Anillo funcional según propuesta Rombo»</td></tr>' +
+      '<tr><td class="mono">ESTELA_3D_v12_final</td><td>30-06-2026</td><td>rquiroz</td><td>Versión final</td></tr>' +
+      '</tbody></table></div>';
+    break;
+
+  case 'DOC-07':
+    h = '<div class="lh"><b>Taller Rombo, S.A. de C.V.</b><span>Contrato y comunicaciones</span></div>' +
+      '<p><strong>Contrato de servicios Albor–Rombo, 12-11-2025 (extracto).</strong> Objeto: ingeniería de producción, diseño del mecanismo de atenuación y fabricación de moldes para el proyecto ESTELA. Confidencialidad recíproca. «Los desarrollos realizados para EL CLIENTE con motivo de este contrato serán propiedad de EL CLIENTE.»</p>' +
+      '<p class="note">No hay cláusula sobre uso de información de terceros.</p>' +
+      '<p><strong>Nota de Rombo, 10-11-2026.</strong> «La Ing. Valeria Montes se integró en marzo de 2026; antes trabajó en Estudio Nácar (2021–febrero 2026). Participó en el mecanismo de atenuación de ESTELA. Los valores finales se ajustaron tras pruebas en mayo y difieren de la tabla inicial.»</p>' +
+      '<hr class="sep">' +
+      mail('Valeria Montes', 'Equipo de ingeniería, Taller Rombo', '15-04-2026', 'Tabla de tolerancias') +
+      '<p>Les comparto una tabla de tolerancias que uso como punto de partida para anillos giratorios. Hay que ajustarla a nuestro policarbonato.</p>' +
+      '<p class="mono" style="font-size:.85rem">Adjunto: tolerancias_anillo_rev3.xlsx</p>' +
+      '<table class="props"><thead><tr><th>Propiedad del adjunto</th><th>Valor</th></tr></thead><tbody>' +
+      '<tr><td>Empresa</td><td>Estudio Nácar</td></tr>' +
+      '<tr><td>Autor</td><td>vmontes</td></tr>' +
+      '<tr><td>Creado</td><td>07-02-2023</td></tr>' +
+      '<tr><td>Modificado</td><td>14-04-2026</td></tr>' +
+      '</tbody></table>';
+    break;
+
+  case 'DOC-08':
+  case 'DOC-08N':
+    var ver = entry && entry.version ? entry.version : 'P';
+    if (ver === 'N'){
+      h = '<div class="lh"><b>Propiedades de archivo</b><span>Archivo de trabajo nativo<span class="version-tag">entregado por Daniel Prado</span></span></div>' +
+        '<table class="props"><tbody>' +
+        '<tr><td>Archivo</td><td class="mono">ESTELA_empaque_final</td></tr>' +
+        '<tr><td>Creado</td><td>20-05-2026</td></tr>' +
+        '<tr><td>Última modificación</td><td>02-06-2026</td></tr>' +
+        '</tbody></table>' +
+        '<h4 style="font-family:var(--sans);font-size:.9rem">Capas</h4>' +
+        '<div class="table-wrap"><table><thead><tr><th>Capa</th><th>Estado</th><th>Contenido</th></tr></thead><tbody>' +
+        '<tr><td class="mono">ilustracion_ola</td><td>Visible</td><td>Trazos de líneas onduladas</td></tr>' +
+        '<tr><td class="mono">silueta_lampara</td><td>Visible</td><td>Silueta de ESTELA</td></tr>' +
+        '<tr><td class="mono">textos</td><td>Visible</td><td>Textos del empaque</td></tr>' +
+        '<tr><td class="mono layer-hidden">ref_base</td><td><strong>Oculta y bloqueada</strong></td><td><strong>Imagen incrustada nacar_cat24_p14.jpg, opacidad 30 %</strong></td></tr>' +
+        '</tbody></table></div>' +
+        '<p><strong>Comparación textualizada con la imagen de referencia.</strong> Seis de las nueve líneas onduladas siguen el mismo recorrido. Las otras tres se modificaron. El círculo dorado de la tercera línea se sustituyó por la silueta de la lámpara. Cambian los tonos de azul.</p>';
+    } else {
+      h = '<div class="lh"><b>Propiedades de archivo</b><span>Archivo entregado por Daniel Prado</span></div>' +
+        '<table class="props"><tbody>' +
+        '<tr><td>Archivo</td><td class="mono">ESTELA_empaque_final.pdf</td></tr>' +
+        '<tr><td>Creado</td><td><strong>10-11-2026, 11:40</strong></td></tr>' +
+        '<tr><td>Capas</td><td>Una sola capa</td></tr>' +
+        '<tr><td>Imágenes de referencia</td><td>Ninguna</td></tr>' +
+        '<tr><td>Historial</td><td>Sin historial</td></tr>' +
+        '</tbody></table>' +
+        '<p><strong>Nota de Daniel:</strong> «Les mando el final aprobado.»</p>';
+    }
+    break;
+
+  case 'DOC-09':
+    h = '<div class="lh"><b>Búsqueda de signo</b><span>Consulta de junio de 2026</span></div>' +
+      '<p class="simlabel">Resultado simulado. No proviene de una base oficial.</p>' +
+      '<p>Término: <strong>ESTELA</strong> · Rubro: artículos de iluminación</p>' +
+      '<div class="table-wrap"><table><thead><tr><th>Signo</th><th>Titular</th><th>Situación</th><th>Productos</th></tr></thead><tbody>' +
+      '<tr><td>ESTELA</td><td>—</td><td>Sin coincidencia exacta en el rubro</td><td>—</td></tr>' +
+      '<tr><td>ESTELIA</td><td>Estudio Nácar, S.A. de C.V.</td><td>Registrada</td><td>Artículos de iluminación decorativa</td></tr>' +
+      '<tr><td>ESTELAR HOME</td><td>Tercero</td><td>En trámite</td><td>Textiles para el hogar</td></tr>' +
+      '</tbody></table></div>' +
+      '<p class="note"><strong>Anotación de Sofía (10-06-2026):</strong> «ESTELIA se escribe distinto → OK. Seguimos con ESTELA.»</p>' +
+      '<p>Correo de Sofía a Tomás, el mismo día: «Salió limpio.»</p>';
+    break;
+
+  case 'DOC-10':
+    h = '<div class="lh"><b>Material de la contraparte y del sector</b><span>Extractos textualizados</span></div>' +
+      '<p><strong>Registro de diseño industrial de Estudio Nácar (extracto textualizado).</strong> Objeto: lámpara. Solicitud de mayo de 2023.</p>' +
+      '<table class="props"><tbody>' +
+      '<tr><td>Silueta</td><td>Troncocónica, se estrecha hacia arriba</td></tr>' +
+      '<tr><td>Asa</td><td>Lateral, asimétrica, en arco</td></tr>' +
+      '<tr><td>Difusor</td><td>Estrías verticales</td></tr>' +
+      '<tr><td>Base</td><td><strong>Lisa, sin anillo visible</strong></td></tr>' +
+      '</tbody></table>' +
+      '<p><strong>Catálogo OLEA 2024.</strong> Página 6: OLEA ya en venta, con asa y anillo atenuador en la base. Página 14: ilustración de campaña de nueve líneas onduladas horizontales en azul profundo; la tercera, interrumpida por un círculo dorado.</p>' +
+      '<p><strong>Catálogo de una muestra de iluminación, 2019 (fragmento).</strong> Cuatro lámparas de fabricantes distintos con difusor de estrías verticales.</p>';
+    break;
+
+  case 'DOC-11':
+    h = mail('Héctor Villa', 'Tomás Iturbe', '18-03-2026', 'Rombo') +
+      '<p>Rombo integró a una ingeniera que viene de Nácar, Valeria Montes. Dicen que sabe mucho de anillos atenuadores. Buena noticia para los tiempos.</p>' +
+      '<hr class="sep">' +
+      mail('Taller Rombo', 'Héctor Villa', '20-10-2026', 'Fotos') +
+      '<p>¿Podemos publicar fotos de los moldes?</p><p><strong>Respuesta de Héctor:</strong> «Sí, sin mostrar el producto final.»</p>' +
+      '<hr class="sep">' +
+      '<p><strong>Publicación de Taller Rombo en redes, 28-10-2026 (textualizada).</strong></p>' +
+      '<p class="quote">«Orgullosos de haber desarrollado el mecanismo de atenuación de la nueva lámpara de Casa Albor. Gracias a nuestra ingeniera Valeria Montes y a todo el equipo.»</p>' +
+      '<hr class="sep">' +
+      '<p><strong>Sofía Landa → impresor, 12-08-2026.</strong> Confirmación de entrega de 8,000 cajas.</p>' +
+      '<p><strong>Condiciones de preventa con Galerías Domo, 04-09-2026 (extracto).</strong> Entrega el 17 de noviembre. Si Albor no entrega, Domo puede reasignar el espacio de temporada y aplicar una penalización pactada de $180,000.</p>';
+    break;
+
+  case 'DOC-12':
+    var d6 = E.tieneDoc(s,'DOC-06',3);
+    var d7o11 = E.tieneDoc(s,'DOC-07',3) || E.tieneDoc(s,'DOC-11',3);
+    var dep = E.moodboardDepurado(s);
+    h = '<div class="lh"><b>Minuta</b><span>Martes 10 · 16:00 · Casa Albor</span></div>' +
+      '<p><strong>Asistentes:</strong> Tomás Iturbe, Rafael Quiroz, Sofía Landa, Héctor Villa y el asesor.</p>' +
+      '<ol>' +
+      '<li><strong>Rafael.</strong> ' + (d6 ?
+        'Rafael repasa los archivos de CÁNTARO ya enviados y reitera que vio OLEA en 2024.' :
+        'Rafael explica que en 2022 Albor vendió CÁNTARO, con estrías y anillo decorativo, y que vio OLEA en una feria en 2024. Enviará los archivos esta noche.') + '</li>' +
+      '<li><strong>Héctor.</strong> ' + (d7o11 ?
+        'Héctor confirma lo que consta sobre la Ing. Montes.' :
+        'Héctor comenta que la ingeniera de Rombo que trabajó el anillo, Valeria Montes, viene de Nácar, y que se lo escribió a Tomás en marzo.') +
+        ' Tomás: «Lo registré como un tema del proveedor. Cuando me preguntaron si alguien de Nácar trabajaba con nosotros, pensé en Albor.»</li>' +
+      '<li><strong>Sofía y el moodboard.</strong> ' + (dep ?
+        'Sofía explica que a las 12:10 depuró la carpeta de marca «para dejarla ordenada» y que el moodboard original ya no está. Muestra la copia que envió a Daniel el 19 de mayo, sin notas.' :
+        'Sofía muestra el moodboard original. La imagen 7 tiene su nota: «lámparas azul, guardado de tablero de inspiración».') +
+        ' Una búsqueda inversa de la imagen 7 durante la reunión lleva al catálogo OLEA 2024, página 14. Nadie en Albor sabía de quién era.</li>' +
+      '<li><strong>Usos de la ilustración.</strong> Sofía confirma que la ilustración también está en la página de producto y en los anuncios programados para el domingo 15.</li>' +
+      '<li><strong>Pendiente.</strong> A las 15:00 Sofía pidió a Daniel Prado una explicación por escrito.</li>' +
+      '</ol>';
+    break;
+
+  case 'DOC-13':
+    var cond;
+    if (s.conservacion1 === 'amplia') cond = 'Conservo el archivo de trabajo original sin tocar, como me pidieron.';
+    else if (s.ampliaConservacion2 === 'si'){
+      cond = (E.momentoVerificacion(s,'V3') === 2) ?
+        'Conservo el archivo original sin tocar, como me pidieron. Ahora sí les mando el archivo de trabajo.' :
+        'Conservo el archivo original sin tocar, como me pidieron.';
+    } else cond = 'El archivo de trabajo lo tengo; si lo necesitan, me dicen.';
+    h = mail('Daniel Prado', 'Sofía Landa', 'Martes 10 de noviembre, 16:31', 'Re: ilustración ESTELA') +
+      '<p>Sofía me pasó el moodboard y la imagen de las olas azules era la que más le gustaba. La usé como base de composición: la puse de fondo y dibujé encima. Cambié los colores, agregué la silueta de la lámpara y quité la luna. No sabía de quién era.</p>' +
+      '<p>Sobre los derechos: lo que cotizamos fue el uso en empaque y punto de venta del lanzamiento. Si quieren usarla en web, anuncios o como imagen de la marca, lo platicamos.</p>' +
+      '<p>' + cond + '</p><p class="sig">Daniel</p>' +
+      '<hr class="sep">' +
+      '<p><strong>Adjunto · Cotización, 14-05-2026</strong></p>' +
+      '<table class="props"><tbody>' +
+      '<tr><td>Concepto</td><td>Ilustración para empaque ESTELA</td></tr>' +
+      '<tr><td>Incluye</td><td>Dos rondas de cambios</td></tr>' +
+      '<tr><td>Uso</td><td>Empaque y punto de venta del lanzamiento</td></tr>' +
+      '<tr><td>Importe</td><td>$14,500 más IVA</td></tr>' +
+      '</tbody></table>' +
+      '<p><strong>Factura pagada 05-06-2026:</strong> «Servicios de ilustración.»</p>' +
+      '<p class="note">No existe contrato ni documento de cesión.</p>';
+    break;
+
+  case 'DOC-14':
+    h = mail('Tomás Iturbe', 'Asesor', 'Miércoles 11 de noviembre, 07:50', 'Notas para la junta') +
+      '<p>Para la junta con Lucía preparé esto. ¿Me ayudas a que no digamos nada que no podamos sostener?</p><ol>';
+    E.AFS.forEach(function(a){ h += '<li>' + esc(a.t) + '.</li>'; });
+    h += '</ol><p class="sig">Tomás</p>';
+    break;
+
+  case 'DOC-15':
+    h = mail('Lucía Ferrer', 'Asesor; Tomás Iturbe', 'Miércoles 11 de noviembre, 09:30', '¿Lanzamos?') +
+      '<p>Necesito la respuesta a las 12:00. Lo que sé:</p><ul>' +
+      '<li>Una manga de cartón neutra para cubrir las 8,000 cajas cuesta $96,000 y el impresor la tiene el lunes 16 si la pedimos hoy.</li>' +
+      '<li>Una caja nueva con otra ilustración tarda cuatro semanas.</li>' +
+      '<li>Si no entregamos a Domo el 17, pueden darle el espacio a otra marca y cobrarnos $180,000.</li>' +
+      '<li>La campaña pagada se puede pausar sin costo hasta el sábado 14.</li>' +
+      '<li>Rombo dice que una revisión técnica independiente del anillo tomaría diez días hábiles.</li>' +
+      '<li>Noviembre y diciembre son el 40 % de nuestras ventas del año.</li>' +
+      '</ul><p>No quiero gastar en cosas que no sirvan, ni quiero un pleito que nos persiga dos años.</p><p class="sig">Lucía</p>';
+    break;
+
+  case 'DOC-16':
+    h = renderDoc16(s);
+    break;
+
+  case 'DOC-17':
+    var v17 = E.versionDoc17(s);
+    h = mail('Lucía Ferrer, Casa Albor', 'Lic. Andrea Solís, Estudio Nácar', 'Martes 10 de noviembre, 11:05', 'Su carta del 6 de noviembre') +
+      (v17 === 'completa' ?
+        '<p>No copiamos nada. Todo se desarrolló internamente, sin participación de terceros. Lanzaremos el 17 como está previsto.</p>' :
+        '<p>Rechazamos las afirmaciones de su carta. Lanzaremos el 17 como está previsto.</p>') +
+      '<p class="sig">Lucía Ferrer<br>Directora general</p>';
+    break;
+  }
+  return h + LEG;
+}
+
+function renderDoc16(s){
+  var v = E.versionDoc16(s);
+  var lu = s.correoLucia;
+  var head = '<div class="lh"><b>Estudio Nácar, S.A. de C.V.</b><span>Dirección Jurídica · 13 de noviembre de 2026</span></div>';
+  var open = (lu === 'Lb') ? '<p>Agradecemos su acuse del día 10.</p>' : '';
+  var body = '';
+  if (v === 'R1'){
+    body = '<p>Adjuntamos una comparación entre el empaque de ESTELA y la página 14 de nuestro catálogo OLEA 2024: seis de nueve líneas siguen el mismo recorrido.</p>' +
+      '<p>Les exigimos retirar el empaque y todo material con esa ilustración, identificar a la Ing. Valeria Montes y precisar su participación, y conservar toda la documentación del desarrollo. Mantenemos lo señalado sobre el diseño y la marca ESTELIA.</p>' +
+      (lu === 'Lc' ? '<p>Su directora general nos escribió que «todo se hizo internamente». La publicación de Taller Rombo del 28 de octubre dice otra cosa.</p>' : '');
+  } else if (v === 'R2'){
+    body = '<p>Tomamos nota de la sustitución del empaque. Es insuficiente sin un compromiso escrito de no usar la ilustración en ningún canal.</p>' +
+      '<p>Nuestra preocupación principal es el mecanismo: proponemos que un perito independiente compare la información técnica que la Ing. Montes compartió con los valores de ESTELA, bajo confidencialidad. Mantenemos nuestra reserva sobre ESTELIA.</p>';
+  } else if (v === 'R3'){
+    head = '<div class="lh"><b>Estudio Nácar, S.A. de C.V.</b><span>Resumen de la llamada del jueves 12 de noviembre</span></div>';
+    body = '<p>Nácar explica que la forma le preocupa menos; le importan el empaque y el anillo, cuyas tolerancias, dice, son resultado de dos años de pruebas.</p>' +
+      '<p>Informa que prepara una línea de iluminación ESTELIA para 2027.</p>' +
+      '<p>Propone: empaque nuevo, comparación técnica confidencial del anillo y acuerdo sin admisión de responsabilidad. Pide además una compensación por el uso de la ilustración en el teaser y la preventa, sin cifra.</p>';
+  } else if (v === 'R4'){
+    body = '<p>Tomamos nota de que ESTELA no saldrá el 17.</p>' +
+      '<p>Les pedimos un compromiso escrito de no comercializar ningún producto con las características esenciales de OLEA ni con la ilustración de nuestra campaña, e información sobre la participación de la Ing. Montes.</p>';
+  }
+  var lcLine = (lu === 'Lc' && v !== 'R1') ? '<p>Tomamos nota de que, según su directora, todo se hizo internamente.</p>' : '';
+  return head + open + body + lcLine + '<p class="sig">Lic. Andrea Solís<br>Dirección Jurídica, Estudio Nácar</p>';
+}
+
+E.renderDoc = renderDoc;
+})();
+</script>
+<script>
+(function(){
+'use strict';
+var E = window.E047, esc = E.esc, byId = E.byId, listJoin = E.listJoin;
+
+function optText(arr, id){ var o = byId(arr, id); return o ? o.t : '—'; }
+function vName(id){ return optText(E.VERIF, id); }
+function frenteName(id){ var f = byId(E.FRENTES, id); return f ? f.name : id; }
+function preocLabel(v){ var o = null; E.PREOC.forEach(function(p){ if (p.v === v) o = p.l; }); return o || '—'; }
+var FRONT_SHORT = {A1:'la forma', A2:'la información técnica', A3:'la ilustración del empaque', A4:'el nombre'};
+
+/* ---------- Datos auxiliares ---------- */
+function hallazgosEtapa2(s){
+  var out = [];
+  s.verificaciones1.forEach(function(v){
+    var key = v === 'V3' ? ('V3' + (E.versionDoc08At(s,2) || 'P')) : v;
+    (E.HALLAZGOS[key] || []).forEach(function(h){ out.push(h); });
+  });
+  return out;
+}
+function docsLlegadosEntre(s, desde, hasta){
+  return E.docsAll(s).filter(function(d){ return d.etapa > desde && d.etapa <= hasta; });
+}
+function docLabel(d){
+  var t = E.DOC_TITLES[d.id];
+  return E.docCode(d.id) + ' · ' + t;
+}
+function resumenR(s){
+  var v = E.versionDoc16(s);
+  var t = {
+    R1:'Exigencia concreta: adjuntó la comparación del empaque con la página 14, exigió retirar el material, identificar a la Ing. Montes y conservar la documentación.',
+    R2:'Tomó nota del cambio de empaque como insuficiente sin compromiso escrito y desplazó la presión al anillo, con una propuesta de peritaje confidencial.',
+    R3:'En la llamada concentró la discusión en el anillo y el empaque, anunció una línea ESTELIA para 2027 y pidió una compensación sin cifra.',
+    R4:'Leyó el aplazamiento como concesión y pidió un compromiso amplio sobre las características de OLEA y la ilustración.'
+  }[v] || '';
+  if (s.correoLucia === 'Lc') t += v === 'R1' ? ' Citó el correo de Lucía («todo se hizo internamente») frente a la publicación de Taller Rombo.' : ' Tomó nota de que, según la directora, todo se hizo internamente.';
+  if (s.correoLucia === 'Lb') t = 'Abrió agradeciendo el acuse del día 10. ' + t;
+  return t;
+}
+function posText(s, which){
+  if (which === 'P1') return optText(E.P1, s.POSICION_1);
+  if (which === 'P2') return optText(E.P2, s.POSICION_2);
+  if (which === 'D') return optText(E.DECISIONES, s.DECISION_NEGOCIO);
+  if (which === 'F') return optText(E.FINALES, s.POSICION_FINAL);
+}
+
+/* ---------- Pieza 1 · Evolución ---------- */
+function evolucion(s){
+  var vs13 = docsLlegadosEntre(s, 1, 3).filter(function(d){ return d.id !== 'DOC-17'; }).map(docLabel);
+  var late = E.docsAll(s).filter(function(d){ return d.tarde; }).map(docLabel);
+  var b2 = 'Resultados de las verificaciones y documentos de la tarde: ' + listJoin(vs13) + '.';
+  if (E.moodboardDepurado(s)) b2 += ' A las 12:10 se depuró la carpeta de marca.';
+  return [
+    {when:'Martes 10 · 10:00', opt:posText(s,'P1'), R:E.R_P1(s.POSICION_1), reserva: s.POSICION_1 === 'P1-F',
+      between:'Antes: la carta de Nácar, la ficha, la cronología del cliente y la llamada con Tomás.'},
+    {when:'Martes 10 · 16:30', opt:posText(s,'P2'), R:E.R_P2(s.POSICION_2), between:b2},
+    {when:'Miércoles 11 · 12:00', opt:posText(s,'D'), R:E.R_D(s.DECISION_NEGOCIO),
+      between:'Recibido fuera de tiempo: ' + listJoin(late) + '. Además, las notas de Tomás y el planteamiento de dirección.'},
+    {when:'Viernes 13', opt:posText(s,'F'), R:E.R_F(s), between:'Respuesta de Estudio Nácar. ' + resumenR(s)}
+  ];
+}
+
+/* ---------- Reglas narrativas internas (U1–U8) ---------- */
+function reglas(s){
+  var obs = [];
+  var p1 = s.POSICION_1, p2 = s.POSICION_2;
+  var r1 = E.R_P1(p1), r2 = E.R_P2(p2), rd = E.R_D(s.DECISION_NEGOCIO), rf = E.R_F(s);
+  var notaEmp = E.mentions(s.notaIrene, 'empaque');
+  var formaAntes = E.tieneDoc(s,'DOC-06',2) || E.tieneDoc(s,'DOC-10',2);
+  // U1
+  if (r1 !== null && r2 > r1 && ['P2-C','P2-D','P2-E'].indexOf(p2) >= 0)
+    obs.push('Ajustaste el consejo justo en el punto que cambió a las 16:30: el empaque.');
+  // U2
+  if (p1 === 'P1-A' && p2 === 'P2-A')
+    obs.push('Mantuviste el lanzamiento íntegro después de saber que la ilustración partió de una página de Nácar. ' + (notaEmp ? 'Tu nota lo explica.' : 'Tu nota no menciona el empaque.'));
+  // U3
+  if (p1 === 'P1-E' && (p2 === 'P2-C' || p2 === 'P2-D'))
+    obs.push(formaAntes ?
+      'Pasaste de frenar todo a concentrar la cautela en el empaque, apoyado en documentos sobre la forma.' :
+      'Pasaste de frenar todo a concentrar la cautela en el empaque, apoyado en lo que dijo Rafael en la reunión, todavía sin documentos.');
+  // U4
+  if (r2 !== null && rd !== null && rd <= r2 - 2){
+    var nuevos = E.docsAll(s).some(function(d){ return d.etapa === 4 && (d.id === 'DOC-06' || d.id === 'DOC-10'); });
+    obs.push(nuevos ? 'La noche trajo documentos sobre la forma; tiene sentido que hayas relajado ese frente.' :
+      'Relajaste el consejo sin un hecho nuevo que reduzca el frente del empaque.');
+  }
+  // U5
+  if (E.versionDoc16(s) === 'R1'){
+    if (rf > rd) obs.push('La exigencia concreta de Nácar movió tu consejo final.');
+    else obs.push('Mantuviste tu decisión frente a una exigencia más concreta; tu recomendación final ' + (E.mentions(s.recomendacion,'empaque') ? 'dice por qué.' : 'no lo dice.'));
+  }
+  // U6
+  var calc = E.cambioCalculado(s);
+  var map = {mantengo:'mantiene', ajusto:'ajusta', cambio:'cambia'};
+  if (s.autodescripcion2 && calc && map[s.autodescripcion2] !== calc){
+    var verbo = {mantengo:'mantenías', ajusto:'ajustabas', cambio:'cambiabas'}[s.autodescripcion2];
+    var entiende = {mantengo:'mantener', ajusto:'ajustar', cambio:'cambiar'}[s.autodescripcion2];
+    obs.push('Dijiste que ' + verbo + ' tu consejo, pero tu opción pasó de «' + posText(s,'P1') + '» a «' + posText(s,'P2') + '». ¿Qué entiendes por ' + entiende + '?');
+  }
+  // U7
+  if (p1 === 'P1-F')
+    obs.push('A las 10:00 preferiste no recomendar. Dirección había pedido saber si había que frenar algo; ¿qué medida mínima podías dar sin comprometer una posición?');
+  // U8
+  if (r1 !== null && r2 !== null && r2 < r1){
+    var t = 'Relajaste el consejo general justo cuando apareció el problema del empaque. ' + (notaEmp ? 'Tu nota explica por qué.' : 'Tu nota no menciona el empaque.');
+    if (formaAntes) t += ' Es posible que te haya convencido la documentación sobre la forma; el empaque, sin embargo, es otro frente.';
+    obs.push(t);
+  }
+  // Consecuencia R-5: negociar compra información y la paga revelando la propia.
+  if (s.DECISION_NEGOCIO === 'D3')
+    obs.push('Proponer la reunión compró información que nadie más recibe: a Nácar le importa sobre todo el anillo y prepara una línea ESTELIA para 2027. La pagaste revelando la tuya: al ofrecer la manga, Albor mostró que el empaque es su punto débil, y Nácar pidió una compensación.');
+  return obs;
+}
+
+/* ---------- Pieza 2 · Seis preguntas ---------- */
+function seisPreguntas(s){
+  var Q = [];
+  // 1
+  var it1 = [];
+  E.AFIRMABLES.forEach(function(c){
+    if (c.ref === 'no' && s.afirmables[c.id] === 'si'){
+      it1.push('A las 09:15 marcaste como afirmable «' + c.t + '». Con lo que había en el expediente todavía no se podía afirmar' + (c.id === 'c5' ? ' (la ficha ya mencionaba un ilustrador externo).' : '.'));
+    }
+  });
+  var p0 = s.preocupacion0;
+  if (p0.A1 === 'alta') it1.push('Marcaste la forma como preocupación alta a las 09:15; fue el frente que más perdió fuerza con documentos.');
+  if (p0.A3 === 'baja') it1.push('Marcaste la ilustración del empaque como preocupación baja a las 09:15; terminó siendo el frente más sólido de Nácar.');
+  if (p0.A2 === 'baja') it1.push('Marcaste la información técnica como preocupación baja a las 09:15; quedó abierta hasta el final.');
+  var sinEval = E.FRENTES.filter(function(f){ return p0[f.id] === 'no_evaluable'; }).length;
+  if (sinEval === 0) it1.push('A las 09:15 diste un nivel de preocupación a los cuatro frentes; ninguno quedó como «todavía no puedo evaluarla», aunque a esa hora sólo tenías la carta, la ficha y la cronología del cliente.');
+  if (s.POSICION_1 === 'P1-A') it1.push('A las 10:00 recomendaste seguir según lo previsto, antes de recibir ninguna verificación.');
+  if (s.POSICION_1 === 'P1-E') it1.push('A las 10:00 recomendaste aplazar todo, antes de recibir ninguna verificación.');
+  if (!it1.length) it1.push('No encontramos afirmaciones anticipadas: a las 09:15 separaste lo que constaba de lo que faltaba.');
+  Q.push({q:'¿Qué supusiste demasiado pronto?', items:it1});
+
+  // 2
+  var it2 = [];
+  it2.push('A las 13:00 recibiste: ' + listJoin(s.verificaciones1.map(vName).map(E.lower1)) + '.');
+  it2.push('A las 16:30, con la reunión: ' + E.lower1(vName(s.verificacion2)) + '.');
+  var resto = E.VERIF.filter(function(v){ return s.verificaciones1.indexOf(v.id) < 0 && s.verificacion2 !== v.id; });
+  it2.push('Recibido fuera de tiempo, a las 22:40: ' + listJoin(resto.map(function(v){ return E.lower1(v.t); })) + '.');
+  var srcs = {}; s.verificaciones1.forEach(function(v){ srcs[byId(E.VERIF,v).src] = true; });
+  var sk = Object.keys(srcs);
+  it2.push('Tus tres primeras verificaciones tocaron ' + sk.length + (sk.length === 1 ? ' fuente' : ' fuentes') + ': ' + listJoin(sk.map(function(k){ return E.SRC_LABEL[k]; })) + (sk.length < 3 ? '. Sin cubrir antes de las 13:00: ' + listJoin(['interna','terceros','contraparte'].filter(function(k){ return !srcs[k]; }).map(function(k){ return E.SRC_LABEL[k]; })) + '.' : '.'));
+  var noAb = E.docsAll(s).filter(function(d){ return !s.aperturas[d.id]; }).map(function(d){ return E.docCode(d.id) + (d.id === 'DOC-08N' ? ' (archivo de trabajo)' : ''); });
+  if (noAb.length) it2.push('Recibiste y no abriste: ' + listJoin(noAb) + '.');
+  else it2.push('Abriste todos los documentos que recibiste.');
+  Q.push({q:'¿Qué investigaste antes de decidir?', items:it2});
+
+  // 3
+  var it3 = [];
+  var calc = E.cambioCalculado(s);
+  var cWord = {mantiene:'se mantuvo', ajusta:'se ajustó', cambia:'cambió'}[calc];
+  it3.push('Entre las 10:00 y las 16:30 tu consejo ' + cWord + ': de «' + posText(s,'P1') + '» a «' + posText(s,'P2') + '». En ese intervalo llegaron la minuta de la reunión, el correo de Daniel Prado con su cotización y los resultados de tus verificaciones.');
+  var rd = E.R_D(s.DECISION_NEGOCIO), r2 = E.R_P2(s.POSICION_2), rf = E.R_F(s);
+  it3.push('El miércoles decidiste «' + posText(s,'D') + '»' + (rd === r2 ? ', en la misma línea que a las 16:30' : '') + ', después de recibir los documentos tardíos y las notas de Tomás.');
+  it3.push('El viernes, tras la respuesta de Nácar, tu posición final fue «' + posText(s,'F') + '»' + (rf === rd ? ', sin mover el alcance de la decisión del miércoles.' : '.'));
+  var mucho = hallazgosEtapa2(s).filter(function(h){ return s.impacto[h.id] && s.impacto[h.id].grado === 'mucho'; }).map(function(h){ return '«' + h.t + '»'; });
+  if (mucho.length) it3.push('En la matriz de las 13:00 marcaste como hallazgos que cambiaban mucho tu análisis: ' + listJoin(mucho) + '.');
+  else it3.push('En la matriz de las 13:00 no marcaste ningún hallazgo como «mucho».');
+  Q.push({q:'¿Qué evidencia cambió tu posición?', items:it3});
+
+  // 4
+  var it4 = [];
+  function menc(text, label){
+    var si = [], no = [];
+    [['empaque','el empaque'],['mecanismo','el mecanismo'],['forma','la forma'],['nombre','el nombre']].forEach(function(p){ (E.mentions(text, p[0]) ? si : no).push(p[1]); });
+    var t = label + ': ' + (si.length ? 'menciona ' + listJoin(si) + '.' : 'no encontramos mención explícita de ningún frente.');
+    if (si.length && no.length) t += ' No encontramos mención explícita de ' + listJoin(no) + '.';
+    return t;
+  }
+  it4.push(menc(s.notaIrene, 'Tu nota para Irene de las 16:30'));
+  it4.push(menc(s.fraseLucia, 'Lo que le dirías a Lucía el miércoles'));
+  Q.push({q:'¿Qué justificó mantener o modificar tu consejo?', items:it4});
+
+  // 5
+  var it5 = riesgosNombrados(s).map(function(r){ return r.t + ' — ' + (r.nombrado ? 'Lo nombraste en tu recomendación o en tus medidas.' : 'No encontramos mención explícita en tu recomendación ni en tus medidas.'); });
+  Q.push({q:'¿Qué quedó sin resolver?', items:it5});
+
+  // 6
+  var ev = evolucion(s);
+  Q.push({q:'¿Cómo evolucionó tu recomendación?', items:[
+    'A las 10:00: «' + ev[0].opt + '». A las 16:30: «' + ev[1].opt + '». El miércoles: «' + ev[2].opt + '». El viernes: «' + ev[3].opt + '».'
+  ]});
+  return Q;
+}
+function riesgosNombrados(s){
+  return E.RIESGOS.map(function(r){
+    var byText = E.mentions(s.recomendacion, r.kw);
+    var byMed = r.med.some(function(m){ return s.medidas.indexOf(m) >= 0; });
+    return {id:r.id, t:r.t, nombrado: byText || byMed};
+  });
+}
+
+/* ---------- Pieza 3 · Perfil ---------- */
+function perfil(s){
+  var D = [];
+  var kmed = s.conservacion4 || [];
+  var med = s.medidas || [];
+  var K7 = kmed.indexOf('K7') >= 0, K8 = kmed.indexOf('K8') >= 0, K4 = kmed.indexOf('K4') >= 0;
+
+  // 1 · Disciplina probatoria
+  (function(){
+    var srcs = {}; s.verificaciones1.forEach(function(v){ srcs[byId(E.VERIF,v).src] = true; });
+    var nsrc = Object.keys(srcs).length;
+    var amplia = s.conservacion1 === 'amplia' || (s.conservacion1 === 'interna' && s.ampliaConservacion2 === 'si');
+    var st = (s.conservacion1 === 'ordenar' || K7 || K8) ? 'C' : ((amplia && !K7 && !K8 && nsrc >= 2) ? 'A' : 'B');
+    var obsv = 'Antes de las 13:00 pediste: ' + listJoin(s.verificaciones1.map(vName).map(E.lower1)) + '. La cuarta verificación fue: ' + E.lower1(vName(s.verificacion2)) + '. Tu instrucción de conservación al cerrar la llamada fue: «' + optText(E.CONS1, s.conservacion1) + '».';
+    if (s.ampliaConservacion2 === 'si') obsv += ' A las 13:15 la ampliaste a proveedores.';
+    obsv += kmed.length ? ' El miércoles formalizaste: ' + listJoin(kmed.map(function(k){ return E.lower1(optText(E.KMED,k)); })) + '.' : ' El miércoles no formalizaste medidas adicionales.';
+    var at = [];
+    if (s.conservacion1 === 'ordenar') at.push('Pediste ordenar carpetas a las 10:40 y a las 12:10 se perdió el moodboard original. Nadie actuó de mala fe; así suele perderse la evidencia.' + (K4 ? ' Recuperarlo desde el correo del 19 de mayo salvó lo posible, sin las notas de origen.' : ''));
+    if (s.conservacion1 === 'diferida') at.push('Esperar para no alarmar dejó la carpeta de marca sin protección: a las 12:10 se depuró para dejarla ordenada y se perdió el moodboard original.' + (K4 ? ' Recuperarlo desde el correo del 19 de mayo salvó lo posible, sin las notas de origen.' : ''));
+    if (K7) at.push('Pedir que se borre parece prudente y destruye evidencia: aislar el archivo y dejar de usarlo protege lo mismo sin perder lo que podría hacer falta después.');
+    if (K8) at.push('Pedir una versión «limpia» del archivo nativo altera la evidencia más relevante del frente del empaque.');
+    var gotP = E.entregasDoc08(s).some(function(e){ return e.version === 'P'; });
+    if (gotP && at.length < 2) at.push('La instrucción no llegó a Daniel y el archivo que recibiste se creó ese día: no decía nada sobre cómo se hizo la ilustración.');
+    if (nsrc < 2 && at.length < 2) at.push('Tus tres primeras verificaciones se concentraron en una sola fuente; las demás llegaron cuando ya había menos tiempo para usarlas.');
+    if (!at.length) at.push('Tu instrucción llegó a los terceros que tenían la evidencia clave antes de que nadie tocara nada, y tus primeras verificaciones cruzaron fuentes distintas.');
+    D.push({k:'disciplina', name:'Disciplina probatoria', st:st, obs:obsv, at:at.join(' '), q:'¿Qué evidencia de este expediente estaba en manos de terceros y cuándo les llegó tu instrucción?'});
+  })();
+
+  // 2 · Hecho y conclusión
+  (function(){
+    var early = E.AFIRMABLES.filter(function(c){ return c.ref === 'no' && s.afirmables[c.id] === 'si'; });
+    var cons = ['AF2','AF5','AF7','AF8'].every(function(id){ return E.afConsistente(s,id); });
+    var nHecho = ['AF2','AF5','AF7'].filter(function(id){ return s.clasificacion[id] === 'hecho'; }).length;
+    var st = (nHecho >= 2 || s.clasificacion.AF8 === 'hecho') ? 'C' : ((early.length === 0 && cons) ? 'A' : 'B');
+    var hechos = E.AFS.filter(function(a){ return s.clasificacion[a.id] === 'hecho'; }).map(function(a){ return '«' + a.t + '»'; });
+    var obsv = (early.length ? 'A las 09:15 marcaste como afirmables ' + early.length + (early.length === 1 ? ' frase que todavía no lo era.' : ' frases que todavía no lo eran.') : 'A las 09:15 no marcaste como afirmable nada que todavía no constara.') +
+      ' En las notas de Tomás clasificaste como hecho documentado: ' + (hechos.length ? listJoin(hechos) : 'ninguna afirmación') + '.';
+    var at = [];
+    if (s.clasificacion.AF5 === 'hecho') at.push('Tratamos como hecho que la forma es independiente. Es la conclusión que más nos conviene y está bien apoyada, pero sigue siendo una conclusión: Rafael vio OLEA antes de bocetar.');
+    ['AF2','AF7'].forEach(function(id){ if (s.clasificacion[id] === 'hecho') at.push('Convertiste en hecho una conclusión: «' + byId(E.AFS,id).t + '». Ningún documento del expediente la muestra.'); });
+    if (s.clasificacion.AF8 === 'hecho' || s.clasificacion.AF8 === 'afirmacion') at.push('Diste estatus a un rumor: lo que «nos dijeron en Galerías Domo» no tiene una fuente identificable ni consta en el expediente.');
+    ['AF3','AF4'].forEach(function(id){ var v = s.clasificacion[id]; if (v === 'inferencia' || v === 'no_confirmado') at.push('Fuiste más cauteloso de lo necesario con «' + byId(E.AFS,id).t + '»: consta en documentos del expediente, y restarle firmeza debilita lo que sí puedes sostener.'); });
+    if (!at.length) at.push('Las frases que dirección escuchará distinguen lo que consta de lo que se concluye o se rumora.');
+    D.push({k:'hecho', name:'Hecho y conclusión', st:st, obs:obsv, at:at.join(' '), q:'¿Qué frase de tus notas para dirección no podrías sostener si Nácar te pidiera el documento que la respalda?'});
+  })();
+
+  // 3 · Actualización de hipótesis
+  (function(){
+    var R = E.PREOC_RANK, p0 = s.preocupacion0, pf = s.preocupacionF;
+    var a3sube = R[pf.A3] > R[p0.A3];
+    var a1altaSinJust = pf.A1 === 'alta' && !E.mentions(s.recomendacion,'forma');
+    var notaEmp = E.mentions(s.notaIrene,'empaque');
+    var u2sin = s.POSICION_1 === 'P1-A' && s.POSICION_2 === 'P2-A' && !notaEmp;
+    var rd = E.R_D(s.DECISION_NEGOCIO), r2 = E.R_P2(s.POSICION_2);
+    var nuevos = E.docsAll(s).some(function(d){ return d.etapa === 4 && (d.id === 'DOC-06' || d.id === 'DOC-10'); });
+    var u4sin = (rd <= r2 - 2) && !nuevos;
+    var coherente = !u2sin && !u4sin;
+    var stC = (!a3sube && s.POSICION_2 === 'P2-A' && !notaEmp) || s.hipotesis.H2 === 'descartada';
+    var st = stC ? 'C' : ((a3sube && !a1altaSinJust && coherente) ? 'A' : 'B');
+    var obsv = 'Tu preocupación por frente, de las 09:15 al viernes: ' + E.FRENTES.map(function(f){ return f.name.toLowerCase() + ', de ' + preocLabel(p0[f.id]).toLowerCase() + ' a ' + preocLabel(pf[f.id]).toLowerCase(); }).join('; ') + '.';
+    var at = [];
+    if (s.hipotesis.H2 === 'descartada') at.push('A las 16:30 marcaste como descartado que el mecanismo incorpore información técnica de Nácar. Con lo que había, la hipótesis seguía abierta: la coincidencia de fechas existe y su significado no está determinado.');
+    if (!a3sube) at.push('Tu preocupación por la ilustración del empaque no subió entre las 09:15 y el viernes, aunque fue el frente que más evidencia acumuló.');
+    if (a1altaSinJust) at.push('Al cierre mantuviste la forma como preocupación alta y no encontramos en tu recomendación una explicación, pese a CÁNTARO 2022 y al registro sin anillo.');
+    if (u4sin) at.push('El miércoles relajaste el consejo sin un hecho nuevo que reduzca el frente del empaque.');
+    var big = [];
+    hallazgosEtapa2(s).forEach(function(h){
+      if (!h.ref || !s.impacto[h.id]) return;
+      var g = E.GRADO_N[s.impacto[h.id].grado];
+      var dist = g < h.ref[0] ? h.ref[0] - g : (g > h.ref[1] ? g - h.ref[1] : 0);
+      if (dist >= 2) big.push('«' + h.t + '» (marcaste «' + s.impacto[h.id].grado + '»)');
+    });
+    if (big.length && at.length < 3) at.push('En la matriz de las 13:00 hay hallazgos que suelen mover bastante el análisis y que marcaste con poco peso: ' + listJoin(big) + '.');
+    if (!at.length) at.push('Tu lectura de los frentes se movió con los hechos: la ilustración subió y la forma no quedó en lo más alto sin explicación.');
+    D.push({k:'actualizacion', name:'Actualización de hipótesis', st:st, obs:obsv, at:at.join(' '), q:'¿Qué hecho concreto te haría cambiar hoy la preocupación que marcaste para cada frente?'});
+  })();
+
+  // 4 · Proporcionalidad
+  (function(){
+    var d = s.DECISION_NEGOCIO, f = s.POSICION_FINAL, pf = s.preocupacionF;
+    var has = function(m){ return med.indexOf(m) >= 0; };
+    var a3 = ['D2','D3','D4'].indexOf(d) >= 0 || has('M1') || has('M2') || has('M3');
+    var a2 = has('M5') || has('M6');
+    var a4 = has('M7');
+    var aplazaForma = (d === 'D4' || f === 'F5') && pf.A1 === 'alta';
+    var sinEmpaque = (d === 'D1' || d === 'D5') && f === 'F1' && !(has('M1') || has('M2') || has('M3'));
+    var soloA1 = pf.A1 === 'alta' && ['A2','A3','A4'].every(function(k){ return pf[k] !== 'alta'; });
+    var sobra = E.R_F(s) === 4 && soloA1;
+    var st = (sinEmpaque || sobra) ? 'C' : ((a3 && a2 && !aplazaForma) ? 'A' : 'B');
+    var att = [], noatt = [];
+    (a3 ? att : noatt).push('el empaque'); (a2 ? att : noatt).push('la información técnica'); (a4 ? att : noatt).push('el nombre');
+    var obsv = 'Al cierre, tu decisión y tus medidas atienden ' + (att.length ? listJoin(att) : 'ningún frente en concreto') + '.' + (noatt.length ? ' Sin medida específica: ' + listJoin(noatt) + '.' : '');
+    var at = [];
+    if (sinEmpaque) at.push('El empaque sigue igual en anaqueles y en tu consejo final no hay una medida sobre él, aunque es el frente que más evidencia acumuló.');
+    if (sobra) at.push('Aplazaste todo con la forma como única preocupación alta, el frente que más fuerza perdió.');
+    else if (aplazaForma) at.push('Tu freno coincide con mantener la forma en alta al cierre; conviene separar qué parte responde al empaque y al anillo, y qué parte a la forma.');
+    if (has('M4') && !(has('M1') || has('M2') || has('M3'))) at.push('Ampliar con Daniel los usos de la ilustración ordena la relación con él, pero no responde a Nácar.');
+    if (!a2) at.push('El frente técnico queda sin una medida que lo haga avanzar: sin comparación ni aislamiento de la hoja, al cierre se sabe lo mismo que el martes.');
+    if (!at.length) at.push('Tus medidas apuntan a los dos frentes que de verdad pesan sin frenar lo que no lo necesita.');
+    D.push({k:'proporcion', name:'Proporcionalidad del consejo', st:st, obs:obsv, at:at.join(' '), q:'¿Qué medida de tu recomendación quitarías sin que cambie el riesgo, y cuál falta para el frente que más pesa?'});
+  })();
+
+  // 5 · Comunicación y riesgo abierto
+  (function(){
+    var rec = s.recomendacion;
+    var nombra = E.mentions(rec,'mecanismo') || E.mentions(rec,'nombre');
+    var invest = E.mentions(rec,'investig');
+    var algoAbierto = nombra || E.mentions(rec,'incert');
+    var st = ((s.correoLucia === 'Lc' || s.DECISION_NEGOCIO === 'D1') && !algoAbierto) ? 'C' :
+      (((s.correoLucia === 'La' || s.correoLucia === 'Lb') && nombra && invest) ? 'A' : 'B');
+    var obsv = 'Sobre el correo de Lucía elegiste: «' + optText(E.LUCIA, s.correoLucia) + '». La respuesta del miércoles a Nácar formó parte de: «' + optText(E.DECISIONES, s.DECISION_NEGOCIO) + '». Tu recomendación final tiene ' + E.countWords(rec) + ' palabras.';
+    var at = [];
+    if (s.correoLucia === 'Lc') at.push('El correo de Lucía fijó por escrito la versión «todo interno» antes de que el expediente la confirmara' + (E.versionDoc16(s) === 'R1' ? '; Nácar ya la citó en su respuesta.' : '; Nácar tomó nota de ella.'));
+    if (s.DECISION_NEGOCIO === 'D1') at.push('La respuesta del miércoles rechazó todas las alegaciones por escrito, incluida la del empaque, que los hechos ya matizaban.');
+    if (!nombra) at.push('No encontramos en tu recomendación final mención explícita de lo que sigue sin resolver en el anillo o en el nombre.');
+    if (!invest) at.push('No encontramos mención explícita de qué se conserva o se investiga.');
+    if (!at.length) at.push('Lo que se dijo a Nácar no fue más allá de lo que constaba, y tu recomendación separa lo sabido de lo pendiente.');
+    D.push({k:'comunicacion', name:'Comunicación y riesgo abierto', st:st, obs:obsv, at:at.join(' '), q:'Si Nácar leyera mañana todo lo que Albor escribió esta semana, ¿qué frase te gustaría poder retirar?'});
+  })();
+  return D;
+}
+
+/* ---------- Trayectoria ---------- */
+function vistaTrayectoria(s){
+  var key = E.trayectoria(s);
+  var t = E.TRAY[key];
+  var mz = E.mezcla(s);
+  var others = key === 'firme' ? ['acotar','perimetro','verificar'] : ['acotar','perimetro','verificar'].filter(function(k){ return k !== key; });
+  return {
+    key:key,
+    detail:{name:t.name, idea:t.idea, recorrido:t.recorrido, protege:t.protege, cuesta:t.cuesta, necesita:t.necesita, nacar:resumenR(s), riesgo:t.riesgo,
+      mezcla: mz ? 'Tu recorrido empezó como «' + E.TRAY[mz.ini].name + '» y terminó como «' + E.TRAY[mz.fin].name + '»; el cambio ocurrió después de ' + mz.hecho + '.' : null},
+    others: others.map(function(k){ var o = E.TRAY[k]; return {name:o.name, idea:o.idea, protege:o.protege, sacrifica:o.cuesta}; })
+  };
+}
+
+/* ---------- Informe ---------- */
+function fechaReal(iso){
+  try { return new Date(iso).toLocaleDateString('es-MX', {year:'numeric', month:'long', day:'numeric'}); } catch(e){ return iso; }
+}
+function informe(s){
+  var S = [];
+  var docs = E.docsAll(s);
+  S.push({n:1, t:'Encabezado', kv:[
+    ['Participante', s.participante.nombre], ['Identificador', s.participante.id || '—'], ['Fecha', fechaReal(s.fechaRealizacion)],
+    ['Cliente', 'Casa Albor, S.A. de C.V. (ficticia)'], ['Asunto', 'Carta de Estudio Nácar sobre la lámpara ESTELA']]});
+  S.push({n:2, t:'Alegaciones iniciales', table:{h:['Frente','Preocupación a las 09:15'], rows:E.FRENTES.map(function(f){ return [f.name, preocLabel(s.preocupacion0[f.id])]; })}});
+  var af = E.AFIRMABLES.filter(function(c){ return s.afirmables[c.id] === 'si'; }).map(function(c){ return c.t; });
+  S.push({n:3, t:'Lo que se afirmaba a las 09:15', list: af.length ? af : ['Ninguna frase marcada como afirmable.']});
+  S.push({n:4, t:'Preguntas al cliente', list: s.preguntas.map(function(q, i){ return (i+1) + '. ' + optText(E.PREGUNTAS.map(function(p){ return {id:p.id, t:p.q}; }), q); })});
+  var horaV = {2:'Martes 10 · 13:00', 3:'Martes 10 · 16:30', 4:'Martes 10 · 22:40 · Recibido fuera de tiempo'};
+  S.push({n:5, t:'Investigaciones', table:{h:['Verificación','Cuándo se eligió','Llegada del resultado'], rows:E.VERIF.map(function(v){
+    var m = E.momentoVerificacion(s, v.id);
+    return [v.t, m === 2 ? 'Etapa 1 (10:00)' : (m === 3 ? 'Etapa 2 (13:00)' : 'No elegida'), horaV[m]];
+  })}});
+  S.push({n:6, t:'Documentos consultados', long:true, table:{h:['Documento','Recibido','Primera apertura'], rows:docs.map(function(d){
+    var a = s.aperturas[d.id];
+    return [E.docCode(d.id) + ' · ' + E.DOC_TITLES[d.id] + (d.version && (d.id === 'DOC-08' || d.id === 'DOC-08N') ? (d.version === 'N' ? ' (archivo nativo)' : ' (PDF)') : ''),
+      d.hora + (d.tarde ? ' · Recibido fuera de tiempo' : ''), a ? (a.etapaLabel + ' · ' + a.hora) : 'Recibido y no abierto'];
+  })}});
+  S.push({n:7, t:'Posición inicial', kv:[['POSICION_1 · 10:00', optText(E.P1, s.POSICION_1)], ['Hecho que más necesitaba confirmar', s.hechoAConfirmar]]});
+  S.push({n:8, t:'Hechos nuevos', long:true, list: E.bitacora(s).filter(function(b){ return b.etapa >= 2; }).map(function(b){ return b.hora + ' · ' + b.t; })});
+  S.push({n:9, t:'Impacto de los hallazgos', table:{h:['Hallazgo','Cambia mi análisis','Frente'], rows:hallazgosEtapa2(s).map(function(h){
+    var r = s.impacto[h.id] || {};
+    var fo = null; E.FRENTE_OPTS.forEach(function(o){ if (o.v === r.frente) fo = o.l; });
+    return [h.t, r.grado ? r.grado.charAt(0).toUpperCase() + r.grado.slice(1) : '—', fo || '—'];
+  })}});
+  var zl = {}; E.ZONAS.forEach(function(z){ zl[z.v] = z.l; });
+  var hl = {}; E.HIP_OPTS.forEach(function(z){ hl[z.v] = z.l; });
+  S.push({n:10, t:'Reconstrucción y cambios de posición', long:true, parts:[
+    {table:{h:['Tarjeta','Ubicación elegida'], rows:E.tarjetasVisibles(s).map(function(k){ return [k.t, zl[s.tarjetas[k.id]] || '—']; })}},
+    {table:{h:['Hipótesis a las 16:30','Estado'], rows:E.HIPOTESIS.map(function(h){ return [h.t, hl[s.hipotesis[h.id]] || '—']; })}},
+    {kv:[['POSICION_2 · 16:30', optText(E.P2, s.POSICION_2)], ['Respecto de la posición de las 10:00', optText(E.AUTODESC, s.autodescripcion2)]]},
+    {free:s.notaIrene, label:'Nota para Irene Calvo'}
+  ]});
+  S.push({n:11, t:'Clasificación hecho / inferencia', long:true, table:{h:['Afirmación de Tomás','Clasificación','Cómo queda la nota'], rows:E.AFS.map(function(a){
+    return [a.t, E.CAT_L[s.clasificacion[a.id]] || '—', reescribir(a, s.clasificacion[a.id])];
+  })}});
+  var inc = [];
+  if (E.moodboardDepurado(s)) inc.push('12:10 · Se depuró la carpeta «Marca ESTELA»; el moodboard original se perdió (sobrevive la copia del correo del 19 de mayo, sin notas).');
+  E.entregasDoc08(s).forEach(function(e){ inc.push('Archivo del empaque recibido como ' + (e.version === 'N' ? 'archivo nativo con capas' : 'PDF plano sin capas') + ' (' + (e.id === 'DOC-08N' ? 'Martes 10 · 16:31' : horaV[e.etapa]) + ').'); });
+  S.push({n:12, t:'Medidas de preservación', kv:[
+    ['Instrucción inicial (10:40)', optText(E.CONS1, s.conservacion1)],
+    ['Ajuste a las 13:00', s.conservacion1 === 'amplia' ? 'No aplicaba' : (s.ampliaConservacion2 === 'si' ? 'Instrucción ampliada a proveedores' : 'No se amplió')],
+    ['Medidas formales del miércoles', (s.conservacion4 || []).length ? s.conservacion4.map(function(k){ return optText(E.KMED,k); }).join('; ') : 'Ninguna'],
+    ['Incidencias', inc.join(' ')]
+  ]});
+  S.push({n:13, t:'Decisión sobre el lanzamiento', kv:[['Decisión · miércoles 12:00', optText(E.DECISIONES, s.DECISION_NEGOCIO)], ['Lo que le dirías a Lucía', s.fraseLucia]]});
+  S.push({n:14, t:'Respuesta de la contraparte', para:resumenR(s)});
+  S.push({n:15, t:'Posición final', parts:[
+    {kv:[['POSICION_FINAL · viernes', optText(E.FINALES, s.POSICION_FINAL)], ['Medidas complementarias', s.medidas.length ? s.medidas.map(function(m){ return optText(E.MEDIDAS,m); }).join('; ') : 'Ninguna']]},
+    {table:{h:['Frente','09:15','Viernes'], rows:E.FRENTES.map(function(f){ return [f.name, preocLabel(s.preocupacion0[f.id]), preocLabel(s.preocupacionF[f.id])]; })}}
+  ]});
+  var rn = riesgosNombrados(s);
+  S.push({n:16, t:'Riesgos abiertos', long:true, parts:[
+    {label:'Nombrados por el participante (en su recomendación o en sus medidas)', list: rn.filter(function(r){ return r.nombrado; }).map(function(r){ return r.t; }).concat(rn.some(function(r){ return r.nombrado; }) ? [] : ['No encontramos mención explícita de ninguno.'])},
+    {label:'Riesgos abiertos del caso', list: E.RIESGOS.map(function(r){ return r.t; })}
+  ]});
+  var chk = E.AUTORREV.map(function(t, i){ return (s.autorrevision[i] ? '[x] ' : '[ ] ') + t; });
+  S.push({n:17, t:'Recomendación ejecutiva', long:true, parts:[{free:s.recomendacion}, {label:'Autorrevisión del participante', list:chk}]});
+  S.push({n:18, t:'Evolución del consejo', long:true, table:{h:['Momento','Posición','Hecho nuevo previo'], rows:evolucion(s).map(function(p){ return [p.when, p.opt, p.between]; })}});
+  var pf = perfil(s), tv = vistaTrayectoria(s);
+  var parts19 = pf.map(function(d){ return {label:d.name, kv:[['Lo que se observa', d.obs], ['Punto de atención', d.at], ['Pregunta para revisar', d.q]]}; });
+  var det = [['Idea', tv.detail.idea], ['Recorrido típico', tv.detail.recorrido], ['Protege', tv.detail.protege], ['Cuesta', tv.detail.cuesta], ['Necesita para ser defendible', tv.detail.necesita], ['Cómo respondió Nácar en este expediente', tv.detail.nacar], ['Riesgo que queda abierto', tv.detail.riesgo]];
+  if (tv.detail.mezcla) det.push(['Recorrido mixto', tv.detail.mezcla]);
+  parts19.push({label:'Tu recorrido se parece más a… ' + tv.detail.name, kv:det});
+  parts19.push({label:'Otros recorridos profesionales posibles', table:{h:['Recorrido','Idea','Qué protege','Qué sacrifica'], rows:tv.others.map(function(o){ return [o.name, o.idea, o.protege, o.sacrifica]; })}});
+  S.push({n:19, t:'Perfil de conducción del expediente', long:true, parts:parts19});
+  S.push({n:20, t:'Pie', para:'Documento simulado para fines de entrenamiento. Empresas, personas, marcas y cifras son ficticias. Este informe no contiene calificación.'});
+  return S;
+}
+function reescribir(a, cat){
+  if (cat === 'hecho') return 'Consta en el expediente que ' + a.ind + '.';
+  if (cat === 'afirmacion') return 'Según ' + a.src + ', ' + a.ind + '.';
+  if (cat === 'inferencia') return 'Podría concluirse que ' + a.ind + ', aunque no está demostrado.';
+  if (cat === 'no_confirmado') return 'No está confirmado que ' + a.sub + '.';
+  return '—';
+}
+
+/* Render HTML del informe */
+function partHTML(p){
+  var h = '';
+  if (p.label) h += '<h4 style="font-family:var(--sans);font-size:.92rem;margin:10px 0 4px">' + esc(p.label) + '</h4>';
+  if (p.kv) h += '<div class="table-wrap"><table><tbody>' + p.kv.map(function(r){ return '<tr><th scope="row" style="width:34%">' + esc(r[0]) + '</th><td>' + esc(r[1]) + '</td></tr>'; }).join('') + '</tbody></table></div>';
+  if (p.table) h += '<div class="table-wrap"><table><thead><tr>' + p.table.h.map(function(x){ return '<th scope="col">' + esc(x) + '</th>'; }).join('') + '</tr></thead><tbody>' + p.table.rows.map(function(r){ return '<tr>' + r.map(function(c){ return '<td>' + esc(c) + '</td>'; }).join('') + '</tr>'; }).join('') + '</tbody></table></div>';
+  if (p.list) h += '<ul>' + p.list.map(function(x){ return '<li>' + esc(x) + '</li>'; }).join('') + '</ul>';
+  if (p.free != null) h += '<div class="free">' + esc(p.free) + '</div>';
+  if (p.para) h += '<p>' + esc(p.para) + '</p>';
+  return h;
+}
+function informeHTML(s){
+  var S = informe(s);
+  var h = '<article class="report" id="informe" aria-labelledby="informeTitle"><header class="report-title"><div class="rk">INFORME DE DECISIONES</div><h2 id="informeTitle">Expediente 047</h2></header>';
+  S.forEach(function(sec){
+    if (sec.n === 20){ h += '<p class="report-foot">' + esc(sec.para) + '</p>'; return; }
+    h += '<section class="rsec' + (sec.long ? ' long' : '') + '"><h3><span class="n">' + String(sec.n).padStart(2,'0') + '</span>' + esc(sec.t) + '</h3>';
+    if (sec.parts) sec.parts.forEach(function(p){ h += partHTML(p); }); else h += partHTML(sec);
+    h += '</section>';
+  });
+  return h + '</article>';
+}
+function partText(p){
+  var t = '';
+  if (p.label) t += p.label + '\n';
+  if (p.kv) p.kv.forEach(function(r){ t += '- ' + r[0] + ': ' + r[1] + '\n'; });
+  if (p.table){ t += p.table.h.join(' | ') + '\n'; p.table.rows.forEach(function(r){ t += '- ' + r.join(' | ') + '\n'; }); }
+  if (p.list) p.list.forEach(function(x){ t += '- ' + x + '\n'; });
+  if (p.free != null) t += p.free + '\n';
+  if (p.para) t += p.para + '\n';
+  return t;
+}
+function informeTexto(s){
+  var S = informe(s);
+  var line = '----------------------------------------';
+  var t = 'INFORME DE DECISIONES\nEXPEDIENTE 047\n' + line + '\n';
+  S.forEach(function(sec){
+    if (sec.n === 20){ t += line + '\n' + sec.para + '\n'; return; }
+    t += String(sec.n).padStart(2,'0') + '. ' + sec.t.toUpperCase() + '\n';
+    if (sec.parts) sec.parts.forEach(function(p){ t += partText(p); }); else t += partText(sec);
+    t += line + '\n';
+  });
+  return t;
+}
+
+E.fb = {evolucion:evolucion, reglas:reglas, seisPreguntas:seisPreguntas, perfil:perfil, vistaTrayectoria:vistaTrayectoria,
+  informe:informe, informeHTML:informeHTML, informeTexto:informeTexto, reescribir:reescribir, hallazgosEtapa2:hallazgosEtapa2,
+  riesgosNombrados:riesgosNombrados, resumenR:resumenR, preocLabel:preocLabel};
+})();
+</script>
+<script>
+(function(){
+'use strict';
+var E = window.E047, esc = E.esc, byId = E.byId, FB = E.fb;
+
+/* =========================================================
+   ALMACENAMIENTO
+   ========================================================= */
+var storageOK = false;
+(function(){
+  try {
+    var prev = window.localStorage.getItem(E.KEY);
+    window.localStorage.setItem(E.KEY, prev === null ? '{}' : prev);
+    if (prev === null) window.localStorage.removeItem(E.KEY);
+    storageOK = true;
+  } catch(e){ storageOK = false; }
+})();
+var saved = null, savedError = false;
+if (storageOK){
+  try {
+    var raw = window.localStorage.getItem(E.KEY);
+    if (raw){
+      var obj = JSON.parse(raw);
+      if (obj && obj.schemaVersion === E.SCHEMA && typeof obj.etapaActual === 'number') saved = obj;
+      else savedError = true;
+    }
+  } catch(e){ savedError = true; }
+}
+var state = E.freshState();
+var view = -1;          // etapa que se está viendo
+var saveTimer = null;
+function saveNow(){
+  if (!storageOK) return;
+  try { state.actualizado = new Date().toISOString(); window.localStorage.setItem(E.KEY, JSON.stringify(state)); } catch(e){}
+}
+function saveSoon(){ if (!storageOK) return; clearTimeout(saveTimer); saveTimer = setTimeout(saveNow, 400); }
+function clearStorage(){ if (storageOK){ try { window.localStorage.removeItem(E.KEY); } catch(e){} } }
+
+/* =========================================================
+   REFERENCIAS DOM
+   ========================================================= */
+var $main = document.getElementById('main');
+var $top = document.getElementById('topbar');
+var $layout = document.getElementById('layout');
+var $panel = document.getElementById('panel');
+var $live = document.getElementById('live');
+var $docDlg = document.getElementById('docDialog');
+var $cDlg = document.getElementById('confirmDialog');
+var mqDesktop = window.matchMedia('(min-width: 1101px)');
+var panelTab = 'bandeja';
+var panelOpenMobile = false;
+var lastFocus = null;
+
+function focusEl(id){ var el = document.getElementById(id); if (el){ try { el.focus({preventScroll:true}); } catch(e){ el.focus(); } } }
+function announce(msg){ $live.textContent = ''; setTimeout(function(){ $live.textContent = msg; }, 30); }
+
+/* =========================================================
+   HELPERS DE RENDER
+   ========================================================= */
+function isRO(){ return view !== state.etapaActual; }
+function dis(){ return isRO() ? ' disabled' : ''; }
+function radioSeg(name, opts, value, legend, legendClass){
+  var h = '<fieldset class="qrow"><legend' + (legendClass ? ' class="' + legendClass + '"' : '') + '>' + legend + '</legend><div class="seg">';
+  opts.forEach(function(o, i){
+    var id = name.replace(/[^a-zA-Z0-9]/g,'_') + '_' + i;
+    var on = value === o.v;
+    h += '<label class="' + (on ? 'is-on' : '') + '" for="' + id + '"><input type="radio" id="' + id + '" name="' + name + '" value="' + o.v + '"' + (on ? ' checked' : '') + dis() + ' data-bind="' + name + '">' + esc(o.l) + '</label>';
+  });
+  return h + '</div></fieldset>';
+}
+function radioCards(name, opts, value, legend, extra){
+  var h = '<fieldset><legend>' + legend + '</legend><div class="cards">';
+  opts.forEach(function(o, i){
+    var id = name.replace(/[^a-zA-Z0-9]/g,'_') + '_' + i;
+    var on = value === o.id;
+    h += '<label class="card-opt' + (on ? ' is-on' : '') + '" for="' + id + '"><input type="radio" id="' + id + '" name="' + name + '" value="' + o.id + '"' + (on ? ' checked' : '') + dis() + ' data-bind="' + name + '"><span><span class="opt-title">' + esc(o.t) + '</span>' + (on ? '<span class="opt-mark">· Elegida</span>' : '') + (extra ? extra(o) : '') + '</span></label>';
+  });
+  return h + '</div></fieldset>';
+}
+function checkCards(name, opts, values, legend, max){
+  var h = '<fieldset><legend>' + legend + '</legend><div class="cards">';
+  var full = max && values.length >= max;
+  opts.forEach(function(o, i){
+    var id = name + '_' + i;
+    var on = values.indexOf(o.id) >= 0;
+    var blocked = !on && full;
+    h += '<label class="card-opt' + (on ? ' is-on' : '') + (blocked ? ' is-disabled' : '') + '" for="' + id + '"><input type="checkbox" id="' + id + '" name="' + name + '" value="' + o.id + '"' + (on ? ' checked' : '') + (isRO() || blocked ? ' disabled' : '') + ' data-multi="' + name + '"' + (max ? ' data-max="' + max + '"' : '') + '><span><span class="opt-title">' + esc(o.t) + '</span>' + (on ? '<span class="opt-mark">· Elegida</span>' : '') + '</span></label>';
+  });
+  return h + '</div></fieldset>';
+}
+function docCard(d){
+  var a = state.aperturas[d.id];
+  var tags = (d.tarde ? '<span class="tag late">Recibido fuera de tiempo</span>' : '') + (a ? '<span class="tag read">Abierto</span>' : '<span class="tag unread">No abierto</span>');
+  var title = E.DOC_TITLES[d.id];
+  var sum = d.tarde && E.DOC_SUMMARY[E.docCode(d.id)] ? '<span class="dmeta">' + esc(E.DOC_SUMMARY[E.docCode(d.id)]) + '</span>' : '';
+  return '<button type="button" class="doccard" data-action="open-doc" data-doc="' + d.id + '"><span class="did">' + E.docCode(d.id) + '</span><span class="dtitle">' + esc(title) + '</span>' + sum + '<span class="dmeta">Recibido: ' + esc(d.hora) + (d.tarde ? ' · fuera de tiempo' : '') + '</span><span style="display:block;margin-top:4px">' + tags + '</span></button>';
+}
+function docsSection(list, title){
+  if (!list.length) return '';
+  return '<section class="section no-print" aria-labelledby="docsec' + view + '"><h2 id="docsec' + view + '">' + (title || 'Documentos de este momento') + '</h2><div class="doccards">' + list.map(docCard).join('') + '</div></section>';
+}
+function stageHead(n, intro){
+  var st = E.STAGES[n];
+  var h = '<header class="stage-head"><div class="stage-kicker">Etapa ' + n + ' · ' + esc(st.day) + ' · ' + st.time + '</div><h1 id="stageTitle" tabindex="-1">' + esc(st.title) + '</h1>' + (intro ? '<p class="stage-intro">' + intro + '</p>' : '') + '</header>';
+  if (isRO()) h += '<p class="readonly-banner" role="note"><strong>Etapa cerrada · sólo lectura.</strong> Las decisiones de este momento quedaron fijadas a las ' + (E.STAGES[n+1] ? E.STAGES[n+1].time : st.time) + '.</p>';
+  return h;
+}
+function closeBar(n){
+  if (isRO()) return '';
+  var next = E.STAGES[n].next;
+  var label = next ? 'Cerrar y pasar a las ' + next : 'Cerrar el expediente';
+  return '<div class="closebar"><div class="btn-row"><button type="button" class="btn" data-action="close-stage">' + label + '</button></div><div id="missing" class="missing" hidden></div></div>';
+}
+function textCounterChars(id, value, max){
+  return '<div class="counter" id="' + id + '_count">' + (value || '').length + ' / ' + max + ' caracteres</div>';
+}
+function textCounterWords(id, value, range){
+  var n = E.countWords(value);
+  var out = n < range[0] || n > range[1];
+  return '<div class="counter' + (out && n > 0 ? ' out' : '') + '" id="' + id + '_count">' + n + ' palabras · ' + range[0] + '–' + range[1] + '</div>';
+}
+
+/* =========================================================
+   PORTADA
+   ========================================================= */
+function renderCover(){
+  var h = '<div class="cover"><div class="cover-band"><div class="fileno">ASUNTO 047 · PROPIEDAD INTELECTUAL</div><h1>EXPEDIENTE 047</h1><div class="subtitle">Lo que sabes cambia. Tu consejo también debería.</div></div><div class="cover-body">';
+  h += '<div class="stamp">SIMULACIÓN PROFESIONAL</div>';
+  h += '<p>Vas a conducir un expediente como asesor externo de propiedad intelectual. La información llega por partes, como en un asunto real, y en varios momentos tendrás que decir qué recomiendas con lo que sabes en ese momento.</p>';
+  h += '<ul><li>La empresa, las personas, los documentos, las marcas y las cifras son ficticios.</li>' +
+       '<li>Tus respuestas permanecen en este navegador; no se envían a ningún sitio.</li>' +
+       '<li>No hay puntuación. Al final recibirás un perfil descriptivo y un informe de tus decisiones.</li>' +
+       '<li>Cada momento del expediente se cierra: al cerrarlo, sus decisiones quedan bloqueadas y sólo se pueden consultar.</li>' +
+       '<li>Duración aproximada: entre 40 y 55 minutos.</li></ul>';
+  if (savedError) h += '<div class="resume" role="status"><p style="margin:0">Había un expediente guardado en este navegador que no se pudo leer. Puedes empezar uno nuevo.</p></div>';
+  if (saved && saved.etapaActual >= 0){
+    var where = saved.etapaActual >= 6 ? 'cerrado; el informe está disponible' : 'en la etapa ' + saved.etapaActual + ' · ' + E.STAGES[saved.etapaActual].title;
+    h += '<div class="resume"><p><strong>Hay un expediente en curso en este navegador</strong> a nombre de ' + esc(saved.participante.nombre) + ', ' + where + '.</p><div class="btn-row"><button type="button" class="btn" data-action="resume">Continuar expediente</button><button type="button" class="btn secondary" data-action="new-file">Empezar uno nuevo</button></div></div>';
+  } else {
+    h += '<form id="coverForm" novalidate><div class="field"><label for="pNombre">Nombre del participante <span class="muted">(obligatorio)</span></label><input type="text" id="pNombre" autocomplete="name" maxlength="120" required value="' + esc(state.participante.nombre) + '"></div>' +
+      '<div class="field"><label for="pId">Identificador <span class="muted">(opcional)</span></label><input type="text" id="pId" maxlength="60" value="' + esc(state.participante.id) + '"></div>' +
+      '<div id="coverMissing" class="missing" hidden role="alert"></div>' +
+      '<div class="btn-row"><button type="submit" class="btn">Abrir el expediente</button></div></form>';
+  }
+  if (!storageOK) h += '<p class="muted" style="margin-top:14px;font-size:.88rem">Este navegador no permite guardar el avance: el expediente funcionará, pero se perderá si cierras o recargas la página.</p>';
+  h += '</div></div>';
+  return h;
+}
+
+/* =========================================================
+   ETAPA 0
+   ========================================================= */
+function renderStage0(){
+  var s = state;
+  var h = stageHead(0, 'Casa Albor lanza su lámpara ESTELA en siete días. Ayer recibió una carta de Estudio Nácar. Tienes cuatro documentos y, a las 10:00, una llamada con el cliente. Todavía no se trata de recomendar: se trata de saber qué tienes y qué no.');
+  h += docsSection(E.docsAll(s).filter(function(d){ return d.etapa === 0; }));
+  h += '<section class="section"><h2><span class="num">0.1</span>Preocupación inicial por frente</h2><p class="hint">Con lo que tienes a las 09:15, ¿cuánto te preocupa cada frente de la carta?</p>';
+  E.FRENTES.forEach(function(f){ h += radioSeg('preocupacion0.' + f.id, E.PREOC, s.preocupacion0[f.id], esc(f.name)); });
+  h += '</section>';
+  h += '<section class="section"><h2><span class="num">0.2</span>¿Qué podrías afirmar hoy ante dirección sin matices?</h2><p class="hint">No hay respuesta inmediata. Lo revisaremos al final contra lo que fuiste sabiendo.</p>';
+  E.AFIRMABLES.forEach(function(c){ h += radioSeg('afirmables.' + c.id, [{v:'si', l:'Puedo afirmarlo'},{v:'no', l:'Todavía no'}], s.afirmables[c.id], '«' + esc(c.t) + '»'); });
+  h += '</section>';
+  return h + closeBar(0);
+}
+
+/* =========================================================
+   ETAPA 1
+   ========================================================= */
+function renderStage1(){
+  var s = state;
+  var h = stageHead(1, 'Tomás Iturbe está en la línea. Tienes tiempo para tres preguntas antes de que entre a otra junta.');
+  h += docsSection(E.docsAll(s).filter(function(d){ return d.etapa === 1; }), 'Notas de esta llamada');
+  // 1.1
+  h += '<section class="section"><h2><span class="num">1.1</span>Llamada con Tomás</h2><p class="hint">Elige tres preguntas. La respuesta aparece en cuanto preguntas; una pregunta hecha ya no se puede retirar. ' + s.preguntas.length + ' de 3 hechas.</p><div class="qlist">';
+  var full = s.preguntas.length >= 3;
+  E.PREGUNTAS.forEach(function(q){
+    var idx = s.preguntas.indexOf(q.id);
+    var asked = idx >= 0;
+    h += '<div class="qitem' + (asked ? ' asked' : '') + '"><div class="q"><span>' + (asked ? '<span class="order">' + (idx+1) + '.</span>' : '') + esc(q.q) + '</span>';
+    if (!asked) h += '<button type="button" class="btn secondary small" data-action="ask" data-q="' + q.id + '"' + (full || isRO() ? ' disabled' : '') + ' aria-label="Preguntar: ' + esc(q.q) + '">Preguntar</button>';
+    else h += '<span class="tag read">Preguntada</span>';
+    h += '</div>' + (asked ? '<div class="ans" id="ans_' + q.id + '" tabindex="-1">' + esc(q.a) + '</div>' : '') + '</div>';
+  });
+  h += '</div>' + (full && !isRO() ? '<p class="hint" style="margin-top:10px">Tomás tuvo que entrar a otra junta: ya no hay tiempo para más preguntas.</p>' : '') + '</section>';
+  // 1.2
+  h += '<section class="section"><h2><span class="num">1.2</span>El correo de Lucía</h2><blockquote class="news" style="font-family:var(--serif)"><strong>Mensaje de Lucía Ferrer, 10:24:</strong> «Quiero contestarles hoy que esto es absurdo, que todo se hizo internamente y que lanzamos el 17. ¿Lo mando?»</blockquote>';
+  h += radioCards('correoLucia', E.LUCIA, s.correoLucia, '¿Qué le dices?') + '</section>';
+  // 1.3
+  h += '<section class="section"><h2><span class="num">1.3</span>Instrucción de conservación</h2>' + radioCards('conservacion1', E.CONS1, s.conservacion1, 'Antes de colgar, ¿pides algo sobre los archivos y correos?') + '</section>';
+  // 1.4
+  h += '<section class="section"><h2><span class="num">1.4</span>Verificaciones</h2><p class="hint">Tienes tiempo para tres verificaciones antes de la reunión de las 16:00; el equipo te entregará resultados a las 13:00. ' + s.verificaciones1.length + ' de 3 elegidas.</p>';
+  h += checkCards('verificaciones1', E.VERIF, s.verificaciones1, 'Elige tres', 3);
+  if (s.verificaciones1.length >= 3 && !isRO()) h += '<p class="hint">Ya elegiste tres. Para cambiar una, desmarca primero otra.</p>';
+  h += '</section>';
+  // 1.5
+  h += '<section class="section"><h2><span class="num">1.5</span>Con la información disponible, ¿qué recomiendas?</h2>' + radioCards('POSICION_1', E.P1, s.POSICION_1, 'Tu recomendación a dirección a esta hora') + '</section>';
+  // 1.6
+  h += '<section class="section"><h2><span class="num">1.6</span>El hecho que falta</h2><div class="field"><label for="hechoAConfirmar">¿Cuál es el hecho que más necesitas confirmar antes de dar una recomendación firme?</label><textarea id="hechoAConfirmar" data-text="hechoAConfirmar" maxlength="300" rows="3" style="min-height:90px"' + (isRO() ? ' readonly' : '') + '>' + esc(s.hechoAConfirmar) + '</textarea>' + textCounterChars('hechoAConfirmar', s.hechoAConfirmar, 300) + '</div></section>';
+  return h + closeBar(1);
+}
+
+/* =========================================================
+   ETAPA 2
+   ========================================================= */
+function renderStage2(){
+  var s = state;
+  var h = stageHead(2, 'Llegaron los resultados de tus tres verificaciones. Algunos ayudan al cliente y otros no. Antes de la reunión de las 16:00, decide qué cambia de verdad.');
+  var ev = E.bitacora(s).filter(function(b){ return b.etapa === 2; });
+  h += '<section class="section"><h2><span class="num">2.0</span>Bitácora desde la llamada</h2><ul class="log">' + ev.map(function(b){ return '<li><time>' + esc(b.hora) + '</time>' + esc(b.t) + '</li>'; }).join('') + '</ul></section>';
+  h += docsSection(E.docsAll(s).filter(function(d){ return d.etapa === 2; }), '2.1 · Documentos recibidos');
+  // 2.2
+  var hz = FB.hallazgosEtapa2(s);
+  h += '<section class="section"><h2><span class="num">2.2</span>Matriz de impacto</h2><p class="hint">Para cada hallazgo: ¿cuánto cambia tu análisis y sobre qué frente?</p>';
+  hz.forEach(function(x){
+    var r = s.impacto[x.id] || {};
+    h += '<div class="qrow" role="group" aria-labelledby="hz_' + x.id + '"><p id="hz_' + x.id + '" style="font-family:var(--serif);font-weight:600;margin-bottom:6px">' + esc(x.t) + '</p>';
+    h += radioSeg('impacto.' + x.id + '.grado', E.GRADO, r.grado, 'Cambia mi análisis', 'muted');
+    h += radioSeg('impacto.' + x.id + '.frente', E.FRENTE_OPTS, r.frente, 'Sobre qué frente', 'muted');
+    h += '</div>';
+  });
+  h += '</section>';
+  // 2.3
+  var rest = E.VERIF.filter(function(v){ return s.verificaciones1.indexOf(v.id) < 0; });
+  h += '<section class="section"><h2><span class="num">2.3</span>Cuarta verificación</h2><p class="hint">Te da tiempo para una verificación más; el resultado llega con la reunión.</p>' + radioCards('verificacion2', rest, s.verificacion2, 'Elige una') + '</section>';
+  // 2.4
+  if (s.conservacion1 !== 'amplia'){
+    h += '<section class="section"><h2><span class="num">2.4</span>Conservación</h2>' + radioSeg('ampliaConservacion2', [{v:'si', l:'Sí, ampliar a proveedores'},{v:'no', l:'No'}], s.ampliaConservacion2, '¿Amplías la instrucción a proveedores?') + '</section>';
+  }
+  return h + closeBar(2);
+}
+
+/* =========================================================
+   ETAPA 3
+   ========================================================= */
+function cronologiaDocumentada(s){
+  var F = [];
+  function add(doc, key, label){ if (E.tieneDoc(s, doc, 3)) F.push({k:key, t:label, doc:doc}); }
+  add('DOC-10','2019-00','2019 · Estrías verticales en una muestra del sector');
+  add('DOC-06','2022-03','14 mar 2022 · Ficha comercial de CÁNTARO');
+  add('DOC-07','2023-02','7 feb 2023 · Se crea la hoja de tolerancias (propiedades del archivo)');
+  add('DOC-10','2023-05','may 2023 · Nácar solicita su registro de diseño');
+  add('DOC-02','2024-03','mar 2024 · OLEA a la venta');
+  add('DOC-04','2024-00','2024 · Rafael empieza los bocetos (sin mes)');
+  add('DOC-06','2024-08','21 ago 2024 · Bocetos de ESTELA');
+  add('DOC-06','2025-10','30 oct 2025 · Modelo 3D v07, anillo fijo');
+  add('DOC-07','2025-11','12 nov 2025 · Contrato Albor–Rombo');
+  add('DOC-04','2025-11b','nov 2025 · Arranca el desarrollo; moldes con proveedor');
+  add('DOC-07','2026-03','mar 2026 · Valeria Montes se integra a Rombo');
+  add('DOC-11','2026-03b','18 mar 2026 · Héctor informa a Tomás sobre la ingeniera de Rombo');
+  add('DOC-07','2026-04a','15 abr 2026 · Valeria comparte la hoja con Rombo');
+  add('DOC-06','2026-04b','22 abr 2026 · Modelo 3D v09, anillo funcional según propuesta Rombo');
+  add('DOC-13','2026-05a','14 may 2026 · Cotización de Daniel Prado');
+  if (E.moodboardDepurado(s)) add('DOC-12','2026-05b','19 may 2026 · Sofía envía el moodboard a Daniel');
+  if (E.versionDoc08At(s,3) === 'N'){ add('DOC-08','2026-05c','20 may 2026 · Se crea el archivo del empaque'); add('DOC-08','2026-06a','2 jun 2026 · Última modificación del archivo del empaque'); }
+  add('DOC-13','2026-06b','5 jun 2026 · Factura de Daniel pagada');
+  add('DOC-09','2026-06c','10 jun 2026 · Búsqueda de ESTELA y anotación de Sofía');
+  add('DOC-06','2026-06d','30 jun 2026 · Modelo 3D final');
+  add('DOC-11','2026-08','12 ago 2026 · Se entregan 8,000 cajas');
+  add('DOC-11','2026-09','4 sep 2026 · Preventa con Galerías Domo');
+  add('DOC-11','2026-10','28 oct 2026 · Publicación de Taller Rombo');
+  add('DOC-02','2026-11a','3 nov 2026 · Teaser de ESTELA');
+  if (E.versionDoc08At(s,3) === 'P') add('DOC-08','2026-11b','10 nov 2026 · Se genera el PDF del empaque entregado');
+  F.sort(function(a,b){ return a.k < b.k ? -1 : (a.k > b.k ? 1 : 0); });
+  return F;
+}
+function renderStage3(){
+  var s = state;
+  var h = stageHead(3, 'La reunión de las 16:00 terminó hace diez minutos y acaba de llegar un correo de Daniel Prado. Lo que esta mañana era «todo interno» ya no lo es del todo, aunque tampoco en el sentido que dice la carta.');
+  h += docsSection(E.docsAll(s).filter(function(d){ return d.etapa === 3; }));
+  var d6 = E.tieneDoc(s,'DOC-06',3);
+  h += '<section class="section"><h2>Lo que surgió en la reunión y en el correo</h2><div class="news"><ul>' +
+    '<li>La imagen 7 del moodboard enviado a Daniel Prado corresponde a la página 14 del catálogo OLEA 2024 (búsqueda inversa durante la reunión).</li>' +
+    '<li>Daniel Prado escribe que usó esa imagen como base de composición.</li>' +
+    '<li>La cotización de Daniel prevé uso en empaque y punto de venta del lanzamiento; la ilustración también está en la web y en los anuncios del domingo 15.</li>' +
+    '<li>Valeria Montes, la ingeniera de Taller Rombo que trabajó el anillo, viene de Nácar; Héctor se lo escribió a Tomás en marzo.</li>' +
+    '<li>' + (d6 ? 'Los archivos de Rafael documentan que Albor vendió CÁNTARO en 2022, con estrías y anillo decorativo.' : 'Rafael afirma que en 2022 Albor vendió CÁNTARO, con estrías y anillo decorativo; enviará los archivos esta noche.') + '</li>' +
+    '</ul></div></section>';
+  // 3.1
+  h += '<section class="section"><h2><span class="num">3.1</span>Ubicar en el tiempo</h2><p class="hint">Coloca cada tarjeta en una franja con lo que tienes en el expediente.</p><div class="tl-grid">';
+  var ro31 = isRO() || s.tarjetasConfirmadas;
+  E.tarjetasVisibles(s).forEach(function(k){
+    h += '<div class="tl-card"><label class="tl-name" for="tj_' + k.id + '">' + esc(k.t) + '</label><select id="tj_' + k.id + '" data-bind="tarjetas.' + k.id + '"' + (ro31 ? ' disabled' : '') + '><option value="">Elegir franja…</option>' +
+      E.ZONAS.map(function(z){ return '<option value="' + z.v + '"' + (s.tarjetas[k.id] === z.v ? ' selected' : '') + '>' + esc(z.l) + '</option>'; }).join('') + '</select></div>';
+  });
+  h += '</div>';
+  if (!s.tarjetasConfirmadas && !isRO()){
+    h += '<div class="btn-row" style="margin-top:12px"><button type="button" class="btn secondary" data-action="confirm-cards">Confirmar ubicación</button></div><div id="cardsMissing" class="missing" hidden></div>';
+  }
+  if (s.tarjetasConfirmadas){
+    h += '<div class="tl-compare"><div class="tl-col"><h3 id="tlResultTitle" tabindex="-1">Tu ubicación</h3>';
+    E.ZONAS.forEach(function(z){
+      var items = E.tarjetasVisibles(s).filter(function(k){ return s.tarjetas[k.id] === z.v; });
+      h += '<div class="tl-zone"><b>' + esc(z.l) + '</b>' + (items.length ? '<ul>' + items.map(function(k){ return '<li>' + esc(k.t) + '</li>'; }).join('') + '</ul>' : '<span class="muted" style="font-size:.88rem">—</span>') + '</div>';
+    });
+    h += '</div><div class="tl-col"><h3>Cronología documentada hasta ahora</h3><p class="hint" style="font-size:.85rem">Sólo fechas que constan en documentos que ya tienes.</p><ul class="doclist">' +
+      cronologiaDocumentada(s).map(function(f){ var p = f.t.split(' · '); return '<li><span>' + esc(p[0]) + '</span><span>' + esc(p.slice(1).join(' · ')) + ' <span class="muted">(' + f.doc + ')</span></span></li>'; }).join('') + '</ul></div></div>';
+  }
+  h += '</section>';
+  // 3.2
+  h += '<section class="section"><h2><span class="num">3.2</span>Hipótesis abiertas</h2>';
+  E.HIPOTESIS.forEach(function(x){ h += radioSeg('hipotesis.' + x.id, E.HIP_OPTS, s.hipotesis[x.id], esc(x.t)); });
+  h += '</section>';
+  // 3.3
+  h += '<section class="section"><h2><span class="num">3.3</span>Con lo que sabes ahora, ¿qué recomiendas?</h2>' + radioCards('POSICION_2', E.P2, s.POSICION_2, 'Tu recomendación a las 16:30');
+  h += '<p class="hint" style="margin-top:10px">A las 10:00 recomendaste: «' + esc((byId(E.P1, s.POSICION_1) || {}).t) + '».</p>';
+  h += radioSeg('autodescripcion2', E.AUTODESC.map(function(a){ return {v:a.id, l:a.t}; }), s.autodescripcion2, 'Respecto de tu recomendación de las 10:00:') + '</section>';
+  // 3.4
+  h += '<section class="section"><h2><span class="num">3.4</span>Nota para Irene Calvo</h2><div class="field"><label for="notaIrene">¿Qué cambió entre las 10:00 y ahora, y por qué tu recomendación cambia o no?</label><textarea id="notaIrene" data-text="notaIrene" data-words="60,150" rows="7"' + (isRO() ? ' readonly' : '') + '>' + esc(s.notaIrene) + '</textarea>' + textCounterWords('notaIrene', s.notaIrene, [60,150]) + '</div></section>';
+  return h + closeBar(3);
+}
+
+/* =========================================================
+   ETAPA 4
+   ========================================================= */
+function renderStage4(){
+  var s = state;
+  var h = stageHead(4, 'Durante la noche llegó lo que faltaba. Lucía quiere una respuesta a las 12:00 y Tomás te pidió ayuda para no decir en la junta nada que no se pueda sostener.');
+  var all = E.docsAll(s).filter(function(d){ return d.etapa === 4; });
+  h += docsSection(all.filter(function(d){ return d.tarde; }), '4.0 · Recibido fuera de tiempo · 22:40');
+  h += docsSection(all.filter(function(d){ return !d.tarde; }), 'Esta mañana');
+  // 4.1
+  var ro41 = isRO() || s.clasificacionConfirmada;
+  h += '<section class="section"><h2><span class="num">4.1</span>Las notas de Tomás</h2><p class="hint">Tomás pregunta: «¿Me ayudas a que no digamos nada que no podamos sostener?» Clasifica cada afirmación según lo que hay en el expediente.</p>';
+  h += '<div class="defs">' + E.CATS.map(function(c){ return '<div><b>' + esc(c.l) + '</b>' + esc(c.d) + '</div>'; }).join('') + '</div>';
+  E.AFS.forEach(function(a, i){
+    var name = 'clasificacion.' + a.id;
+    h += '<fieldset class="qrow"><legend>' + (i+1) + '. «' + esc(a.t) + '»</legend><div class="seg">';
+    E.CATS.forEach(function(c, j){
+      var id = 'cl_' + a.id + '_' + j, on = s.clasificacion[a.id] === c.v;
+      h += '<label class="' + (on ? 'is-on' : '') + '" for="' + id + '"><input type="radio" id="' + id + '" name="' + name + '" value="' + c.v + '"' + (on ? ' checked' : '') + (ro41 ? ' disabled' : '') + ' data-bind="' + name + '">' + esc(c.l) + '</label>';
+    });
+    h += '</div></fieldset>';
+  });
+  if (!s.clasificacionConfirmada && !isRO()) h += '<div class="btn-row" style="margin-top:8px"><button type="button" class="btn secondary" data-action="confirm-class">Confirmar clasificación</button></div><div id="classMissing" class="missing" hidden></div>';
+  if (s.clasificacionConfirmada){
+    h += '<h3 id="rewriteTitle" tabindex="-1" style="margin-top:16px">Así quedarían las notas ante dirección</h3><ol class="rewrite">' + E.AFS.map(function(a){ return '<li>' + esc(FB.reescribir(a, s.clasificacion[a.id])) + '</li>'; }).join('') + '</ol>';
+  }
+  h += '</section>';
+  // 4.2
+  h += '<section class="section"><h2><span class="num">4.2</span>Conservación formal</h2><p class="hint">¿Qué medidas formalizas hoy? Puedes no elegir ninguna.</p>' + checkCards('conservacion4', E.KMED, s.conservacion4, 'Medidas', 0) + '</section>';
+  // 4.3
+  h += '<section class="section"><h2><span class="num">4.3</span>Lucía pregunta: ¿lanzamos?</h2>' + radioCards('DECISION_NEGOCIO', E.DECISIONES, s.DECISION_NEGOCIO, 'Decisión de negocio', function(o){
+    return '<span class="opt-detail"><span><b>Protege</b>' + esc(o.prot) + '</span><span><b>Cuesta</b>' + esc(o.cuesta) + '</span><span><b>Deja abierto</b>' + esc(o.abierto) + '</span></span>';
+  }) + '</section>';
+  // 4.4
+  h += '<section class="section"><h2><span class="num">4.4</span>Para Lucía</h2><div class="field"><label for="fraseLucia">Lo que le dirías a Lucía, en dos frases.</label><textarea id="fraseLucia" data-text="fraseLucia" maxlength="400" rows="3" style="min-height:90px"' + (isRO() ? ' readonly' : '') + '>' + esc(s.fraseLucia) + '</textarea>' + textCounterChars('fraseLucia', s.fraseLucia, 400) + '</div></section>';
+  return h + closeBar(4);
+}
+
+/* =========================================================
+   ETAPA 5
+   ========================================================= */
+function renderStage5(){
+  var s = state;
+  var h = stageHead(5, 'Estudio Nácar respondió. Faltan cuatro días para el 17. Es tu última oportunidad de ajustar el consejo antes de dejarlo por escrito.');
+  h += docsSection(E.docsAll(s).filter(function(d){ return d.etapa === 5; }));
+  h += '<section class="section"><h2><span class="num">5.1</span>Preocupación final por frente</h2>';
+  E.FRENTES.forEach(function(f){ h += radioSeg('preocupacionF.' + f.id, E.PREOC, s.preocupacionF[f.id], esc(f.name)); });
+  h += '</section>';
+  h += '<section class="section"><h2><span class="num">5.2</span>Tu posición final</h2><p class="hint">El miércoles se decidió: «' + esc((byId(E.DECISIONES, s.DECISION_NEGOCIO) || {}).t) + '».</p>' + radioCards('POSICION_FINAL', E.FINALES, s.POSICION_FINAL, 'Posición principal');
+  h += '<div style="margin-top:14px">' + checkCards('medidas', E.MEDIDAS, s.medidas, 'Medidas complementarias', 0) + '</div></section>';
+  h += '<section class="section"><h2><span class="num">5.3</span>Recomendación ejecutiva</h2><p class="hint">Entre 180 y 220 palabras. Encabezados guía opcionales: Qué sabemos · Qué no sabemos · Qué recomendamos · Qué se conserva o investiga · Riesgo abierto.</p>';
+  if (!isRO()) h += '<div class="btn-row" style="margin-bottom:8px"><button type="button" class="btn secondary small" data-action="insert-guide">Insertar encabezados guía</button></div>';
+  h += '<div class="field"><label for="recomendacion">Recomendación para Casa Albor</label><textarea id="recomendacion" data-text="recomendacion" data-words="180,220" rows="12" style="min-height:260px"' + (isRO() ? ' readonly' : '') + '>' + esc(s.recomendacion) + '</textarea>' + textCounterWords('recomendacion', s.recomendacion, [180,220]) + '</div>';
+  h += '<fieldset><legend>Autorrevisión</legend><div class="cards">';
+  E.AUTORREV.forEach(function(t, i){
+    var on = !!s.autorrevision[i];
+    h += '<label class="card-opt' + (on ? ' is-on' : '') + '" for="ar_' + i + '"><input type="checkbox" id="ar_' + i + '" data-autorrev="' + i + '"' + (on ? ' checked' : '') + dis() + '><span>' + esc(t) + '</span></label>';
+  });
+  h += '</div></fieldset></section>';
+  return h + closeBar(5);
+}
+
+/* =========================================================
+   CIERRE
+   ========================================================= */
+function renderCierre(){
+  var s = state;
+  var h = '<header class="stage-head"><div class="stage-kicker">Viernes 13 de noviembre · cierre</div><h1 id="stageTitle" tabindex="-1">Cierre del expediente</h1><p class="stage-intro">Ésta es la lectura de cómo condujiste el expediente. No hay puntuación ni respuesta correcta: describe lo que hiciste, lo que supiste y cuándo.</p></header>';
+  // Pieza 1
+  var ev = FB.evolucion(s);
+  h += '<section class="section no-print"><h2>Evolución del consejo</h2><div class="evo-scale" aria-hidden="true"><span>Más arriba: menos restricción del lanzamiento</span><span>Más abajo: más restricción</span></div><div class="evo">';
+  ev.forEach(function(p){
+    var off = p.reserva ? 30 : (p.R == null ? 0 : p.R * 15);
+    h += '<div class="evo-pt" style="margin-top:' + off + 'px"><span class="when">' + esc(p.when) + '</span><span class="opt">' + esc(p.opt) + '</span><span class="between">' + esc(p.between) + '</span></div>';
+  });
+  h += '</div><p style="font-family:var(--serif);margin-top:14px"><em>Cambiar de consejo no es bueno ni malo por sí mismo. Lo que importa es si cada cambio coincide con algo que supiste y si lo explicaste.</em></p>';
+  var obs = FB.reglas(s);
+  if (obs.length) h += '<ul class="obs">' + obs.map(function(o){ return '<li>' + esc(o) + '</li>'; }).join('') + '</ul>';
+  h += '</section>';
+  // Pieza 2
+  h += '<section class="section no-print"><h2>Seis preguntas de revisión</h2>';
+  FB.seisPreguntas(s).forEach(function(q){ h += '<h3 style="margin-top:14px">' + esc(q.q) + '</h3><ul class="obs">' + q.items.map(function(i){ return '<li>' + esc(i) + '</li>'; }).join('') + '</ul>'; });
+  h += '</section>';
+  // Pieza 3
+  h += '<section class="section no-print"><h2>Perfil de conducción del expediente</h2>';
+  FB.perfil(s).forEach(function(d){
+    h += '<div class="dim"><h3>' + esc(d.name) + '</h3><dl><dt>Lo que se observa</dt><dd>' + esc(d.obs) + '</dd><dt>Punto de atención</dt><dd>' + esc(d.at) + '</dd><dt>Pregunta para revisar</dt><dd>' + esc(d.q) + '</dd></dl></div>';
+  });
+  h += '</section>';
+  // Trayectoria
+  var tv = FB.vistaTrayectoria(s);
+  h += '<section class="section no-print"><h2>Tu recorrido se parece más a…</h2><div class="traj-detail"><h3>' + esc(tv.detail.name) + '</h3><dl>' +
+    '<dt>Idea</dt><dd>' + esc(tv.detail.idea) + '</dd><dt>Recorrido típico</dt><dd>' + esc(tv.detail.recorrido) + '</dd><dt>Protege</dt><dd>' + esc(tv.detail.protege) + '</dd>' +
+    '<dt>Cuesta</dt><dd>' + esc(tv.detail.cuesta) + '</dd><dt>Necesita para ser defendible</dt><dd>' + esc(tv.detail.necesita) + '</dd>' +
+    '<dt>Cómo respondió Nácar en este expediente</dt><dd>' + esc(tv.detail.nacar) + '</dd><dt>Riesgo que queda abierto</dt><dd>' + esc(tv.detail.riesgo) + '</dd>' +
+    (tv.detail.mezcla ? '<dt>Recorrido mixto</dt><dd>' + esc(tv.detail.mezcla) + '</dd>' : '') + '</dl></div>';
+  h += '<h3 style="margin-top:18px">Otros recorridos profesionales posibles</h3><div class="traj-others">' + tv.others.map(function(o){
+    return '<div><h4>' + esc(o.name) + '</h4><p><strong>Idea.</strong> ' + esc(o.idea) + '</p><p><strong>Qué protege.</strong> ' + esc(o.protege) + '</p><p style="margin:0"><strong>Qué sacrifica.</strong> ' + esc(o.sacrifica) + '</p></div>';
+  }).join('') + '</div></section>';
+  // Informe
+  h += '<section class="section" id="informe-wrap"><div class="btn-row no-print" style="margin-bottom:16px"><button type="button" class="btn" data-action="print">Imprimir o guardar como PDF</button><button type="button" class="btn secondary" data-action="copy">Copiar informe</button><span id="copyStatus" class="muted" role="status"></span></div>' +
+    '<div id="copyFallback" class="no-print" hidden><label for="copyArea">Selecciona y copia el texto:</label><textarea id="copyArea" rows="10" readonly></textarea></div>' +
+    FB.informeHTML(s) + '</section>';
+  h += '<section class="section no-print"><h2>Empezar de nuevo</h2><p>Esto borra el expediente guardado en este navegador.</p><button type="button" class="btn secondary" data-action="new-file">Empezar uno nuevo</button></section>';
+  return h;
+}
+
+/* =========================================================
+   PANEL LATERAL
+   ========================================================= */
+function renderPanel(){
+  var s = state;
+  var docs = E.docsHasta(s, Math.min(s.etapaActual, 5));
+  var groups = {};
+  var order = [];
+  docs.forEach(function(d){ var g = d.hora.split(' · ')[0] + ' · ' + d.hora.split(' · ')[1]; if (!groups[g]){ groups[g] = []; order.push(g); } groups[g].push(d); });
+  var hb = '<h2 class="sr-only">Bandeja de documentos</h2>';
+  if (!docs.length) hb += '<p class="muted">Sin documentos.</p>';
+  order.forEach(function(g){
+    var late = groups[g][0].tarde;
+    hb += '<div class="tray-group">' + esc(g) + (late ? ' · fuera de tiempo' : '') + '</div><ul class="tray">';
+    groups[g].forEach(function(d){
+      var a = s.aperturas[d.id];
+      hb += '<li><button type="button" data-action="open-doc" data-doc="' + d.id + '"><span class="ttitle">' + E.docCode(d.id) + ' · ' + esc(E.DOC_TITLES[d.id]) + '</span><span class="tmeta">' + (d.tarde ? '<span class="tag late">Recibido fuera de tiempo</span>' : '') + (a ? '<span class="tag read">Abierto</span>' + esc(a.etapaLabel + ' · ' + a.hora) : '<span class="tag unread">No abierto</span>') + '</span></button></li>';
+    });
+    hb += '</ul>';
+  });
+  document.getElementById('tp-bandeja').innerHTML = hb;
+  var bit = E.bitacora(s);
+  document.getElementById('tp-bitacora').innerHTML = '<h2 class="sr-only">Bitácora del expediente</h2><ul class="log">' + bit.map(function(b){ return '<li><time>' + esc(b.hora) + '</time>' + esc(b.t) + '</li>'; }).join('') + '</ul>';
+  var adv = [];
+  if (s.etapasCerradas[1]) adv.push({w:'Martes 10 · 10:00', t:(byId(E.P1, s.POSICION_1) || {}).t});
+  if (s.etapasCerradas[3]) adv.push({w:'Martes 10 · 16:30', t:(byId(E.P2, s.POSICION_2) || {}).t});
+  if (s.etapasCerradas[4]) adv.push({w:'Miércoles 11 · 12:00 · decisión', t:(byId(E.DECISIONES, s.DECISION_NEGOCIO) || {}).t});
+  if (s.etapasCerradas[5]) adv.push({w:'Viernes 13 · posición final', t:(byId(E.FINALES, s.POSICION_FINAL) || {}).t});
+  document.getElementById('tp-consejo').innerHTML = '<h2 class="sr-only">Tu consejo hasta ahora</h2>' + (adv.length ? '<ul class="advice">' + adv.map(function(a){ return '<li><span class="when">' + esc(a.w) + '</span><span class="what">' + esc(a.t) + '</span><span class="lock" style="display:block">Fijada</span></li>'; }).join('') + '</ul>' : '<p class="muted">Todavía no has fijado ninguna recomendación.</p>');
+  ['bandeja','bitacora','consejo'].forEach(function(t){
+    var tab = document.getElementById('tab-' + t), pane = document.getElementById('tp-' + t);
+    var on = panelTab === t;
+    tab.setAttribute('aria-selected', on ? 'true' : 'false');
+    tab.tabIndex = on ? 0 : -1;
+    pane.hidden = !on;
+  });
+}
+function syncPanelVisibility(){
+  var show = state.etapaActual >= 0;
+  if (!show){ $panel.hidden = true; $layout.classList.add('no-panel'); return; }
+  if (mqDesktop.matches){ $panel.hidden = false; $layout.classList.remove('no-panel'); $panel.removeAttribute('role'); $panel.removeAttribute('aria-modal'); }
+  else { $layout.classList.add('no-panel'); $panel.hidden = !panelOpenMobile; if (panelOpenMobile){ $panel.setAttribute('role','dialog'); $panel.setAttribute('aria-modal','true'); } }
+}
+function openPanelMobile(tab){
+  panelTab = tab; panelOpenMobile = true; lastFocus = document.activeElement;
+  renderPanel(); syncPanelVisibility();
+  document.getElementById('tab-' + tab).focus();
+}
+function closePanelMobile(){
+  panelOpenMobile = false; syncPanelVisibility();
+  if (lastFocus && lastFocus.focus) lastFocus.focus();
+}
+
+/* =========================================================
+   CABECERA
+   ========================================================= */
+function renderTop(){
+  var s = state;
+  if (s.etapaActual < 0){ $top.hidden = true; return; }
+  $top.hidden = false;
+  var v = view;
+  if (v >= 6){ document.getElementById('clockTime').textContent = 'Vie 13 · cierre'; document.getElementById('clockStage').textContent = 'Expediente cerrado'; }
+  else { document.getElementById('clockTime').textContent = E.STAGES[v].short; document.getElementById('clockStage').textContent = 'Etapa ' + v + ' · ' + E.STAGES[v].title; }
+  var closed = Object.keys(s.etapasCerradas).length;
+  document.getElementById('progressText').textContent = (s.etapaActual >= 6 ? 'Seis de seis momentos cerrados' : 'Momento ' + (s.etapaActual + 1) + ' de 6 · ' + closed + ' cerrados');
+  var nav = '';
+  for (var i=0;i<6;i++){
+    var en = i <= s.etapaActual;
+    nav += '<button type="button" data-action="nav" data-stage="' + i + '"' + (en ? '' : ' disabled') + (v === i ? ' aria-current="step"' : '') + (s.etapasCerradas[i] ? ' class="is-closed"' : '') + ' aria-label="Etapa ' + i + ': ' + E.STAGES[i].title + (s.etapasCerradas[i] ? ', cerrada' : (i === s.etapaActual ? ', en curso' : '')) + '">' + i + '</button>';
+  }
+  nav += '<button type="button" data-action="nav" data-stage="6"' + (s.etapaActual >= 6 ? '' : ' disabled') + (v === 6 ? ' aria-current="step"' : '') + '>Cierre</button>';
+  document.getElementById('stageNav').innerHTML = nav;
+}
+
+/* =========================================================
+   RENDER PRINCIPAL
+   ========================================================= */
+function render(opts){
+  opts = opts || {};
+  var ae = document.activeElement, fid = ae && ae.id && $main.contains(ae) ? ae.id : null;
+  var sy = window.scrollY;
+  document.getElementById('storageNotice').hidden = storageOK || state.etapaActual < 0;
+  if (state.etapaActual < 0 || view < 0){ $main.innerHTML = renderCover(); renderTop(); syncPanelVisibility(); bindCover(); return; }
+  var fn = [renderStage0, renderStage1, renderStage2, renderStage3, renderStage4, renderStage5, renderCierre][view];
+  $main.innerHTML = fn();
+  renderTop(); renderPanel(); syncPanelVisibility();
+  if (opts.focusTitle){ var t = document.getElementById('stageTitle'); if (t) t.focus(); window.scrollTo(0,0); }
+  else {
+    if (fid){ var el = document.getElementById(fid); if (el) { try { el.focus({preventScroll:true}); } catch(e){ el.focus(); } } }
+    window.scrollTo(0, sy);
+  }
+}
+function bindCover(){
+  var f = document.getElementById('coverForm');
+  if (!f) return;
+  f.addEventListener('submit', function(ev){
+    ev.preventDefault();
+    var n = document.getElementById('pNombre').value.trim();
+    var idv = document.getElementById('pId').value.trim();
+    var m = document.getElementById('coverMissing');
+    if (!n){ m.hidden = false; m.textContent = 'Falta el nombre del participante.'; document.getElementById('pNombre').focus(); return; }
+    state = E.freshState();
+    state.participante = {nombre:n, id:idv};
+    state.etapaActual = 0; view = 0;
+    saved = null;
+    saveNow();
+    render({focusTitle:true});
+  });
+}
+
+/* =========================================================
+   VALIDACIÓN Y CIERRE DE ETAPAS
+   ========================================================= */
+function missing(n){
+  var s = state, M = [];
+  if (n === 0){
+    E.FRENTES.forEach(function(f){ if (!s.preocupacion0[f.id]) M.push('Preocupación inicial: ' + f.name + '.'); });
+    E.AFIRMABLES.forEach(function(c){ if (!s.afirmables[c.id]) M.push('Frase sin contestar: «' + c.t + '».'); });
+  }
+  if (n === 1){
+    if (s.preguntas.length < 3) M.push('Faltan ' + (3 - s.preguntas.length) + ' preguntas a Tomás (1.1).');
+    if (!s.correoLucia) M.push('Falta decidir qué hacer con el correo de Lucía (1.2).');
+    if (!s.conservacion1) M.push('Falta la instrucción de conservación (1.3).');
+    if (s.verificaciones1.length !== 3) M.push('Debes elegir exactamente tres verificaciones (1.4); llevas ' + s.verificaciones1.length + '.');
+    if (!s.POSICION_1) M.push('Falta tu recomendación (1.5).');
+    if ((s.hechoAConfirmar || '').trim().length < 20) M.push('El hecho que más necesitas confirmar necesita al menos 20 caracteres (1.6).');
+  }
+  if (n === 2){
+    FB.hallazgosEtapa2(s).forEach(function(x){
+      var r = s.impacto[x.id] || {};
+      if (!r.grado || !r.frente) M.push('Matriz incompleta: «' + x.t + '» (2.2).');
+    });
+    if (!s.verificacion2) M.push('Falta la cuarta verificación (2.3).');
+    if (s.conservacion1 !== 'amplia' && !s.ampliaConservacion2) M.push('Falta decidir si amplías la instrucción de conservación (2.4).');
+  }
+  if (n === 3){
+    E.tarjetasVisibles(s).forEach(function(k){ if (!s.tarjetas[k.id]) M.push('Tarjeta sin ubicar: ' + k.t + ' (3.1).'); });
+    if (!s.tarjetasConfirmadas) M.push('Falta confirmar la ubicación de las tarjetas (3.1).');
+    E.HIPOTESIS.forEach(function(x){ if (!s.hipotesis[x.id]) M.push('Hipótesis sin estado: ' + x.t + ' (3.2).'); });
+    if (!s.POSICION_2) M.push('Falta tu recomendación de las 16:30 (3.3).');
+    if (!s.autodescripcion2) M.push('Falta indicar si mantienes, ajustas o cambias tu recomendación (3.3).');
+    var w = E.countWords(s.notaIrene);
+    if (w < 60 || w > 150) M.push('La nota para Irene debe tener entre 60 y 150 palabras; tiene ' + w + ' (3.4).');
+  }
+  if (n === 4){
+    E.AFS.forEach(function(a){ if (!s.clasificacion[a.id]) M.push('Afirmación sin clasificar: «' + a.t + '» (4.1).'); });
+    if (!s.clasificacionConfirmada) M.push('Falta confirmar la clasificación (4.1).');
+    if (!s.DECISION_NEGOCIO) M.push('Falta la decisión de negocio (4.3).');
+    if ((s.fraseLucia || '').trim().length < 20) M.push('Lo que le dirías a Lucía necesita al menos 20 caracteres (4.4).');
+  }
+  if (n === 5){
+    E.FRENTES.forEach(function(f){ if (!s.preocupacionF[f.id]) M.push('Preocupación final: ' + f.name + ' (5.1).'); });
+    if (!s.POSICION_FINAL) M.push('Falta tu posición final (5.2).');
+    var w5 = E.countWords(s.recomendacion);
+    if (w5 < 180 || w5 > 220) M.push('La recomendación ejecutiva debe tener entre 180 y 220 palabras; tiene ' + w5 + ' (5.3).');
+  }
+  return M;
+}
+function showMissing(boxId, M){
+  var box = document.getElementById(boxId);
+  if (!box) return;
+  if (!M.length){ box.hidden = true; box.innerHTML = ''; return; }
+  box.hidden = false;
+  box.innerHTML = '<strong>Para continuar falta:</strong><ul>' + M.map(function(m){ return '<li>' + esc(m) + '</li>'; }).join('') + '</ul>';
+  announce('Para continuar falta: ' + M.join(' '));
+}
+function askConfirm(text, onOk){
+  document.getElementById('confirmText').textContent = text;
+  lastFocus = document.activeElement;
+  var ok = document.getElementById('confirmOk'), cancel = document.getElementById('confirmCancel');
+  function cleanup(){ ok.onclick = null; cancel.onclick = null; if ($cDlg.open) $cDlg.close(); }
+  ok.onclick = function(){ cleanup(); onOk(); };
+  cancel.onclick = function(){ cleanup(); if (lastFocus && lastFocus.focus) lastFocus.focus(); };
+  $cDlg.onclose = function(){ ok.onclick = null; cancel.onclick = null; };
+  if ($cDlg.showModal) $cDlg.showModal(); else $cDlg.setAttribute('open','');
+  cancel.focus();
+}
+function closeStage(){
+  var n = state.etapaActual;
+  var M = missing(n);
+  if (M.length){ showMissing('missing', M); return; }
+  showMissing('missing', []);
+  var next = E.STAGES[n].next;
+  var txt = next ? 'Al pasar a las ' + next + ' no podrás cambiar lo que decidiste en esta etapa.' : 'Al cerrar el expediente no podrás cambiar lo que decidiste en esta etapa.';
+  askConfirm(txt, function(){
+    if (n === 3) state.cambioCalculado2 = E.cambioCalculado(state);
+    state.etapasCerradas[n] = new Date().toISOString();
+    state.etapaActual = n + 1;
+    view = state.etapaActual;
+    saveNow();
+    render({focusTitle:true});
+    announce(n < 5 ? 'Etapa ' + n + ' cerrada. Ahora: etapa ' + view + ', ' + E.STAGES[view].title + '.' : 'Expediente cerrado. Perfil e informe disponibles.');
+  });
+}
+
+/* =========================================================
+   DOCUMENTOS
+   ========================================================= */
+function openDoc(id){
+  var d = null;
+  E.docsHasta(state, Math.min(state.etapaActual, 5)).forEach(function(x){ if (x.id === id) d = x; });
+  if (!d) return;
+  if (!state.aperturas[id]){
+    var et = state.etapaActual;
+    state.aperturas[id] = {etapa:et, etapaLabel: et >= 6 ? 'Cierre' : 'Etapa ' + et, hora: et >= 6 ? 'Vie 13 · cierre' : E.STAGES[et].short};
+    saveSoon();
+  }
+  lastFocus = document.activeElement;
+  document.getElementById('docDialogId').textContent = E.docCode(id) + (d.tarde ? ' · Recibido fuera de tiempo' : '');
+  document.getElementById('docDialogTitle').textContent = E.DOC_TITLES[id];
+  document.getElementById('docDialogMeta').textContent = 'Recibido: ' + d.hora;
+  document.getElementById('docDialogBody').innerHTML = '<div class="doc">' + E.renderDoc(id, state, d) + '</div>';
+  if ($docDlg.showModal) $docDlg.showModal(); else $docDlg.setAttribute('open','');
+  document.getElementById('docDialogBody').scrollTop = 0;
+  document.getElementById('docDialogClose').focus();
+}
+function closeDoc(){
+  if ($docDlg.open) $docDlg.close();
+}
+$docDlg.addEventListener('close', function(){
+  renderPanel();
+  // refrescar etiquetas de las tarjetas de documentos sin perder el foco
+  var cards = $main.querySelectorAll('.doccard');
+  for (var i=0;i<cards.length;i++){
+    var id = cards[i].getAttribute('data-doc');
+    var a = state.aperturas[id];
+    var tagWrap = cards[i].lastElementChild;
+    if (a && tagWrap){ tagWrap.innerHTML = tagWrap.innerHTML.replace('<span class="tag unread">No abierto</span>', '<span class="tag read">Abierto</span>'); }
+  }
+  if (lastFocus && document.body.contains(lastFocus) && lastFocus.focus) lastFocus.focus();
+});
+document.getElementById('docDialogClose').addEventListener('click', closeDoc);
+$docDlg.addEventListener('click', function(ev){ if (ev.target === $docDlg) closeDoc(); });
+
+/* =========================================================
+   EVENTOS
+   ========================================================= */
+function setPath(path, value){
+  var parts = path.split('.'), o = state;
+  for (var i=0;i<parts.length-1;i++){ if (o[parts[i]] == null || typeof o[parts[i]] !== 'object') o[parts[i]] = {}; o = o[parts[i]]; }
+  o[parts[parts.length-1]] = value;
+}
+$main.addEventListener('change', function(ev){
+  var t = ev.target;
+  if (state.etapaActual < 0 || isRO()) return;
+  if (t.hasAttribute('data-bind')){
+    if (t.type === 'radio' && !t.checked) return;
+    var path = t.getAttribute('data-bind');
+    if (state.etapaActual === 3 && state.tarjetasConfirmadas && path.indexOf('tarjetas.') === 0) return;
+    if (state.etapaActual === 4 && state.clasificacionConfirmada && path.indexOf('clasificacion.') === 0) return;
+    setPath(path, t.value || null);
+    if (path === 'conservacion1' && t.value === 'amplia') state.ampliaConservacion2 = null;
+    saveSoon(); render();
+    return;
+  }
+  if (t.hasAttribute('data-multi')){
+    var key = t.getAttribute('data-multi'), max = parseInt(t.getAttribute('data-max') || '0', 10);
+    var arr = state[key].slice();
+    var i = arr.indexOf(t.value);
+    if (t.checked && i < 0){
+      if (max && arr.length >= max){ t.checked = false; announce('Ya elegiste ' + max + '. Desmarca una para cambiarla.'); return; }
+      arr.push(t.value);
+    }
+    if (!t.checked && i >= 0) arr.splice(i, 1);
+    state[key] = arr;
+    if (key === 'verificaciones1' && state.verificacion2 && arr.indexOf(state.verificacion2) >= 0) state.verificacion2 = null;
+    saveSoon(); render();
+    return;
+  }
+  if (t.hasAttribute('data-autorrev')){
+    var k = parseInt(t.getAttribute('data-autorrev'), 10);
+    state.autorrevision[k] = t.checked;
+    saveSoon(); render();
+  }
+});
+$main.addEventListener('input', function(ev){
+  var t = ev.target;
+  if (!t.hasAttribute('data-text') || state.etapaActual < 0 || isRO()) return;
+  var key = t.getAttribute('data-text');
+  state[key] = t.value;
+  var c = document.getElementById(t.id + '_count');
+  if (c){
+    if (t.hasAttribute('data-words')){
+      var rg = t.getAttribute('data-words').split(',').map(Number);
+      var n = E.countWords(t.value);
+      c.textContent = n + ' palabras · ' + rg[0] + '–' + rg[1];
+      c.classList.toggle('out', n > 0 && (n < rg[0] || n > rg[1]));
+    } else {
+      c.textContent = t.value.length + ' / ' + t.getAttribute('maxlength') + ' caracteres';
+    }
+  }
+  saveSoon();
+});
+document.addEventListener('click', function(ev){
+  var b = ev.target.closest('[data-action]');
+  if (!b) return;
+  var a = b.getAttribute('data-action');
+  if (a === 'open-doc'){ openDoc(b.getAttribute('data-doc')); return; }
+  if (a === 'nav'){
+    var st = parseInt(b.getAttribute('data-stage'), 10);
+    if (st <= state.etapaActual){ view = st; render({focusTitle:true}); if (!mqDesktop.matches && panelOpenMobile) closePanelMobile(); }
+    return;
+  }
+  if (a === 'resume'){
+    state = saved; saved = null;
+    view = Math.min(state.etapaActual, 6);
+    render({focusTitle:true}); return;
+  }
+  if (a === 'new-file'){
+    askConfirm('Se borrará el expediente guardado en este navegador y empezarás uno nuevo.', function(){
+      clearStorage(); saved = null; savedError = false; state = E.freshState(); view = -1; render(); var n = document.getElementById('pNombre'); if (n) n.focus();
+    });
+    return;
+  }
+  if (a === 'print'){ window.print(); return; }
+  if (a === 'copy'){ copyReport(); return; }
+  if (state.etapaActual < 0 || isRO()) return;
+  if (a === 'ask'){
+    var q = b.getAttribute('data-q');
+    if (state.preguntas.length >= 3 || state.preguntas.indexOf(q) >= 0){ announce('Ya no hay tiempo para más preguntas.'); return; }
+    state.preguntas.push(q); saveSoon(); render(); focusEl('ans_' + q);
+    var o = byId(E.PREGUNTAS, q); announce('Respuesta de Tomás: ' + o.a);
+    return;
+  }
+  if (a === 'confirm-cards'){
+    var Mk = E.tarjetasVisibles(state).filter(function(k){ return !state.tarjetas[k.id]; }).map(function(k){ return 'Tarjeta sin ubicar: ' + k.t + '.'; });
+    if (Mk.length){ showMissing('cardsMissing', Mk); return; }
+    state.tarjetasConfirmadas = true; saveSoon(); render(); focusEl('tlResultTitle'); announce('Ubicación confirmada. Se muestra la cronología documentada hasta ahora.');
+    return;
+  }
+  if (a === 'confirm-class'){
+    var Mc = E.AFS.filter(function(x){ return !state.clasificacion[x.id]; }).map(function(x){ return 'Afirmación sin clasificar: «' + x.t + '».'; });
+    if (Mc.length){ showMissing('classMissing', Mc); return; }
+    state.clasificacionConfirmada = true; saveSoon(); render(); focusEl('rewriteTitle'); announce('Clasificación confirmada. Se muestran las notas reescritas.');
+    return;
+  }
+  if (a === 'insert-guide'){
+    var ta = document.getElementById('recomendacion');
+    var guide = 'Qué sabemos:\n\nQué no sabemos:\n\nQué recomendamos:\n\nQué se conserva o investiga:\n\nRiesgo abierto:\n';
+    ta.value = (ta.value.trim() ? ta.value.replace(/\s+$/,'') + '\n\n' : '') + guide;
+    ta.dispatchEvent(new Event('input', {bubbles:true}));
+    ta.focus();
+    return;
+  }
+  if (a === 'close-stage'){ closeStage(); return; }
+});
+document.getElementById('stageNav').addEventListener('keydown', function(){});
+document.getElementById('panelToggles').addEventListener('click', function(ev){
+  var b = ev.target.closest('[data-panel-open]'); if (!b) return;
+  openPanelMobile(b.getAttribute('data-panel-open'));
+});
+document.getElementById('panelClose').addEventListener('click', closePanelMobile);
+document.querySelector('.panel-tabs').addEventListener('click', function(ev){
+  var b = ev.target.closest('[data-tab]'); if (!b) return;
+  panelTab = b.getAttribute('data-tab'); renderPanel(); b.focus();
+});
+document.querySelector('.panel-tabs').addEventListener('keydown', function(ev){
+  if (ev.key !== 'ArrowRight' && ev.key !== 'ArrowLeft') return;
+  var tabs = ['bandeja','bitacora','consejo'], i = tabs.indexOf(panelTab);
+  i = (i + (ev.key === 'ArrowRight' ? 1 : 2)) % 3;
+  panelTab = tabs[i]; renderPanel(); document.getElementById('tab-' + panelTab).focus();
+  ev.preventDefault();
+});
+document.addEventListener('keydown', function(ev){
+  if (ev.key === 'Escape' && panelOpenMobile && !mqDesktop.matches && !$docDlg.open && !$cDlg.open){ closePanelMobile(); }
+  if (ev.key === 'Tab' && panelOpenMobile && !mqDesktop.matches && !$docDlg.open && !$cDlg.open){
+    var f = $panel.querySelectorAll('button:not([disabled]), [tabindex="0"]');
+    if (!f.length) return;
+    var first = f[0], last = f[f.length-1];
+    if (ev.shiftKey && document.activeElement === first){ last.focus(); ev.preventDefault(); }
+    else if (!ev.shiftKey && document.activeElement === last){ first.focus(); ev.preventDefault(); }
+  }
+});
+if (mqDesktop.addEventListener) mqDesktop.addEventListener('change', function(){ panelOpenMobile = false; syncPanelVisibility(); });
+
+/* =========================================================
+   COPIAR
+   ========================================================= */
+function copyReport(){
+  var txt = FB.informeTexto(state);
+  var st = document.getElementById('copyStatus');
+  function fallback(){
+    var ok = false;
+    try {
+      var ta = document.createElement('textarea');
+      ta.value = txt; ta.setAttribute('readonly',''); ta.style.position = 'fixed'; ta.style.top = '-1000px';
+      document.body.appendChild(ta); ta.select();
+      ok = document.execCommand && document.execCommand('copy');
+      document.body.removeChild(ta);
+    } catch(e){ ok = false; }
+    if (ok){ st.textContent = 'Informe copiado.'; }
+    else {
+      var fb = document.getElementById('copyFallback'); fb.hidden = false;
+      var area = document.getElementById('copyArea'); area.value = txt; area.focus(); area.select();
+      st.textContent = 'No se pudo copiar automáticamente: selecciona el texto y cópialo.';
+    }
+  }
+  if (navigator.clipboard && navigator.clipboard.writeText && window.isSecureContext){
+    navigator.clipboard.writeText(txt).then(function(){ st.textContent = 'Informe copiado.'; }, fallback);
+  } else fallback();
+}
+
+/* =========================================================
+   ARRANQUE
+   ========================================================= */
+window.addEventListener('beforeunload', function(){ if (state.etapaActual >= 0) saveNow(); });
+E.qa = { state:function(){ return state; }, storageOK:function(){ return storageOK; } };
+render();
+})();
+</script>
+</body>
+</html>
