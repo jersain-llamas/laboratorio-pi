@@ -1,0 +1,2197 @@
+<!doctype html>
+<html lang="es-MX">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<meta name="color-scheme" content="light">
+<title>Laboratorio 02 · Salva la campaña</title>
+<style>
+:root{
+  --paper:#f4f2ed; --surface:#ffffff; --surface-2:#faf9f6; --ink:#1a1e23; --ink-2:#3a424c; --muted:#5d6672;
+  --line:#dad6cc; --line-2:#e8e5de; --accent:#1e3a5c; --accent-2:#2c5282; --accent-soft:#e8eef5;
+  --signal:#7a4d00; --signal-soft:#fbf2df; --ok:#24553a; --ok-soft:#e6f1ea; --danger:#8a1f1f; --danger-soft:#f8e9e7;
+  --serif:"Iowan Old Style","Palatino Linotype",Palatino,"Book Antiqua",Georgia,"Times New Roman",serif;
+  --sans:system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+  --mono:ui-monospace,"SF Mono",Menlo,Consolas,"Liberation Mono",monospace;
+  --r:10px; --shadow:0 1px 2px rgba(20,24,30,.05),0 4px 16px rgba(20,24,30,.04);
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--paper);color:var(--ink);font:16px/1.6 var(--sans);}
+h1,h2,h3,h4{font-family:var(--serif);font-weight:600;line-height:1.25;color:var(--ink);margin:0 0 .5em}
+h1{font-size:clamp(1.7rem,3.2vw,2.35rem);letter-spacing:-.01em}
+h2{font-size:clamp(1.3rem,2.2vw,1.6rem)}
+h3{font-size:1.15rem}
+h4{font-size:1rem}
+p{margin:0 0 .9em}
+a{color:var(--accent-2)}
+small,.small{font-size:.875rem}
+.muted{color:var(--muted)}
+.mono{font-family:var(--mono);font-size:.85em;letter-spacing:.02em}
+.eyebrow{font-family:var(--sans);font-size:.75rem;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);font-weight:600;margin:0 0 .5rem}
+:focus-visible{outline:3px solid var(--accent-2);outline-offset:2px;border-radius:4px}
+.sr{position:absolute!important;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+.skip{position:absolute;left:8px;top:-60px;background:var(--ink);color:#fff;padding:8px 12px;border-radius:6px;z-index:100}
+.skip:focus{top:8px}
+
+/* ---------- Encabezado ---------- */
+.top{position:sticky;top:0;z-index:20;background:rgba(244,242,237,.96);backdrop-filter:saturate(1.2) blur(6px);border-bottom:1px solid var(--line)}
+.top-in{max-width:1120px;margin:0 auto;padding:10px 20px 10px}
+.top-row{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.brand{display:flex;flex-direction:column;line-height:1.2;margin-right:auto}
+.brand b{font-family:var(--sans);font-size:.78rem;letter-spacing:.16em;font-weight:700}
+.brand span{font-family:var(--serif);font-size:.95rem;color:var(--ink-2)}
+.top-actions{display:flex;gap:8px;flex-wrap:wrap}
+.phase-row{display:flex;align-items:center;gap:16px;flex-wrap:wrap;margin-top:8px}
+.phase-now{font-size:.9rem;font-weight:600}
+.clock{font-family:var(--mono);font-size:.85rem;color:var(--ink-2);background:var(--surface);border:1px solid var(--line);padding:2px 10px;border-radius:999px}
+.hitos{display:flex;gap:4px;margin-left:auto;list-style:none;padding:0;margin-top:0;margin-bottom:0}
+.hitos li{font-size:.72rem;letter-spacing:.08em;font-weight:600;color:var(--muted);padding:3px 8px;border-radius:4px;border:1px solid var(--line);background:var(--surface)}
+.hitos li.on{background:var(--accent);border-color:var(--accent);color:#fff}
+.hitos li.done{color:var(--ink-2);background:var(--line-2)}
+.progress{height:3px;background:var(--line-2);border-radius:2px;margin-top:10px;overflow:hidden}
+.progress i{display:block;height:100%;background:var(--accent);transition:width .3s}
+.budget{display:flex;gap:6px 18px;flex-wrap:wrap;margin-top:10px;padding:8px 12px;background:var(--surface);border:1px solid var(--line);border-radius:8px;font-size:.85rem}
+.budget div{display:flex;flex-direction:column;line-height:1.25}
+.budget dt{font-size:.68rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);font-weight:600}
+.budget dd{margin:0;font-family:var(--mono);font-weight:600;font-size:.95rem}
+.budget .msg{flex-basis:100%;color:var(--ink-2);font-size:.82rem}
+.budget.over{border-color:var(--danger);background:var(--danger-soft)}
+
+/* ---------- Pasos ---------- */
+.stepper{max-width:1120px;margin:14px auto 0;padding:0 20px}
+.stepper ol{list-style:none;margin:0;padding:0;display:flex;gap:6px;flex-wrap:wrap}
+.stepper button{font:inherit;font-size:.78rem;border:1px solid var(--line);background:var(--surface);color:var(--muted);padding:5px 10px;border-radius:999px;cursor:pointer}
+.stepper button[aria-current="step"]{border-color:var(--accent);color:var(--accent);font-weight:600}
+.stepper button.done{color:var(--ink-2)}
+.stepper button.done::before{content:"✓ ";}
+.stepper button:disabled{cursor:not-allowed;opacity:.55}
+
+/* ---------- Contenido ---------- */
+main{max-width:1120px;margin:0 auto;padding:22px 20px 80px}
+.lead{font-size:1.08rem;color:var(--ink-2);max-width:62ch}
+.section{margin:34px 0}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:20px 22px;box-shadow:var(--shadow)}
+.card + .card{margin-top:14px}
+.grid{display:grid;gap:14px}
+.g2{grid-template-columns:repeat(auto-fit,minmax(280px,1fr))}
+.g3{grid-template-columns:repeat(auto-fit,minmax(230px,1fr))}
+.stack > * + *{margin-top:14px}
+.row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.spacer{flex:1}
+.hr{border:0;border-top:1px solid var(--line);margin:22px 0}
+.note{border-left:3px solid var(--accent);background:var(--accent-soft);padding:10px 14px;border-radius:0 8px 8px 0;font-size:.92rem;color:var(--ink-2)}
+.note.signal{border-left-color:var(--signal);background:var(--signal-soft)}
+.note.ok{border-left-color:var(--ok);background:var(--ok-soft)}
+.note.err{border-left-color:var(--danger);background:var(--danger-soft);color:var(--ink)}
+.readonly-banner{display:flex;gap:10px;align-items:center;padding:10px 14px;border:1px dashed var(--line);border-radius:8px;background:var(--surface-2);font-size:.9rem;color:var(--ink-2);margin-bottom:18px}
+.tag{display:inline-block;font-size:.76rem;letter-spacing:.01em;font-weight:600;padding:2px 8px;border-radius:4px;border:1px solid var(--line);color:var(--ink-2);background:var(--surface-2);vertical-align:middle}
+.tag.accent{border-color:var(--accent);color:var(--accent);background:var(--accent-soft)}
+.tag.signal{border-color:#d9b46a;color:var(--signal);background:var(--signal-soft)}
+.tag.ok{border-color:#9cc3a8;color:var(--ok);background:var(--ok-soft)}
+.tag.danger{border-color:#d9a19c;color:var(--danger);background:var(--danger-soft)}
+.code{font-family:var(--mono);font-size:.78rem;color:var(--muted);letter-spacing:.04em}
+
+/* ---------- Botones y formularios ---------- */
+.btn{font:inherit;font-weight:600;font-size:.95rem;display:inline-flex;align-items:center;gap:8px;padding:10px 18px;border-radius:8px;border:1px solid var(--accent);background:var(--accent);color:#fff;cursor:pointer;text-decoration:none;min-height:44px}
+.btn:hover{background:var(--accent-2);border-color:var(--accent-2)}
+.btn.secondary{background:var(--surface);color:var(--accent)}
+.btn.secondary:hover{background:var(--accent-soft)}
+.btn.ghost{background:transparent;border-color:transparent;color:var(--accent);padding:8px 10px}
+.btn.ghost:hover{background:var(--accent-soft)}
+.btn.small{font-size:.85rem;padding:6px 12px;min-height:36px}
+.btn.danger{background:var(--surface);color:var(--danger);border-color:#c98b85}
+.btn[disabled],.btn[aria-disabled="true"]{opacity:.5;cursor:not-allowed}
+.btn.chip{background:var(--surface);color:var(--ink-2);border-color:var(--line);font-weight:500}
+label{font-weight:600;font-size:.92rem}
+.field{display:flex;flex-direction:column;gap:6px;margin-bottom:14px}
+.field .hint{font-size:.82rem;color:var(--muted);font-weight:400}
+input[type=text],textarea,select{font:inherit;color:var(--ink);background:#fff;border:1px solid #bdb7aa;border-radius:8px;padding:10px 12px;width:100%;min-height:44px}
+textarea{min-height:150px;resize:vertical;line-height:1.55}
+input:disabled,textarea:disabled,select:disabled{background:var(--surface-2);color:var(--ink-2)}
+fieldset{border:0;padding:0;margin:0 0 12px;min-width:0}
+legend{font-weight:600;font-size:.88rem;margin-bottom:6px;padding:0}
+.seg{display:inline-flex;border:1px solid #bdb7aa;border-radius:8px;overflow:hidden;flex-wrap:wrap}
+.seg label{display:flex;align-items:center;gap:6px;padding:8px 12px;font-weight:500;font-size:.9rem;cursor:pointer;border-right:1px solid var(--line);background:#fff;min-height:40px}
+.seg label:last-child{border-right:0}
+.seg input{accent-color:var(--accent)}
+.seg label.dis{cursor:not-allowed;color:var(--muted);background:var(--surface-2)}
+.counter{font-size:.82rem;color:var(--muted);font-family:var(--mono)}
+.counter.bad{color:var(--danger)}
+.counter.good{color:var(--ok)}
+.errors{margin:14px 0 0;padding:12px 16px 12px 34px;border-radius:8px;background:var(--danger-soft);border:1px solid #e3b9b4;font-size:.92rem}
+.errors li{margin:2px 0}
+.live{min-height:1.4em;font-size:.9rem;color:var(--ink-2)}
+
+/* ---------- Documentos ---------- */
+.doc-list{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:6px}
+.doc-btn{display:flex;align-items:center;gap:10px;width:100%;text-align:left;font:inherit;font-size:.9rem;padding:8px 12px;border-radius:8px;border:1px solid var(--line);background:var(--surface-2);cursor:pointer;color:var(--ink);min-height:42px}
+.doc-btn:hover{border-color:var(--accent-2)}
+.doc-btn.principal{border-color:var(--accent);background:var(--accent-soft);font-weight:600}
+.doc-btn .st{margin-left:auto;font-size:.75rem;color:var(--muted);white-space:nowrap}
+.doc-btn .st.read{color:var(--ok)}
+.docq{margin:0;padding:16px 18px;background:var(--surface-2);border:1px solid var(--line-2);border-left:3px solid var(--accent);border-radius:0 8px 8px 0;font-size:.97rem}
+.docq p:last-child{margin-bottom:0}
+.tblwrap{overflow-x:auto;-webkit-overflow-scrolling:touch;border:1px solid var(--line-2);border-radius:8px}
+table{border-collapse:collapse;width:100%;font-size:.9rem}
+th,td{text-align:left;vertical-align:top;padding:9px 12px;border-bottom:1px solid var(--line-2)}
+thead th{background:var(--surface-2);font-size:.78rem;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-2)}
+tbody tr:last-child td{border-bottom:0}
+.legend{font-size:.78rem;color:var(--muted);margin-top:12px;font-style:italic}
+.docmeta{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:10px}
+
+/* ---------- Tarjetas de riesgo / carpetas ---------- */
+.folder{display:flex;flex-direction:column;gap:6px;text-align:left;font:inherit;color:var(--ink);background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:16px 18px;cursor:pointer;min-height:120px;box-shadow:var(--shadow);position:relative}
+.folder:hover{border-color:var(--accent-2)}
+.folder[aria-pressed="true"]{border:2px solid var(--accent);background:var(--accent-soft);padding:15px 17px}
+.folder .fh{display:flex;align-items:center;gap:8px}
+.folder .check{margin-left:auto;font-size:.75rem;font-weight:700;letter-spacing:.06em;color:var(--accent)}
+.folder strong{font-family:var(--serif);font-size:1.08rem}
+.folder span.d{font-size:.88rem;color:var(--ink-2)}
+.folder:disabled{cursor:default}
+.risk{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow);overflow:hidden}
+.risk + .risk{margin-top:16px}
+.risk-h{display:flex;gap:10px;align-items:center;flex-wrap:wrap;padding:14px 20px;border-bottom:1px solid var(--line-2);background:var(--surface-2)}
+.risk-h h3{margin:0;font-size:1.12rem}
+.risk-b{padding:18px 20px}
+.ficha{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px 22px;margin:0 0 16px}
+.ficha div{margin:0}
+.ficha dt{font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);font-weight:700;margin-bottom:2px}
+.ficha dd{margin:0;font-size:.93rem}
+.pregunta{font-family:var(--serif);font-size:1.02rem;border-left:3px solid var(--signal);padding:6px 12px;background:var(--signal-soft);border-radius:0 8px 8px 0;margin-bottom:14px}
+.two{display:grid;grid-template-columns:1.2fr 1fr;gap:20px}
+@media (max-width:760px){.two{grid-template-columns:1fr}}
+.measure{display:flex;gap:10px;align-items:flex-start;padding:10px 12px;border:1px solid var(--line);border-radius:8px;background:#fff;cursor:pointer}
+.measure + .measure{margin-top:6px}
+.measure input{margin-top:5px;accent-color:var(--accent);width:18px;height:18px;flex:none}
+.measure .mt{flex:1;font-size:.92rem}
+.measure .mp{font-family:var(--mono);font-weight:600;white-space:nowrap;font-size:.92rem}
+.measure.sel{border-color:var(--accent);background:var(--accent-soft)}
+.measure.dis{opacity:.6;cursor:not-allowed}
+.measure .sub{display:block;font-size:.78rem;color:var(--muted);margin-top:2px;font-weight:500}
+
+/* ---------- Novedades ---------- */
+.nov{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow)}
+.nov + .nov{margin-top:16px}
+.nov-h{padding:12px 20px;border-bottom:1px solid var(--line-2);display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.nov-b{padding:16px 20px}
+.msgbox{font-size:.98rem;padding:12px 16px;border-radius:8px;background:var(--surface-2);border:1px solid var(--line-2);margin-bottom:14px}
+.msgbox b{font-family:var(--mono);font-size:.78rem;letter-spacing:.06em;color:var(--muted);display:block;margin-bottom:4px;font-weight:600}
+.resp{display:flex;flex-direction:column;gap:8px}
+.resp .btn{justify-content:space-between;text-align:left;width:100%;font-weight:500}
+.resp .btn .cost{font-family:var(--mono);font-weight:600;white-space:nowrap}
+.answered{display:flex;gap:10px;align-items:flex-start;padding:10px 14px;border-radius:8px;background:var(--ok-soft);border:1px solid #b9d5c2;font-size:.93rem}
+
+/* ---------- Ajuste ---------- */
+.adj-row{display:grid;grid-template-columns:120px 1fr auto auto;gap:12px;align-items:center;padding:10px 0;border-bottom:1px solid var(--line-2);font-size:.92rem}
+.adj-row:last-child{border-bottom:0}
+@media (max-width:760px){.adj-row{grid-template-columns:1fr;gap:6px}}
+
+/* ---------- Perfil ---------- */
+.axis{margin:16px 0}
+.axis-l{display:flex;justify-content:space-between;gap:12px;font-size:.85rem;font-weight:600}
+.axis-l span{max-width:46%}
+.axis-l small{display:block;font-weight:400;color:var(--muted)}
+.axis-track{display:grid;grid-template-columns:repeat(5,1fr);gap:4px;margin:6px 0 4px}
+.axis-track i{height:14px;border-radius:3px;background:var(--line-2);border:1px solid var(--line)}
+.axis-track i.on{background:var(--accent);border-color:var(--accent)}
+.axis-t{font-size:.88rem;color:var(--ink-2)}
+
+/* ---------- Informe ---------- */
+.report{background:#fff;border:1px solid var(--line);border-radius:var(--r);padding:28px 30px}
+.report h2{font-size:1.35rem;border-bottom:2px solid var(--ink);padding-bottom:8px;margin-bottom:16px}
+.report h3{font-size:1.02rem;margin:22px 0 8px;font-family:var(--sans);letter-spacing:.04em;text-transform:uppercase}
+.report table{font-size:.82rem}
+.report .rec{white-space:pre-wrap;border:1px solid var(--line);padding:12px 14px;border-radius:6px;background:var(--surface-2)}
+.boxes{font-family:var(--mono);letter-spacing:2px}
+.toc{display:flex;flex-wrap:wrap;gap:6px;margin:10px 0 0;padding:0;list-style:none}
+.toc a{font-size:.82rem;text-decoration:none;border:1px solid var(--line);border-radius:999px;padding:4px 10px;background:var(--surface);color:var(--ink-2)}
+
+/* ---------- Modal ---------- */
+.modal-bg{position:fixed;inset:0;background:rgba(20,24,30,.45);z-index:50;display:flex;align-items:flex-start;justify-content:center;padding:5vh 16px;overflow-y:auto}
+.modal{background:var(--surface);border-radius:12px;max-width:720px;width:100%;box-shadow:0 20px 60px rgba(0,0,0,.25);border:1px solid var(--line)}
+.modal-h{display:flex;align-items:flex-start;gap:12px;padding:18px 22px;border-bottom:1px solid var(--line-2)}
+.modal-h h2{margin:0;font-size:1.25rem}
+.modal-b{padding:18px 22px}
+.modal-f{display:flex;gap:10px;justify-content:flex-end;flex-wrap:wrap;padding:14px 22px;border-top:1px solid var(--line-2);background:var(--surface-2);border-radius:0 0 12px 12px}
+.close-x{margin-left:auto;font:inherit;background:transparent;border:1px solid var(--line);border-radius:8px;padding:6px 10px;cursor:pointer;min-height:36px}
+.drawer-list{list-style:none;padding:0;margin:0}
+.drawer-list h4{margin:16px 0 6px;font-family:var(--sans);font-size:.78rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+.toast{position:fixed;left:50%;bottom:18px;transform:translateX(-50%);background:var(--ink);color:#fff;padding:10px 16px;border-radius:8px;font-size:.9rem;z-index:60;max-width:90vw;box-shadow:0 8px 24px rgba(0,0,0,.25)}
+.toast[hidden]{display:none}
+.cover{max-width:760px}
+.cover .kicker{font-size:.78rem;letter-spacing:.2em;font-weight:700;color:var(--muted)}
+.cover h1{font-size:clamp(2.2rem,5vw,3.4rem);margin:.2em 0 .1em}
+.cover .sub{font-family:var(--serif);font-size:1.25rem;color:var(--ink-2);margin-bottom:1.2em}
+.footer-nav{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-top:30px;padding-top:18px;border-top:1px solid var(--line)}
+
+@media (max-width:640px){
+  .top-in{padding:8px 14px}
+  main{padding:16px 14px 70px}
+  .stepper{padding:0 14px}
+  .hitos{margin-left:0}
+  .card,.risk-b{padding:16px}
+  .risk-h{padding:12px 16px}
+  .report{padding:18px 16px}
+  .modal-b,.modal-h,.modal-f{padding-left:16px;padding-right:16px}
+}
+
+/* ---------- Impresión ---------- */
+@media print{
+  @page{margin:16mm}
+  body{background:#fff;color:#000;font-size:11pt}
+  .top,.stepper,.noprint,.btn,button,.toast,.modal-bg,.skip,.toc{display:none!important}
+  main{max-width:none;padding:0}
+  body.print-report main > *:not(#informe){display:none!important}
+  .report{border:0;padding:0}
+  .card,.risk,.nov,.report{box-shadow:none}
+  a{color:#000;text-decoration:none}
+  table{font-size:9pt}
+  tr,td,th{page-break-inside:avoid;break-inside:avoid}
+  thead th{background:#eee!important;-webkit-print-color-adjust:exact;print-color-adjust:exact;color:#000}
+  .rec-block{page-break-before:always;break-before:page}
+  .report h3{page-break-after:avoid;break-after:avoid}
+  .tag{border-color:#000;color:#000;background:#fff}
+}
+</style>
+</head>
+<body>
+<a href="#main" class="skip">Saltar al contenido</a>
+<header class="top" id="top"></header>
+<nav class="stepper noprint" id="stepper" aria-label="Fases del expediente"></nav>
+<main id="main" tabindex="-1"></main>
+<div id="modal-root"></div>
+<div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
+<script>
+'use strict';
+/* =========================================================
+   DATOS DEL CASO · Fuente: ARQUITECTURA FINAL CONSOLIDADA
+   ========================================================= */
+var STORAGE_KEY = 'labpi_salva_campana_v1';
+var FONDO = 100000;
+var DESCUENTO_EDICION = 6000;
+var EXP_MAX = 36;
+var LEG_DOC = 'Documento simulado para fines de entrenamiento.';
+var LEG_BUSQ = 'Resultado simulado. No proviene de bases de datos reales ni del IMPI.';
+
+var FASES = [
+  { n: 0, titulo: 'War room', reloj: 'Viernes 09:00 · 72 H', hito: '72 H' },
+  { n: 1, titulo: 'Revisa el material', reloj: 'Viernes 10:00 · 71 H', hito: '72 H' },
+  { n: 2, titulo: 'Hallazgos', reloj: 'Viernes 16:00 · 65 H', hito: '72 H' },
+  { n: 3, titulo: 'Triage', reloj: 'Sábado 09:00 · 48 H', hito: '48 H' },
+  { n: 4, titulo: 'Presupuesto y lanzamiento', reloj: 'Sábado 15:00 · 42 H', hito: '48 H' },
+  { n: 5, titulo: 'Novedades y cierre', reloj: 'Domingo 09:00 · 24 H', hito: '24 H' },
+  { n: 6, titulo: 'Lanzamiento', reloj: 'Lunes 09:00 · LANZAMIENTO', hito: 'LANZAMIENTO' }
+];
+var HITOS = ['72 H', '48 H', '24 H', 'LANZAMIENTO'];
+
+var RIESGOS_ORDEN = ['R1', 'R2', 'R3', 'R4', 'R5', 'R6', 'R7', 'R8'];
+
+/* Peso y nivel de diseño: internos, nunca se muestran */
+var RIESGOS = {
+  R1: { carpeta: 'PR1', titulo: 'Música · «Kilómetro Cero»', corto: 'Música', peso: 3, aceptar: 'M1F',
+    ficha: {
+      hecho: 'El spot usa 45 segundos de la grabación original de «Kilómetro Cero», de Satélite Norte. El equipo creativo la consiguió por medio de la mánager de la banda.',
+      evidencia: 'Correo de la mánager, autorización de una página firmada por el vocalista, cue sheet de la productora.',
+      faltante: 'Si la autorización cubre TV, cine y pauta pagada; consentimiento de la editora que administra la mitad de la obra; quién es titular de la grabación.',
+      impacto: 'Reclamación de la editora o del titular de la grabación, restricción del anuncio en plataformas o retiro del spot en plena campaña.'
+    },
+    principal: 'D1.2', complementarios: ['D1.1', 'D1.3'], senal: 'DS1' },
+  R2: { carpeta: 'PR2', titulo: 'Fotografía del key visual', corto: 'Fotografía', peso: 2, aceptar: 'M2C',
+    ficha: {
+      hecho: 'La fotografía de azoteas al atardecer se compró en FotoBanco Global con Licencia Estándar, desde la cuenta de la agencia.',
+      evidencia: 'Condiciones de la licencia y orden de producción.',
+      faltante: 'Casi ninguno; la limitación es clara. Falta confirmar hasta cuándo pueden cambiarse los archivos de imprenta.',
+      impacto: '60,000 cajas y 8,000 camisetas a la venta fuera del alcance de la licencia. Una vez impresas, no hay vuelta atrás.'
+    },
+    principal: 'D2.1', complementarios: ['D2.2'], senal: 'DS2' },
+  R3: { carpeta: 'PR3', titulo: 'Logotipo PULSO', corto: 'Logotipo', peso: 3, aceptar: 'M3E',
+    pregunta: '¿Tenemos evidencia suficiente para sostener y documentar la cadena de derechos necesaria para el uso permanente del logotipo?',
+    ficha: {
+      hecho: 'El logotipo PULSO se encargó a Tomás Iriarte, diseñador independiente. Hubo brief, cotización aceptada, pago contra factura y entrega de archivos finales. El contrato de servicios de la agencia, que regulaba los derechos, se le envió y no se firmó.',
+      evidencia: 'Brief, cotización y aceptación, factura y pago, correo de entrega, contrato enviado sin firma, contrato marco entre agencia y cliente.',
+      faltante: 'Un documento que establezca con claridad el alcance jurídico del encargo: qué derechos de explotación se transmiten o se licencian, a quién, con qué alcance, por cuánto tiempo y con qué exclusividad.',
+      impacto: 'Incertidumbre documental sobre la titularidad, el alcance de los derechos de explotación y los términos del encargo. El lanzamiento puede apoyarse en el encargo y el pago; el uso permanente, un registro, la defensa frente a terceros o una futura venta de la línea exigirán una cadena de derechos que hoy no puede mostrarse completa. Además, la agencia garantizó al cliente algo que no puede documentar.'
+    },
+    principal: 'D3.0', complementarios: ['D3.1', 'D3.2', 'D3.3', 'D3.4', 'D3.5', 'D3.6'], senal: 'DS3' },
+  R4: { carpeta: 'PR4', titulo: 'Activación «NOCHE PULSO»', corto: 'Activación', peso: 2, aceptar: 'M4E',
+    ficha: {
+      hecho: 'Existe un registro anterior de PULSO NOCTURNO para organización de carreras y eventos deportivos, los mismos servicios que presta la activación.',
+      evidencia: 'Ficha del signo anterior y conversación del equipo de eventos.',
+      faltante: 'Si el titular usa el signo hoy y si suele reclamar.',
+      impacto: 'Carta de reclamación a mitad de campaña, costo de renombrar con señalética ya producida, ruido reputacional. La activación dura tres fechas y no es la pieza central.'
+    },
+    principal: 'D4.1', complementarios: ['D4.2'], senal: 'DS4' },
+  R5: { carpeta: 'PR5', titulo: 'Slogan «LA CIUDAD ES TU PISTA»', corto: 'Slogan', peso: 1, aceptar: 'M5C',
+    ficha: {
+      hecho: 'El slogan no está registrado como aviso comercial. La brand manager pide detener el lanzamiento hasta tenerlo.',
+      evidencia: 'Nota de búsqueda preliminar interna y correo de la brand manager.',
+      faltante: 'Si el slogan es suficientemente distintivo para registrarse; ninguno es necesario para decidir si se puede usar el lunes.',
+      impacto: 'Un tercero podría solicitarlo primero. Es un riesgo de protección futura, no de infracción.'
+    },
+    principal: 'D5.2', complementarios: ['D5.1'], senal: 'DS5' },
+  R6: { carpeta: 'PR6', titulo: 'Persona · Renata Ortega', corto: 'Protagonista', peso: 2, aceptar: 'M6D',
+    ficha: {
+      hecho: 'Renata protagoniza el spot y un fotograma suyo aparece en 12 de las 48 caras de exterior. No es modelo profesional; es amiga del director.',
+      evidencia: 'Autorización de una página, mensajes del director y plan de medios.',
+      faltante: 'Si Renata acepta ampliar el uso y en qué condiciones; si «redes sociales de la marca» incluye la pauta pagada en esas redes.',
+      impacto: 'Uso de su imagen sin consentimiento en TV, cine y exterior; reclamación, retiro de piezas y queja pública de la protagonista.'
+    },
+    principal: 'D6.1', complementarios: ['D6.2', 'D6.3'], senal: 'DS6' },
+  R7: { carpeta: 'PR7', titulo: 'Reel de @ximecorre', corto: 'Reel', peso: 1, aceptar: 'M7C',
+    ficha: {
+      hecho: 'Ximena Lara publicó un reel con el kit de PULSO; lleva 180,000 reproducciones. Redes quiere usarlo como anuncio pagado, cortar una versión de 6 segundos y ponerlo en el sitio.',
+      evidencia: 'Captura de mensaje directo y plan de pauta, que indica que el audio es una canción en tendencia de la biblioteca de la plataforma.',
+      faltante: 'Si el «claro» cubre pauta, edición y plazo; si la canción del reel puede usarse en anuncios de una marca.',
+      impacto: 'Reclamación de la creadora o del titular de la canción; anuncio silenciado o retirado; fricción con una aliada.'
+    },
+    principal: 'D7.1', complementarios: ['D7.2'], senal: 'DS7' },
+  R8: { carpeta: 'PR8', titulo: 'Banners generados con IA', corto: 'Banners IA', peso: 1, aceptar: 'M8D',
+    ficha: {
+      hecho: 'Los seis fondos ilustrados del display se generaron con Imaginaria desde la cuenta personal gratuita del diseñador junior.',
+      evidencia: 'Términos de la herramienta, mensaje de la brand manager y registro de prompts, que menciona por nombre a una ilustradora.',
+      faltante: 'Si alguna imagen reproduce elementos concretos de una obra existente y no sólo un estilo general.',
+      impacto: 'Uso comercial contrario a los términos, imposibilidad de garantizar originalidad, riesgo reputacional si el prompt se hace público. La pieza es menor.'
+    },
+    principal: 'D8.2', complementarios: ['D8.1', 'D8.3'], senal: 'DS8' }
+};
+
+var CARPETAS_ORDEN = ['PR1', 'PR2', 'PR3', 'PR4', 'PR5', 'PR6', 'PR7', 'PR8'];
+var CARPETAS = {
+  PR1: { titulo: 'Audio del spot', desc: 'Pista musical del spot «Kilómetro Cero» y su documentación' },
+  PR2: { titulo: 'Key visual', desc: 'Fotografía principal y su uso en exterior, digital, caja y camiseta' },
+  PR3: { titulo: 'Logotipo PULSO', desc: 'Símbolo de la línea: desarrollo, entrega y documentación' },
+  PR4: { titulo: 'Activación NOCHE PULSO', desc: 'Nombre y materiales de las carreras nocturnas' },
+  PR5: { titulo: 'Slogan', desc: '«LA CIUDAD ES TU PISTA» y su uso en piezas' },
+  PR6: { titulo: 'Talento del spot', desc: 'Protagonista del spot y su participación en las piezas' },
+  PR7: { titulo: 'Reel de creadora', desc: 'Contenido de @ximecorre que se planea amplificar' },
+  PR8: { titulo: 'Banners animados', desc: 'Fondos ilustrados del display' }
+};
+var RIESGO_POR_REVISION = { PR1: 'R1', PR2: 'R2', PR3: 'R3', PR4: 'R4', PR5: 'R5', PR6: 'R6', PR7: 'R7', PR8: 'R8' };
+
+/* Clave de lectura (interna) */
+var CLAVE_LECTURA = {
+  R1: ['Débil', 'Parcial'], R2: ['Sólida'], R3: ['Parcial', 'Débil'], R4: ['Parcial'],
+  R5: ['Sólida'], R6: ['Parcial'], R7: ['Débil', 'Parcial'], R8: ['Sólida', 'Parcial']
+};
+
+/* ---------- Documentos ---------- */
+function q(lines) { return '<blockquote class="docq">' + lines.map(function (l) { return '<p>' + l + '</p>'; }).join('') + '</blockquote>'; }
+function tbl(head, rows) {
+  return '<div class="tblwrap"><table class="doct"><thead><tr>' + head.map(function (h) { return '<th scope="col">' + h + '</th>'; }).join('') +
+    '</tr></thead><tbody>' + rows.map(function (r) { return '<tr>' + r.map(function (c) { return '<td>' + c + '</td>'; }).join('') + '</tr>'; }).join('') + '</tbody></table></div>';
+}
+
+var DOCUMENTOS = {
+  'D0.1': { titulo: 'Brief de campaña (extracto)', tipo: 'Brief', remite: 'Marea Creativa', cuerpo: q([
+    'MAREA CREATIVA · BRIEF DE CAMPAÑA · VERSIÓN FINAL APROBADA',
+    'Cliente: Calzado Altiplano · Línea: ALTIPLANO PULSO',
+    'Campaña: «LA CIUDAD ES TU PISTA»',
+    '<strong>Objetivo.</strong> Posicionar PULSO como el tenis para correr la ciudad, no el parque. Meta comercial: 40,000 pares en las primeras 6 semanas.',
+    '<strong>Idea.</strong> La ciudad al atardecer como pista. Una corredora real, no una atleta. Una canción que suene a independiente mexicano, no a jingle.',
+    '<strong>Pieza héroe.</strong> Spot «Kilómetro Cero», 45 s, con cortes de 15 y 6 s. Canción: «Kilómetro Cero», de Satélite Norte. «La banda está encantada con la marca».',
+    '<strong>Identidad.</strong> Logotipo PULSO desarrollado con Tomás Iriarte. Será el logotipo permanente de la línea.',
+    '<strong>Activación.</strong> «NOCHE PULSO»: tres carreras nocturnas gratuitas. Se anuncian el lunes en el lanzamiento.',
+    '<strong>Social.</strong> Amplificar contenido de creadoras de running que recibieron el kit. Ya hay un reel con tracción.',
+    '<strong>Medios.</strong> TV de paga, cine, YouTube, Meta, TikTok, 48 caras de exterior, display, punto de venta en 140 tiendas Deportes Meridiano, caja edición de lanzamiento y camiseta conmemorativa.',
+    '<strong>Fecha inamovible.</strong> Lunes, 09:00 h. Preventa en línea y exhibición en tienda.'
+  ]) },
+  'D0.2': { titulo: 'Correo del director de marketing', tipo: 'Correo', remite: 'Andrés Villaseñor', cuerpo: q([
+    '<strong>De:</strong> Andrés Villaseñor, Dirección de Marketing',
+    '<strong>Para:</strong> Dirección Jurídica',
+    '<strong>Asunto:</strong> PULSO · sólo falta su visto bueno',
+    'Equipo: todo está listo. Medios contratados, tiendas confirmadas, preventa programada. Sólo necesitamos la aprobación jurídica final.',
+    'Les pido una cosa: el spot y la canción son el corazón de la campaña. Si algo tiene que moverse, que no sea eso.',
+    'Andrés'
+  ]) },
+  'D0.3': { titulo: 'Nota de asignación', tipo: 'Nota', remite: 'Lic. Mariana Esquivel', cuerpo: q([
+    '<strong>De:</strong> Lic. Mariana Esquivel, Dirección Jurídica',
+    '<strong>Asunto:</strong> PULSO — liberación jurídica antes del lunes',
+    'Te paso la liberación de «La ciudad es tu pista». Marketing da todo por cerrado; yo no. Revisa el material hoy, dame tu triage mañana temprano y cierra la recomendación el domingo en la noche.',
+    'Tienes un fondo extraordinario de $100,000 para licencias, sustituciones, ediciones o lo que haga falta. No hay más: el resto del presupuesto es de medios y no se toca.',
+    'No necesito un expediente perfecto. Necesito saber qué sale el lunes, qué no, qué riesgo queda abierto y quién lo carga.',
+    'Mariana'
+  ]) },
+
+  /* R1 */
+  'D1.2': { riesgo: 'R1', capa: 'principal', titulo: 'Autorización firmada por el vocalista', tipo: 'Autorización', cuerpo: q([
+    'Yo, Leonel Ávila, integrante de Satélite Norte, autorizo a Marea Creativa a usar la canción «Kilómetro Cero» en contenido para redes sociales de la marca Altiplano durante 2026. Sin costo. — Firma: Leonel Ávila.'
+  ]) },
+  'D1.1': { riesgo: 'R1', capa: 'complementario', titulo: 'Correo de Jimena Toledo, mánager', tipo: 'Correo', cuerpo: q([
+    '¡Claro que sí! A la banda le encanta Altiplano. Les mando la autorización firmada por Leo. Úsenla con gusto.'
+  ]) },
+  'D1.3': { riesgo: 'R1', capa: 'complementario', titulo: 'Cue sheet de Faro Films', tipo: 'Cue sheet', cuerpo: tbl(['Campo', 'Dato'], [
+    ['Obra', '«Kilómetro Cero»'],
+    ['Autores', 'Leonel Ávila 50% · Héctor Lima 50%'],
+    ['Editora', 'Ávila: sin editora · Lima: Ediciones Musicales Aurora'],
+    ['Intérprete', 'Satélite Norte'],
+    ['Titular de la grabación', '«Satélite Norte (por confirmar)»'],
+    ['Uso', '0:45, vocal, fondo de toda la pieza']
+  ]) },
+  'DS1': { riesgo: 'R1', capa: 'senal', titulo: 'Nota de Faro Films sobre la grabación', tipo: 'Nota', cuerpo: q([
+    '«El disco se grabó en 2024 con apoyo de un sello pequeño. Jimena dice que la grabación es de la banda, pero no tenemos nada por escrito».'
+  ]) },
+
+  /* R2 */
+  'D2.1': { riesgo: 'R2', capa: 'principal', titulo: 'Licencia Estándar de FotoBanco Global (extracto ficticio)', tipo: 'Licencia', cuerpo: q([
+    '2. Usos permitidos: publicidad en medios impresos, exteriores y digitales, hasta 250,000 reproducciones impresas.',
+    '3. Usos excluidos: (a) productos o mercancía destinados a la reventa en los que la imagen sea elemento principal; (b) empaques de producto.',
+    '4. La Licencia Extendida autoriza los usos 3(a) y 3(b) y elimina el límite de reproducciones.'
+  ]) },
+  'D2.2': { riesgo: 'R2', capa: 'complementario', titulo: 'Orden de producción', tipo: 'Orden', cuerpo: q([
+    'Caja edición de lanzamiento: key visual a sangre en tapa · 60,000 piezas. Camiseta conmemorativa: key visual al frente · 8,000 piezas, venta en tienda y en línea.'
+  ]) },
+  'DS2': { riesgo: 'R2', capa: 'senal', titulo: 'Correo de producción con el cierre de imprenta', tipo: 'Correo', cuerpo: q([
+    '«La imprenta de cajas recibe archivos finales hasta el domingo a las 12:00. Las camisetas se imprimen el lunes».'
+  ]) },
+
+  /* R3 */
+  'D3.0': { riesgo: 'R3', capa: 'principal', titulo: 'Cronología del encargo', tipo: 'Cronología', cuerpo: tbl(['Momento', 'Hecho', 'Documento'], [
+    ['Día 1', 'Brief por mensaje: logotipo para una línea permanente', 'D3.1'],
+    ['Día 3', 'Cotización: diseño, propuestas, ajustes y manual. No menciona derechos', 'D3.2'],
+    ['Día 4', 'La agencia acepta la cotización por correo', 'D3.2'],
+    ['Día 5', 'La agencia envía su contrato de servicios con cláusula de derechos. Respuesta: «Va, lo reviso». No se firma', 'D3.5'],
+    ['Día 25', 'Pago total contra factura, como pedía la cotización', 'D3.3'],
+    ['Día 26', 'Entrega de archivos finales y manual', 'D3.4']
+  ]) },
+  'D3.1': { riesgo: 'R3', capa: 'complementario', titulo: 'Brief por mensaje', tipo: 'Mensajes', cuerpo: q([
+    '<strong>Rodrigo Saldaña:</strong> Necesitamos el logotipo de PULSO, la nueva línea permanente de Altiplano. Va en producto, caja, campaña y todo lo que venga.',
+    '<strong>Tomás Iriarte:</strong> Me late. Te mando cotización.'
+  ]) },
+  'D3.2': { riesgo: 'R3', capa: 'complementario', titulo: 'Cotización y aceptación', tipo: 'Cotización', cuerpo: q([
+    'Diseño de logotipo PULSO. Incluye 3 propuestas, 2 rondas de ajustes y manual básico. Archivos finales contra pago total. $35,000 + IVA.',
+    '<strong>Respuesta de la agencia:</strong> Aprobada, adelante.'
+  ]) },
+  'D3.3': { riesgo: 'R3', capa: 'complementario', titulo: 'Factura y comprobante de pago', tipo: 'Factura', cuerpo: q([
+    'Concepto: Diseño de logotipo y manual básico. Importe pagado: $35,000 + IVA.'
+  ]) },
+  'D3.4': { riesgo: 'R3', capa: 'complementario', titulo: 'Correo de entrega', tipo: 'Correo', cuerpo: q([
+    'Les comparto los finales y el manual. Fue un gusto.'
+  ]) },
+  'D3.5': { riesgo: 'R3', capa: 'complementario', titulo: 'Contrato de servicios enviado, sin firma', tipo: 'Contrato', cuerpo: q([
+    'El PRESTADOR transmite a la AGENCIA, o a quien ésta designe, los derechos patrimoniales sobre los entregables, para su explotación por cualquier medio y sin limitación temporal. — Sin firma del PRESTADOR.'
+  ]) },
+  'D3.6': { riesgo: 'R3', capa: 'complementario', titulo: 'Contrato marco agencia-cliente', tipo: 'Contrato', cuerpo: q([
+    'La AGENCIA transmite al CLIENTE los derechos patrimoniales sobre los entregables y garantiza contar con los derechos necesarios para ello, obligándose a sacar en paz y a salvo al CLIENTE de cualquier reclamación.'
+  ]) },
+  'DS3': { riesgo: 'R3', capa: 'senal', titulo: 'Portafolio en línea de Tomás', tipo: 'Captura', cuerpo: q([
+    '«PULSO — identidad para Altiplano (próximamente). © Tomás Iriarte 2026».',
+    '<em>Nota del equipo:</em> la leyenda puede referirse sólo a su autoría, que el autor conserva en cualquier caso, o a una pretensión sobre la explotación. El documento no lo aclara.'
+  ]) },
+
+  /* R4 */
+  'D4.1': { riesgo: 'R4', capa: 'principal', titulo: 'Ficha del signo anterior', tipo: 'Búsqueda', busqueda: true, cuerpo: tbl(['Campo', 'Dato'], [
+    ['Signo', 'PULSO NOCTURNO (nominativo)'],
+    ['Titular', 'Promotora Pulso Nocturno, S.A. de C.V.'],
+    ['Servicios', 'Organización de carreras atléticas y eventos deportivos y recreativos'],
+    ['Estado', 'Registro vigente']
+  ]) },
+  'D4.2': { riesgo: 'R4', capa: 'complementario', titulo: 'Mensajes del equipo de eventos', tipo: 'Mensajes', cuerpo: q([
+    '<strong>Daniela Ochoa:</strong> ¿Lo de PULSO NOCTURNO es problema? La nuestra es NOCHE PULSO, es otra cosa, y siempre va con ALTIPLANO.',
+    '<strong>Eventos:</strong> La señalética ya está mandada a hacer y el micrositio está listo para el lunes.'
+  ]) },
+  'DS4': { riesgo: 'R4', capa: 'senal', titulo: 'Cuenta de la promotora', tipo: 'Captura', cuerpo: q([
+    'Última publicación hace 14 meses: «¡Pronto anunciaremos fechas!».'
+  ]) },
+
+  /* R5 */
+  'D5.2': { riesgo: 'R5', capa: 'principal', titulo: 'Nota de búsqueda preliminar interna', tipo: 'Búsqueda', busqueda: true, cuerpo: q([
+    'Sin solicitudes ni registros idénticos o muy semejantes para productos o servicios relacionados. Se localizó un uso aislado de la frase en una publicación de 2019 de un gimnasio, sin uso posterior visible.'
+  ]) },
+  'D5.1': { riesgo: 'R5', capa: 'complementario', titulo: 'Correo de Paula Ríos', tipo: 'Correo', cuerpo: q([
+    '<strong>Asunto:</strong> URGENTE — ¡el slogan no está registrado!',
+    'Si lanzamos sin registro, cualquiera nos lo puede robar. ¿No deberíamos parar hasta tenerlo? También vi que un gimnasio de Mérida usó «la ciudad es tu pista» en un post de 2019.'
+  ]) },
+  'DS5': { riesgo: 'R5', capa: 'senal', titulo: 'Nota del despacho externo', tipo: 'Nota', cuerpo: q([
+    '«La solicitud puede prepararse y presentarse antes del lunes. No es requisito para usar el slogan».'
+  ]) },
+
+  /* R6 */
+  'D6.1': { riesgo: 'R6', capa: 'principal', titulo: 'Autorización de uso de imagen', tipo: 'Autorización', cuerpo: q([
+    'Autorizo a Faro Films y a la marca Altiplano a usar mi imagen y mi voz captadas en la grabación del video promocional, para su publicación en redes sociales de la marca, en México, por seis meses. Otorgo esta autorización de forma gratuita. — Renata Ortega.'
+  ]) },
+  'D6.2': { riesgo: 'R6', capa: 'complementario', titulo: 'Mensajes de Emilio Bastida al equipo', tipo: 'Mensajes', cuerpo: q([
+    'Renata es buena onda, no va a haber broncas. Si quieren le digo que va a salir en la tele, pero no la quiero asustar con contratos.'
+  ]) },
+  'D6.3': { riesgo: 'R6', capa: 'complementario', titulo: 'Extracto del plan de medios', tipo: 'Plan de medios', cuerpo: q([
+    'TV de paga, cine, pauta en YouTube, Meta y TikTok, 12 caras de exterior con su fotograma, 12 semanas de campaña y spot «siempre activo» en YouTube durante 12 meses.'
+  ]) },
+  'DS6': { riesgo: 'R6', capa: 'senal', titulo: 'Mensaje de Renata al director', tipo: 'Mensaje', cuerpo: q([
+    '«Oye, ¿y dónde va a salir el video? Mi jefe no sabe que hice esto, jaja».'
+  ]) },
+
+  /* R7 */
+  'D7.1': { riesgo: 'R7', capa: 'principal', titulo: 'Captura de mensaje directo', tipo: 'Captura', cuerpo: q([
+    '<strong>Altiplano (Daniela):</strong> ¡Amamos tu video! ¿Lo podemos compartir?',
+    '<strong>Ximena:</strong> ¡Claro que sí!'
+  ]) },
+  'D7.2': { riesgo: 'R7', capa: 'complementario', titulo: 'Plan de pauta', tipo: 'Plan de pauta', cuerpo: q([
+    'Reel @ximecorre: anuncio pagado en Meta y TikTok, $350,000 de pauta, versión de 6 s para display, embebido en el sitio, 12 semanas. Audio: canción en tendencia de la biblioteca de la plataforma.'
+  ]) },
+  'DS7': { riesgo: 'R7', capa: 'senal', titulo: 'Perfil de Ximena con su representación', tipo: 'Captura', cuerpo: q([
+    '«Colaboraciones: representación Agencia Zancada».'
+  ]) },
+
+  /* R8 */
+  'D8.2': { riesgo: 'R8', capa: 'principal', titulo: 'Términos de Imaginaria (extracto ficticio)', tipo: 'Términos', cuerpo: q([
+    'Plan Gratuito: las imágenes generadas sólo pueden usarse con fines personales y no comerciales. Plan Pro: uso comercial permitido para imágenes generadas durante la suscripción. Imaginaria no garantiza que los resultados no infrinjan derechos de terceros.'
+  ]) },
+  'D8.1': { riesgo: 'R8', capa: 'complementario', titulo: 'Mensaje de Paula Ríos', tipo: 'Mensaje', cuerpo: q([
+    'Leí que las imágenes hechas con IA no tienen dueño y cualquiera puede copiarlas. ¿Nos pueden demandar? ¿Hay que parar el display?'
+  ]) },
+  'D8.3': { riesgo: 'R8', capa: 'complementario', titulo: 'Registro de prompts (extracto)', tipo: 'Registro', cuerpo: q([
+    '«fondo urbano al atardecer, trazos gruesos, paleta naranja y azul, estilo de Inés Carrasco, ilustradora mexicana»'
+  ]) },
+  'DS8': { riesgo: 'R8', capa: 'senal', titulo: 'Comparación con «Ciudad Naranja»', tipo: 'Comparación', cuerpo: q([
+    'Dos de los seis fondos repiten la composición de «Ciudad Naranja», un cartel conocido de Carrasco (ficticio): mismo encuadre, misma torre y misma diagonal de cables.'
+  ]) }
+};
+
+/* ---------- Tratamientos ---------- */
+var TRATAMIENTOS_ORDEN = ['Evitar', 'Sustituir', 'Mitigar', 'Transferir', 'Aceptar'];
+var TRATAMIENTOS_TXT = {
+  Evitar: 'No usar el elemento, o no hacer el uso que genera el riesgo. Elimina la exposición; cuesta poco dinero y algo de campaña.',
+  Sustituir: 'Reemplazar el elemento por otro con derechos claros. Elimina la exposición; cuesta dinero y puede cambiar la pieza.',
+  Mitigar: 'Reducir la probabilidad o el impacto: obtener o ampliar una licencia, conseguir una firma, acotar usos, comprar mejor evidencia.',
+  Transferir: 'Trasladar a otro las consecuencias económicas, con una garantía o una indemnidad. El riesgo sigue existiendo: cambia quién paga, y sólo si puede pagar.',
+  Aceptar: 'Asumir el riesgo de forma consciente, documentada y con alguien que lo vigile. No es no hacer nada: es decidir no gastar ahí.'
+};
+var SIN_VIA = 'Este tratamiento no tiene una vía realista para este riesgo con los hechos disponibles. Elige otro.';
+
+/* ---------- Medidas ---------- */
+/* exp/imp internos. edicion: usa sala de edición. trasl: trasladado. */
+var MEDIDAS = {
+  M1A: { r: 'R1', trat: 'Mitigar', costo: 58000, recargo: 73000, exp: 0, imp: 0, txt: 'Licencia integral urgente: editora, coautor y grabación; todos los medios; 12 meses' },
+  M1B: { r: 'R1', trat: 'Sustituir', costo: 24000, recargo: 30000, exp: 0, imp: 2, edicion: true, txt: 'Sustituir la canción por una pista de biblioteca con licencia verificable y remezclar' },
+  M1C: { r: 'R1', trat: 'Mitigar', costo: 15000, recargo: 19000, exp: 1, imp: 2, edicion: true, txt: 'Canción sólo en redes propias mientras se negocia; versión instrumental de biblioteca para TV, cine y pauta' },
+  M1D: { r: 'R1', trat: 'Transferir', costo: 3000, recargo: 4000, exp: 3, imp: 0, trasl: true, txt: 'Exigir a la agencia carta de garantía e indemnidad específica por la música' },
+  M1E: { r: 'R1', trat: 'Evitar', costo: 0, recargo: 0, exp: 0, imp: 3, txt: 'Retirar el spot del lanzamiento y salir con piezas fijas' },
+  M1F: { r: 'R1', trat: 'Aceptar', costo: 0, recargo: null, exp: 3, imp: 0, txt: 'Lanzar como está y negociar después' },
+  M2A: { r: 'R2', trat: 'Mitigar', costo: 12000, recargo: 15000, exp: 0, imp: 0, txt: 'Ampliar a Licencia Extendida' },
+  M2B: { r: 'R2', trat: 'Evitar', costo: 6000, recargo: 8000, exp: 0, imp: 1, txt: 'Retirar la fotografía de caja y camiseta; usar patrón gráfico de marca' },
+  M2C: { r: 'R2', trat: 'Aceptar', costo: 0, recargo: null, exp: 2, imp: 0, txt: 'Imprimir como está' },
+  M3A: { r: 'R3', trat: 'Mitigar', costo: 15000, recargo: 19000, exp: 0, imp: 0, txt: 'Documento de reconocimiento y cesión: Tomás confirma el encargo y transmite por escrito los derechos de explotación para uso permanente, con pago adicional' },
+  M3B: { r: 'R3', trat: 'Mitigar', costo: 6000, recargo: 8000, exp: 1, imp: 0, txt: 'Carta de Tomás que confirma el encargo y el uso pactado, con licencia exclusiva por 2 años' },
+  M3C: { r: 'R3', trat: 'Sustituir', costo: 40000, recargo: 50000, exp: 0, imp: 2, txt: 'Rediseño urgente del logotipo con el equipo de la agencia' },
+  M3D: { r: 'R3', trat: 'Transferir', costo: 2000, recargo: 3000, exp: 2, imp: 0, trasl: true, txt: 'Requerir a la agencia que documente la cadena de derechos a su costo, conforme a su garantía' },
+  M3E: { r: 'R3', trat: 'Aceptar', costo: 0, recargo: null, exp: 2, imp: 0, txt: 'Lanzar con la evidencia actual (encargo, pago y entrega) y documentar después' },
+  M4A: { r: 'R4', trat: 'Mitigar', costo: 10000, recargo: 13000, exp: 2, imp: 0, txt: 'Búsqueda ampliada y opinión de despacho externo' },
+  M4B: { r: 'R4', trat: 'Sustituir', costo: 16000, recargo: 20000, exp: 0, imp: 1, txt: 'Renombrar a «NOCHES ALTIPLANO» (micrositio, señalética, piezas)' },
+  M4C: { r: 'R4', trat: 'Mitigar', costo: 8000, recargo: 10000, exp: 2, imp: 0, txt: 'Contactar al titular para pedir consentimiento' },
+  M4D: { r: 'R4', trat: 'Evitar', costo: 0, recargo: 0, exp: 0, imp: 1, txt: 'Posponer una semana el anuncio de la activación' },
+  M4E: { r: 'R4', trat: 'Aceptar', costo: 0, recargo: null, exp: 2, imp: 0, txt: 'Mantener el nombre y monitorear' },
+  M5A: { r: 'R5', trat: 'Mitigar', costo: 7000, recargo: 9000, exp: 0, imp: 0, txt: 'Presentar solicitud de registro como aviso comercial' },
+  M5B: { r: 'R5', trat: 'Sustituir', costo: 22000, recargo: 28000, exp: 0, imp: 2, txt: 'Cambiar el slogan en todas las piezas' },
+  M5C: { r: 'R5', trat: 'Aceptar', costo: 0, recargo: null, exp: 1, imp: 0, txt: 'Usar y presentar la solicitud la próxima semana' },
+  M6A: { r: 'R6', trat: 'Mitigar', costo: 20000, recargo: 25000, exp: 0, imp: 0, txt: 'Negociar ampliación con Renata: todos los medios, 12 meses, con pago' },
+  M6B: { r: 'R6', trat: 'Evitar', costo: 8000, recargo: 10000, exp: 0, imp: 2, txt: 'Ajustarse a su autorización: spot sólo en redes; retirar su fotograma del exterior' },
+  M6C: { r: 'R6', trat: 'Mitigar', costo: 14000, recargo: 18000, exp: 1, imp: 1, edicion: true, txt: 'Reeditar para que no sea reconocible fuera de redes y retirar su fotograma del exterior' },
+  M6D: { r: 'R6', trat: 'Aceptar', costo: 0, recargo: null, exp: 3, imp: 0, txt: 'Lanzar como está' },
+  M7A: { r: 'R7', trat: 'Mitigar', costo: 8000, recargo: 10000, exp: 0, imp: 0, txt: 'Licencia escrita con Ximena (pauta, edición, 12 semanas) con pago y audio licenciado' },
+  M7B: { r: 'R7', trat: 'Evitar', costo: 0, recargo: 0, exp: 0, imp: 1, txt: 'Sólo compartir con la función nativa y crédito; sin pauta ni edición' },
+  M7C: { r: 'R7', trat: 'Aceptar', costo: 0, recargo: null, exp: 2, imp: 0, txt: 'Pautar como está' },
+  M8A: { r: 'R8', trat: 'Sustituir', costo: 5000, recargo: 7000, exp: 0, imp: 1, txt: 'Sustituir por ilustraciones vectoriales de stock con licencia comercial' },
+  M8B: { r: 'R8', trat: 'Sustituir', costo: 12000, recargo: 15000, exp: 0, imp: 0, txt: 'Ilustración original del equipo de la agencia' },
+  M8C: { r: 'R8', trat: 'Evitar', costo: 0, recargo: 0, exp: 0, imp: 1, txt: 'Retirar los seis banners; el display sale con piezas fotográficas' },
+  M8D: { r: 'R8', trat: 'Aceptar', costo: 0, recargo: null, exp: 2, imp: 0, txt: 'Usar como están' }
+};
+var MEDIDAS_POR_RIESGO = {};
+Object.keys(MEDIDAS).forEach(function (k) { var r = MEDIDAS[k].r; (MEDIDAS_POR_RIESGO[r] = MEDIDAS_POR_RIESGO[r] || []).push(k); });
+
+/* Qué compró cada peso (sección 17, F3) */
+var COMPRO = {
+  M1A: ['La canción en todos los medios, sin recortes', 'Nada para el resto del expediente; poco margen para el domingo'],
+  M1B: ['Un spot sin exposición musical', 'La canción, que marketing considera el corazón de la campaña'],
+  M1C: ['Tiempo para negociar sin exponer los medios pagados', 'La canción en TV, cine y pauta durante el lanzamiento'],
+  M1D: ['Un deudor para después', 'Que el spot siga al aire si la editora reclama'],
+  M2A: ['Cajas y camisetas dentro de licencia', '—'],
+  M2B: ['Exposición cero en mercancía', 'El key visual en el producto'],
+  M3A: ['Una cadena de derechos documentada para uso permanente', '—'],
+  M3B: ['Evidencia escrita del encargo y exclusividad por 2 años', 'Documentación para uso permanente; la conversación sólo se aplaza'],
+  M3C: ['Un logotipo sin dudas documentales', 'Calidad y tiempo: un activo permanente hecho en 48 horas'],
+  M3D: ['Una obligación de la agencia de documentar o responder', 'La firma de Tomás; además lo predispuso'],
+  M4A: ['Saber si el nombre era defendible', 'Una solución; todavía hay que decidir'],
+  M4B: ['Una activación sin conflicto', 'El nombre que conectaba con la línea'],
+  M4C: ['Una respuesta del titular', 'Discreción: ahora el titular sabe'],
+  M5A: ['Prioridad sobre el slogan', 'Nada urgente para el lunes'],
+  M5B: ['Un slogan nuevo', 'Algo que hiciera falta: el anterior podía usarse'],
+  M6A: ['La protagonista en TV, cine y digital', 'Seguridad sobre el exterior'],
+  M6B: ['Cumplir lo que Renata firmó', 'El spot en TV y cine'],
+  M6C: ['Un spot usable con menos exposición', 'La fuerza de los primeros planos'],
+  M7A: ['El reel en pauta, con audio limpio', '—'],
+  M8A: ['Fondos con licencia comercial', 'Carácter: aspecto genérico'],
+  M8B: ['Fondos propios y trazables', '—']
+};
+
+/* ---------- Novedades ----------
+   Cada respuesta:
+   cambia: true  -> pasa a ser la estrategia (código = respuesta)
+   cambia: false -> «Sin cambio» o mantiene la estrategia vigente
+   exp/imp: valores de la estrategia cuando cambia
+   bloquea, motivo, hunde (la medida base pasa a costo hundido), marca
+*/
+var NOVEDADES = {
+  A1: { ranura: 'A', riesgo: 'R1', ejecucion: true, hora: 'DOMINGO 08:40', remite: 'Ediciones Musicales Aurora',
+    texto: 'Confirmamos la licencia; la banda firmó también lo relativo a la grabación. Una precisión: la cotización cubre TV, digital y exterior. El uso en cine no estaba incluido. Para cine son $8,000 adicionales.',
+    resp: [
+      { id: 'A1-1', txt: 'Pagar el uso en cine', costo: 8000, cambia: true, exp: 0, imp: 0, bloquea: true, motivo: 'la licencia ya se firmó', efecto: 'Exposición 0, impacto 0' },
+      { id: 'A1-2', txt: 'Sacar el spot de cine', costo: 0, cambia: true, exp: 0, imp: 1, bloquea: true, motivo: 'la licencia ya se firmó', efecto: 'Exposición 0, impacto 1' }
+    ] },
+  A2: { ranura: 'A', riesgo: 'R1', hora: 'DOMINGO 09:15', remite: 'Andrés Villaseñor',
+    texto: 'El director general vio el corte y está molesto: dice que sin la canción la campaña ya no suena a PULSO. Pide recuperarla para el lunes.',
+    textoM1E: 'El director general vio el plan sin el spot y está molesto: dice que sin la canción la campaña ya no suena a PULSO. Pide recuperarla para el lunes.',
+    resp: [
+      { id: 'A2-1', txt: 'Sostener la decisión y explicarla', costo: 0, cambia: false, bloquea: false, efecto: 'Sin cambio' },
+      { id: 'A2-2', txt: 'Sostenerla y negociar la canción para una segunda ola', costo: 0, cambia: false, bloquea: false, marca: 'NEGOCIACION_MUSICA', efecto: 'Sin cambio; marca NEGOCIACION_MUSICA' },
+      { id: 'A2-3', txt: 'Recuperar la canción con licencia integral a precio de domingo', costo: 62000, cambia: true, exp: 0, imp: 0, bloquea: true, hunde: true, motivo: 'regularizó el riesgo y sustituyó material', efecto: 'Exposición 0, impacto 0; la medida anterior pasa a costo hundido' }
+    ] },
+  A3: { ranura: 'A', riesgo: 'R1', hora: 'DOMINGO 10:00', remite: 'Ediciones Musicales Aurora',
+    texto: 'Podemos licenciar todos los medios por 12 meses por $32,000 si firman antes del lunes a las 08:00. Además, la mánager envió por escrito la confirmación de que la grabación es de la banda.',
+    resp: [
+      { id: 'A3-1', txt: 'Aceptar la oferta', costo: 32000, cambia: true, exp: 0, imp: 0, bloquea: true, hunde: true, motivo: 'regularizó el riesgo', efecto: 'Exposición 0, impacto 0; la canción entra en todos los medios desde el lunes; M1C pasa a costo hundido' },
+      { id: 'A3-2', txt: 'Mantener el acotamiento y negociar la próxima semana', costo: 0, cambia: false, bloquea: false, efecto: 'Exposición 1, impacto 2' }
+    ] },
+  A4: { ranura: 'A', riesgo: 'R1', hora: 'DOMINGO 08:30', remite: 'Mensajes',
+    texto: 'Anoche Satélite Norte publicó en sus redes: «Nuestra rola en el comercial de PULSO, ¡este lunes!». Una hora después escribió Ediciones Musicales Aurora: «No existe licencia de la editora. Cualquier uso publicitario será reclamado ante las plataformas y por la vía que corresponda».',
+    anexoM1D: 'Marea Creativa responde a tu carta: asume hasta $30,000 en parcialidades. No cubre el retiro del spot ni el daño reputacional.',
+    resp: [
+      { id: 'A4-1', txt: 'Regularizar de urgencia', costo: 65000, cambia: true, exp: 0, imp: 0, bloquea: true, hunde: true, motivo: 'regularizó el riesgo', efecto: 'Exposición 0, impacto 0' },
+      { id: 'A4-2', txt: 'Acotar de inmediato: canción sólo en redes, instrumental en lo demás', costo: 18000, cambia: true, exp: 1, imp: 2, edicion: true, bloquea: true, hunde: true, motivo: 'sustituyó material', efecto: 'Exposición 1, impacto 2; cuenta como medida con edición' },
+      { id: 'A4-3', txt: 'Retirar el spot del lanzamiento', costo: 0, cambia: true, exp: 0, imp: 3, bloquea: true, motivo: 'modificó sustancialmente la estrategia', efecto: 'Exposición 0, impacto 3' },
+      { id: 'A4-4', txt: 'Seguir adelante', costo: 0, cambia: false, bloquea: false, marca: 'DESPUES_DE_AVISO', efecto: 'Exposición 3; marca DESPUES_DE_AVISO' }
+    ] },
+  B1: { ranura: 'B', riesgo: 'R6', ejecucion: true, hora: 'DOMINGO 11:30', remite: 'Emilio Bastida',
+    texto: 'Renata acepta TV, cine y digital por 12 meses. Pero no quiere su cara en espectaculares: dice que en su trabajo no saben.',
+    resp: [
+      { id: 'B1-1', txt: 'Sustituir su fotograma en las 12 caras por una variante del key visual', costo: 6000, cambia: true, exp: 0, imp: 0, bloquea: true, motivo: 'Renata ya aceptó', efecto: 'Exposición 0, impacto 0' },
+      { id: 'B1-2', txt: 'Retirar esas 12 caras de exterior', costo: 0, cambia: true, exp: 0, imp: 1, bloquea: true, motivo: 'Renata ya aceptó', efecto: 'Exposición 0, impacto 1' },
+      { id: 'B1-3', txt: 'Mantener las caras', costo: 0, cambia: true, exp: 2, imp: 0, bloquea: true, marca: 'CONTRA_NEGATIVA', motivo: 'Renata ya aceptó', efecto: 'Exposición 2; marca CONTRA_NEGATIVA' }
+    ] },
+  B2: { ranura: 'B', riesgo: 'R6', hora: 'DOMINGO 11:30', remite: 'Renata a Emilio',
+    texto: 'Vi el corte, ¡me encantó! Si quieren usarlo en la tele, platiquemos.',
+    textoInformativo: 'Me dijeron que al final no sale el video. Si cambian de idea, platiquemos.',
+    resp: [
+      { id: 'B2-1', txt: 'Negociar hoy la ampliación y recuperar la versión original', costo: 25000, cambia: true, exp: 0, imp: 0, bloquea: true, hunde: true, motivo: 'añadió derechos y sustituyó material', efecto: 'Exposición 0, impacto 0; la medida anterior pasa a costo hundido' },
+      { id: 'B2-2', txt: 'Mantener el ajuste y conversar después del lanzamiento', costo: 0, cambia: false, bloquea: false, efecto: 'Sin cambio' }
+    ] },
+  B3: { ranura: 'B', riesgo: 'R6', hora: 'DOMINGO 11:30', remite: 'Captura enviada por Emilio',
+    texto: 'Renata: «¿Cómo que en espectaculares? Yo firmé para redes. Nadie me dijo nada».',
+    resp: [
+      { id: 'B3-1', txt: 'Negociar de urgencia y sustituir su fotograma en exterior', costo: 28000, cambia: true, exp: 0, imp: 0, bloquea: true, motivo: 'añadió derechos', efecto: 'Exposición 0, impacto 0' },
+      { id: 'B3-2', txt: 'Ajustarse a lo firmado: spot sólo en redes, fotograma fuera de exterior', costo: 10000, cambia: true, exp: 0, imp: 2, bloquea: true, motivo: 'sustituyó material', efecto: 'Exposición 0, impacto 2' },
+      { id: 'B3-3', txt: 'Seguir adelante', costo: 0, cambia: false, bloquea: false, marca: 'CONTRA_NEGATIVA', efecto: 'Exposición 3; marca CONTRA_NEGATIVA' }
+    ] },
+  C1: { ranura: 'C', riesgo: 'R2', hora: 'DOMINGO 10:30', remite: 'Empaques del Bajío',
+    texto: 'Último momento para cambiar archivos de caja: hoy a las 12:00. Después arrancamos 60,000 piezas.',
+    resp: [
+      { id: 'C1-1', txt: 'Comprar la Licencia Extendida', costo: 12000, cambia: true, exp: 0, imp: 0, bloquea: true, motivo: 'añadió derechos', efecto: 'Exposición 0, impacto 0' },
+      { id: 'C1-2', txt: 'Retirar la fotografía de caja y camiseta, con recargo', costo: 8000, cambia: true, exp: 0, imp: 1, bloquea: true, motivo: 'sustituyó material', efecto: 'Exposición 0, impacto 1' },
+      { id: 'C1-3', txt: 'Imprimir como está', costo: 0, cambia: true, exp: 2, imp: 0, bloquea: true, marca: 'IRREVERSIBLE', motivo: 'las cajas se imprimieron', efecto: 'Exposición 2; marca IRREVERSIBLE' }
+    ] },
+  C2b: { ranura: 'C', riesgo: 'R4', ejecucion: true, hora: 'DOMINGO 10:30', remite: 'Abogado de Promotora Pulso Nocturno',
+    texto: 'Agradecemos el contacto. Nuestro cliente puede otorgar su consentimiento por $50,000. Sin acuerdo, nos reservamos las acciones que procedan desde el primer anuncio.',
+    resp: [
+      { id: 'C2b-1', txt: 'Pagar el consentimiento', costo: 50000, cambia: true, exp: 0, imp: 0, bloquea: true, motivo: 'el titular ya fue contactado', efecto: 'Exposición 0, impacto 0' },
+      { id: 'C2b-2', txt: 'Renombrar con recargo', costo: 20000, cambia: true, exp: 0, imp: 1, bloquea: true, motivo: 'el titular ya fue contactado', efecto: 'Exposición 0, impacto 1' },
+      { id: 'C2b-3', txt: 'Posponer una semana el anuncio', costo: 0, cambia: true, exp: 0, imp: 1, bloquea: true, motivo: 'el titular ya fue contactado', efecto: 'Exposición 0, impacto 1' },
+      { id: 'C2b-4', txt: 'Mantener el nombre', costo: 0, cambia: true, exp: 3, imp: 0, bloquea: true, marca: 'DESPUES_DE_AVISO', motivo: 'el titular ya fue contactado', efecto: 'Exposición 3; marca DESPUES_DE_AVISO' }
+    ] },
+  C2a: { ranura: 'C', riesgo: 'R4', ejecucion: true, hora: 'DOMINGO 10:30', remite: 'Informe del despacho externo',
+    texto: 'Registro vigente. Hay poca actividad pública reciente, lo que podría abrir vías contra ese registro a mediano plazo, no antes del lunes. Pero en 2023 el titular envió una carta de reclamación a un bar que usaba «Pulso Night». Recomendamos no usar NOCHE PULSO sin consentimiento.',
+    resp: [
+      { id: 'C2a-1', txt: 'Renombrar con recargo', costo: 20000, cambia: true, exp: 0, imp: 1, bloquea: true, motivo: 'el informe ya se entregó', efecto: 'Exposición 0, impacto 1' },
+      { id: 'C2a-2', txt: 'Posponer una semana el anuncio', costo: 0, cambia: true, exp: 0, imp: 1, bloquea: true, motivo: 'el informe ya se entregó', efecto: 'Exposición 0, impacto 1' },
+      { id: 'C2a-3', txt: 'Mantener el nombre', costo: 0, cambia: true, exp: 2, imp: 0, bloquea: true, marca: 'CONTRA_OPINION', motivo: 'el informe ya se entregó', efecto: 'Exposición 2; marca CONTRA_OPINION' }
+    ] },
+  C3a: { ranura: 'C', riesgo: 'R3', hora: 'DOMINGO 10:30', remite: 'Tomás Iriarte a Rodrigo Saldaña',
+    texto: 'Me llegó una carta de la agencia como si yo hubiera incumplido algo. Yo entregué y cobré un diseño; nunca firmamos nada sobre derechos para siempre. Si quieren un documento de cesión para uso permanente, son $45,000. Si no, firmo una carta que confirme el uso para esta campaña.',
+    resp: [
+      { id: 'C3a-1', txt: 'Firmar la cesión para uso permanente', costo: 45000, cambia: true, exp: 0, imp: 0, bloquea: true, hunde: true, motivo: 'regularizó el riesgo', efecto: 'Exposición 0, impacto 0' },
+      { id: 'C3a-2', txt: 'Firmar la carta para esta campaña', costo: 0, cambia: true, exp: 1, imp: 0, bloquea: true, hunde: true, marca: 'ESTRUCTURAL_ABIERTO', motivo: 'añadió derechos', efecto: 'Exposición 1; marca ESTRUCTURAL_ABIERTO' },
+      { id: 'C3a-3', txt: 'Dejarlo para después del lanzamiento', costo: 0, cambia: false, bloquea: false, efecto: 'Exposición 2' }
+    ] },
+  C3b: { ranura: 'C', riesgo: 'R3', hora: 'DOMINGO 10:30', remite: 'Publicación de Tomás Iriarte',
+    texto: '«Mi logotipo para PULSO sale mañana. Orgulloso de este proyecto. © Tomás Iriarte».',
+    resp: [
+      { id: 'C3b-1', txt: 'Proponerle hoy un documento de reconocimiento y cesión', costo: 18000, cambia: true, exp: 0, imp: 0, bloquea: true, hunde: true, motivo: 'regularizó el riesgo', efecto: 'Exposición 0, impacto 0; M3B pasa a costo hundido si estaba vigente' },
+      { id: 'C3b-2', txt: 'Felicitarlo y documentar después', costo: 0, cambia: false, bloquea: false, efecto: 'Sin cambio' }
+    ] },
+  C4: { ranura: 'C', riesgo: null, hora: 'DOMINGO 10:30', remite: 'Andrés Villaseñor',
+    texto: 'Deportes Meridiano confirma que el espacio preferente en sus 140 tiendas depende de que la campaña arranque el lunes. Si se mueve, se pierde por el trimestre.',
+    resp: [] }
+};
+/* Respuestas de C4 (dependientes del contexto) */
+var C4_RESP = {
+  'C4-L4': { id: 'C4-L4', txt: 'Mantener la posposición (L4)', costo: 0, efecto: 'Impacto +2 si L4 se mantiene' },
+  'C4-L2': { id: 'C4-L2', txt: 'Cambiar a lanzamiento con condiciones (L2)', costo: 0, efecto: 'Cambia la decisión de lanzamiento' },
+  'C4-L3': { id: 'C4-L3', txt: 'Cambiar a lanzamiento escalonado (L3)', costo: 0, efecto: 'Cambia la decisión de lanzamiento' },
+  'C4-OK': { id: 'C4-OK', txt: 'Entendido', costo: 0, efecto: 'Sin cambio' },
+  'C4-Z': { id: 'C4-Z', riesgo: 'R7', txt: 'Aceptar la oferta de Agencia Zancada', costo: 3000, cambia: true, exp: 0, imp: 0, bloquea: true, motivo: 'añadió derechos', efecto: 'Exposición 0, impacto 0' },
+  'C4-NZ': { id: 'C4-NZ', txt: 'Rechazar la oferta', costo: 0, efecto: 'Sin cambio' }
+};
+var NOTA_PROD = { hora: 'DOMINGO 12:00', remite: 'Faro Films',
+  texto: 'La sala de edición en fin de semana cobra $4,000 adicionales. Sin ese pago, las versiones editadas llegan el martes.',
+  resp: [
+    { id: 'NP-1', txt: 'Pagar la tarifa', costo: 4000, bloquea: true, motivo: 'pagó la ejecución de la edición', efecto: 'Sin cambio' },
+    { id: 'NP-2', txt: 'Recibir el martes', costo: 0, bloquea: false, efecto: 'Impacto +1, una sola vez' }
+  ] };
+
+/* Textos de efecto/compra para respuestas pagadas (F3 «Compró») */
+var RESP_COMPRO = {
+  'A1-1': 'El uso en cine dentro de la licencia', 'A2-3': 'La canción de regreso, con licencia integral', 'A3-1': 'La canción en todos los medios desde el lunes',
+  'A4-1': 'Regularización urgente de la música', 'A4-2': 'Canción sólo en redes, instrumental en lo demás',
+  'B1-1': 'Sustitución del fotograma de Renata en exterior', 'B2-1': 'La ampliación con Renata y la versión original',
+  'B3-1': 'La autorización ampliada de Renata', 'B3-2': 'Ajustarse a lo que Renata firmó',
+  'C1-1': 'Licencia Extendida antes de imprimir', 'C1-2': 'Cajas y camisetas sin la fotografía',
+  'C2b-1': 'El consentimiento del titular', 'C2b-2': 'Una activación con otro nombre',
+  'C2a-1': 'Una activación con otro nombre', 'C3a-1': 'La cesión para uso permanente', 'C3b-1': 'El documento de reconocimiento y cesión',
+  'C4-Z': 'El reel licenciado para pauta y edición', 'NP-1': 'Las versiones editadas a tiempo para el lunes'
+};
+
+/* ---------- Lanzamiento ---------- */
+var LANZ = {
+  L1: { titulo: 'Lanzar completo', txt: 'Todo lo que queda en el plan sale el lunes a las 09:00, sin condiciones adicionales.' },
+  L2: { titulo: 'Lanzar con condiciones', txt: 'Sale el lunes, pero hasta tres piezas con riesgo abierto salen limitadas.' },
+  L3: { titulo: 'Lanzamiento escalonado', txt: 'El lunes salen las piezas limpias; las piezas con riesgo medio o alto entran en 7 días si se resuelven.' },
+  L4: { titulo: 'Posponer una semana', txt: 'Nada sale el lunes.' }
+};
+var CONDICIONES = {
+  R1: 'El spot con la canción sale sólo en redes propias hasta firmar la licencia.',
+  R2: 'Cajas y camisetas no se imprimen con el key visual hasta tener la licencia.',
+  R3: 'No se presenta solicitud de registro del logotipo ni se usa en mercancía nueva hasta documentar la cadena de derechos.',
+  R4: 'NOCHE PULSO no se anuncia hasta tener opinión externa.',
+  R6: 'El fotograma de Renata no sale en exterior hasta tener su autorización.',
+  R7: 'El reel no se pauta ni se edita hasta tener licencia escrita.',
+  R8: 'Los banners con ilustraciones generadas no salen hasta revisarse.'
+};
+
+/* ---------- Epílogo ---------- */
+function epilogoDe(r, code) {
+  switch (r) {
+    case 'R1':
+      if (code === 'M1C' || code === 'A4-2') return { titulo: 'R1 acotado', ver: 'Posible', txt: 'La negociación sigue; TV y cine corren con la versión instrumental. El spot rinde menos de lo planeado.' };
+      return { titulo: 'R1 sin licencia', ver: 'Probable', txt: 'La editora formaliza el reclamo y una plataforma restringe el anuncio. La licencia retroactiva cuesta más que la urgente.' + (code === 'M1D' ? ' Como se transfirió: la agencia ofrece pagar hasta $30,000 en parcialidades; el resto lo absorbe el cliente.' : '') };
+    case 'R2': return { titulo: 'R2 impreso sin licencia', ver: 'Posible', txt: 'El banco de imágenes detecta el uso en mercancía y exige regularización con recargo. Las camisetas vendidas no se pueden retirar.' };
+    case 'R3': return { titulo: 'R3 sin documentación suficiente', ver: 'Poco probable a 30 días', txt: 'Nada ocurre todavía, pero cuando la línea se registre, se licencie o se venda, alguien pedirá la cadena de derechos del logotipo, y hoy no puede mostrarse completa.' };
+    case 'R4': return { titulo: 'R4 con el nombre original', ver: 'Posible', txt: 'Día 10: carta de la promotora pidiendo dejar de usar NOCHE PULSO antes de la segunda carrera. Renombrar a mitad de campaña cuesta más que antes.' };
+    case 'R5': return { titulo: 'R5 sin solicitud', ver: 'Poco probable', txt: 'Nada ocurre; la solicitud se presenta la semana siguiente.' };
+    case 'R6': return { titulo: 'R6 sin consentimiento ampliado', ver: 'Probable', txt: 'Renata se reconoce en un espectacular y se queja con el director y en redes. Se retiran caras y se negocia desde una posición más débil.' };
+    case 'R7': return { titulo: 'R7 pautado como está', ver: 'Posible', txt: 'La plataforma silencia el anuncio por el audio; la representación de Ximena pide pago retroactivo.' };
+    case 'R8': return { titulo: 'R8 usado como está', ver: 'Poco probable (legal) · posible (reputacional)', txt: 'Una cuenta de ilustradores compara los banners con «Ciudad Naranja».' };
+  }
+}
+
+/* ---------- Trayectorias de contraste (sección 17) ---------- */
+var TRAYECTORIAS = [
+  { id: 'T1', nombre: 'Conservadora', lema: '«expediente limpio»', carpetas: 'Cualquiera',
+    medidas: { R1: 'M1B', R2: 'M2B', R3: 'M3A', R4: 'M4B', R5: 'M5A', R6: 'M6C', R7: 'M7B', R8: 'M8C' },
+    comprometido: 76000, reserva: 24000, lanz: 'L1',
+    domingo: 'Sostiene la sustitución (A2-1). No alcanza para recuperar a Renata ($25,000): B2-2. Compra el reel a Zancada ($3,000) y paga la sala ($4,000). Ajuste sin usar. Saldo final $17,000.',
+    abierto: 'La protagonista, parcialmente reconocible fuera de redes.',
+    sacrifico: 'La canción, los primeros planos de Renata, el nombre de la activación.',
+    apuesta: 'Que la campaña funcione sin su canción.', perfil: 'Conservador' },
+  { id: 'T2', nombre: 'Continuidad comercial', lema: '«el himno sale el lunes»', carpetas: 'PR1, PR3, PR6',
+    medidas: { R1: 'M1A', R2: 'M2A', R3: 'M3B', R4: 'M4E', R5: 'M5C', R6: 'M6A', R7: 'M7B', R8: 'M8C' },
+    comprometido: 96000, reserva: 4000, lanz: 'L1',
+    domingo: 'No alcanza para cine (A1-2) ni para el exterior (B1-2). Felicita a Tomás sin cerrar la cesión (C3b-2). Saldo final $4,000.',
+    abierto: 'Logotipo con licencia y sin cesión; activación con nombre en conflicto; slogan sin solicitud.',
+    sacrifico: 'Cine, 12 caras de exterior y margen de maniobra.',
+    apuesta: 'Que nada imprevisto cueste más de $4,000.', perfil: 'Continuidad comercial' },
+  { id: 'T3', nombre: 'Basada en evidencia', lema: '«comprar información primero»', carpetas: 'PR1, PR3, PR4',
+    medidas: { R1: 'M1C', R2: 'M2A', R3: 'M3A', R4: 'M4A', R5: 'M5C', R6: 'M6A', R7: 'M7B', R8: 'M8C' },
+    comprometido: 72000, reserva: 28000, lanz: 'L2 (NOCHE PULSO no se anuncia hasta tener opinión)',
+    domingo: 'No alcanza la oferta de Aurora ($32,000): mantiene el acotamiento (A3-2). Paga la exclusión de Renata (B1-1, $6,000) y la sala ($4,000). Pospone la activación (C2a-2). Usa el ajuste para presentar la solicitud del slogan (M5A con recargo, $9,000). Saldo final $9,000.',
+    abierto: 'La canción en redes sin licencia de la editora; TV, cine y pauta con versión instrumental.',
+    sacrifico: 'La canción en medios pagados y una semana de activación.',
+    apuesta: 'Que la negociación de la próxima semana cierre la canción.', perfil: 'Basado en evidencia' }
+];
+var NOTA_TRAYECTORIAS = 'Si antes de responder a Aurora usas el ajuste para cancelar la Licencia Extendida (recuperas $6,000), llegas a $34,000 y puedes pagar la oferta. La canción sale en todos los medios, pero las cajas se imprimen fuera de licencia y, sin saldo, retiras 12 caras de exterior. Otra vía es cancelar la cesión del logotipo (recuperas $7,000), que deja abierto el riesgo estructural.';
+
+/* Qué habría traído el domingo cada medida (para «Qué hubiera cambiado») */
+var DOMINGO_POR_MEDIDA = {
+  M1A: 'la confirmación de la licencia con un costo adicional de cine de $8,000',
+  M1B: 'la presión del director general para recuperar la canción',
+  M1C: 'una oferta de $32,000 para licenciar todos los medios',
+  M1D: 'un reclamo de la editora', M1E: 'la presión del director general para recuperar la canción', M1F: 'un reclamo de la editora',
+  M2C: 'el cierre de imprenta del domingo',
+  M3B: 'la publicación de Tomás sobre el logotipo', M3D: 'la contraoferta de Tomás por $45,000', M3E: 'la publicación de Tomás sobre el logotipo',
+  M4A: 'un informe que desaconseja el nombre', M4C: 'la petición de $50,000 por el consentimiento',
+  M6A: 'la aceptación de Renata, con exclusión del exterior', M6B: 'la invitación de Renata a ampliar', M6C: 'la invitación de Renata a ampliar', M6D: 'la queja de Renata'
+};
+
+var MARCAS_TXT = {
+  IRREVERSIBLE: 'Las cajas se imprimieron fuera de licencia.',
+  DESPUES_DE_AVISO: 'Seguiste adelante después de un reclamo o de contactar al titular.',
+  CONTRA_NEGATIVA: 'Usaste la imagen de Renata contra su objeción expresa.',
+  CONTRA_OPINION: 'Mantuviste el nombre contra la opinión que pagaste.',
+  ESTRUCTURAL_ABIERTO: 'El logotipo quedó sin documentación suficiente para su uso permanente.',
+  NEGOCIACION_MUSICA: 'Quedó abierta una negociación de la canción para una segunda ola.'
+};
+
+var TIPOS_PERFIL = {
+  evidencia: { nombre: 'Perfil basado en evidencia', txt: 'Compraste información antes de comprometer. La pregunta es qué habrías hecho si la información llegaba tarde o cara.' },
+  conservador: { nombre: 'Perfil conservador', txt: 'Llegaste al lunes con muy poca exposición, pagada con campaña. La pregunta que te hará el cliente es si cada recorte era necesario.' },
+  continuidad: { nombre: 'Perfil de continuidad comercial', txt: 'Protegiste la campaña tal como se diseñó y asumiste exposición para lograrlo. La pregunta es si esa exposición quedó documentada y si alguien la vigila.' },
+  mixto: { nombre: 'Perfil mixto', txt: 'Combinaste estrategias según el riesgo. La pregunta es si la combinación responde a un criterio que puedas explicar en una frase.' }
+};
+var EJES = [
+  { izq: 'Protección', izqTxt: 'menos exposición, más campaña sacrificada', der: 'Continuidad', derTxt: 'campaña íntegra, más exposición' },
+  { izq: 'Comprometer', izqTxt: 'todo el dinero el sábado', der: 'Reservar', derTxt: 'margen para el domingo' },
+  { izq: 'Resolver', izqTxt: 'evitar, sustituir, mitigar', der: 'Trasladar o asumir', derTxt: 'transferir o aceptar' },
+  { izq: 'Evidencia', izqTxt: 'decidir con más información', der: 'Velocidad', derTxt: 'decidir con lo que hay' }
+];
+/* =========================================================
+   LÓGICA · estado, presupuesto, novedades, bloqueo, ajuste,
+   lanzamiento, cálculo final y perfil
+   ========================================================= */
+var ACEPTAR_SET = { M1F: 1, M2C: 1, M3E: 1, M4E: 1, M5C: 1, M6D: 1, M7C: 1, M8D: 1 };
+var EDICION_SET = { M1B: 1, M1C: 1, M6C: 1, 'A4-2': 1 };
+var RESP_INDEX = {};
+Object.keys(NOVEDADES).forEach(function (k) {
+  NOVEDADES[k].resp.forEach(function (r) { RESP_INDEX[r.id] = Object.assign({ nov: k, riesgo: NOVEDADES[k].riesgo }, r); });
+});
+Object.keys(C4_RESP).forEach(function (k) { RESP_INDEX[k] = Object.assign({ nov: 'C4' }, C4_RESP[k]); });
+NOTA_PROD.resp.forEach(function (r) { RESP_INDEX[r.id] = Object.assign({ nov: 'NP' }, r); });
+
+function estadoInicial() {
+  return {
+    v: 1, started: false, nombre: '', id: '', fecha: '', fase: 0, vista: 0,
+    revision: [], docsAbiertos: {}, lectura: {}, triage: {}, justP1: '',
+    financiamiento: {}, justCosto: '', lanz: { code: '', cond: [], ret: [] },
+    /* fijados al confirmar Fase 4 */
+    lanzInicial: null, cambios: [], comprometido: 0, descuento: 0, pagado: {}, reserva: 0, ranuraC: null,
+    estrategia: {}, bloqueo: {}, nov: {}, notaProd: { evaluada: false, mostrada: false, resp: null },
+    ajuste: null, intentosAjuste: [], hundidos: [], pagos: [], saldo: 0, ajusteImpacto: {},
+    marcas: { activas: [], hist: [] }, c4MantuvoL4: false,
+    recomendacion: '', cerrado: false, lanzFinal: null, fechaCierre: ''
+  };
+}
+
+function fmt(n) { return '$' + Math.round(n).toLocaleString('en-US'); }
+function contarPalabras(t) { t = (t || '').trim(); return t ? t.split(/\s+/).length : 0; }
+function riesgosRevisados(S) { return (S.revision || []).map(function (p) { return RIESGO_POR_REVISION[p]; }); }
+
+/* ---------- Fase 4: precios, descuento, comprometido ---------- */
+function precioFase4(code, fin) {
+  if (code === 'M6B' && fin && fin.R1 === 'M1E') return 4000;
+  return MEDIDAS[code].costo;
+}
+/* Devuelve { pagado: {Rn: monto}, descuento: total, descontadas: {Rn:true}, total } */
+function calcularPresupuesto(fin) {
+  var pagado = {}, descontadas = {}, descuento = 0, total = 0, edicionesVistas = 0;
+  RIESGOS_ORDEN.forEach(function (r) {
+    var c = fin[r]; if (!c) return;
+    var p = precioFase4(c, fin);
+    if (MEDIDAS[c].edicion) {
+      edicionesVistas++;
+      if (edicionesVistas > 1) { p = Math.max(0, p - DESCUENTO_EDICION); descuento += DESCUENTO_EDICION; descontadas[r] = true; }
+    }
+    pagado[r] = p; total += p;
+  });
+  return { pagado: pagado, descuento: descuento, descontadas: descontadas, total: total };
+}
+function expMedidaFase4(code, fin) {
+  if (code === 'M6D' && fin.R1 === 'M1E') return 2;
+  return MEDIDAS[code].exp;
+}
+
+/* ---------- Ranuras ---------- */
+function ranuraA(fin) {
+  var m = fin.R1;
+  if (m === 'M1A') return 'A1';
+  if (m === 'M1B' || m === 'M1E') return 'A2';
+  if (m === 'M1C') return 'A3';
+  return 'A4';
+}
+function ranuraB(fin) {
+  var m = fin.R6;
+  if (m === 'M6A') return 'B1';
+  if (m === 'M6B' || m === 'M6C') return 'B2';
+  return 'B3';
+}
+function ranuraC(fin) {
+  if (fin.R2 === 'M2C') return 'C1';
+  if (fin.R4 === 'M4C') return 'C2b';
+  if (fin.R4 === 'M4A') return 'C2a';
+  if (fin.R3 === 'M3D') return 'C3a';
+  if (fin.R3 === 'M3B' || fin.R3 === 'M3E') return 'C3b';
+  return 'C4';
+}
+
+/* ---------- Confirmar Fase 4 ---------- */
+function confirmarFase4(S) {
+  var fin = S.financiamiento;
+  var pres = calcularPresupuesto(fin);
+  S.comprometido = pres.total; S.descuento = pres.descuento; S.pagado = pres.pagado;
+  S.reserva = FONDO - pres.total; S.saldo = S.reserva;
+  S.cambios = [];
+  RIESGOS_ORDEN.forEach(function (r) {
+    var de = S.triage[r] && S.triage[r].accion, a = fin[r];
+    if (de && de !== a) S.cambios.push({ r: r, de: de, a: a, masBarata: precioFase4(a, fin) < precioFase4(de, fin) });
+    S.estrategia[r] = { code: a, origen: 'base', hist: [] };
+    S.bloqueo[r] = { b: false, motivo: '', por: '' };
+  });
+  var A = ranuraA(fin), B = ranuraB(fin), C = ranuraC(fin);
+  S.ranuraC = C;
+  S.nov = {
+    A: { id: A, resp: null },
+    B: { id: B, resp: null, informativa: (B === 'B2' && fin.R1 === 'M1E') },
+    C: { id: C, resp: null }
+  };
+  if (S.nov.B.informativa) S.nov.B.resp = 'INFO';
+  ['A', 'B', 'C'].forEach(function (k) {
+    var n = NOVEDADES[S.nov[k].id];
+    if (n.ejecucion) bloquear(S, n.riesgo, ejecucionMotivo(S.nov[k].id), S.nov[k].id);
+  });
+  S.lanzInicial = JSON.parse(JSON.stringify(S.lanz));
+  S.fase = 5; S.vista = 5;
+  evaluarNotaProd(S);
+}
+function ejecucionMotivo(id) {
+  return { A1: 'la licencia ya se firmó', B1: 'Renata ya aceptó', C2a: 'el informe ya se entregó', C2b: 'el titular ya fue contactado' }[id];
+}
+function bloquear(S, r, motivo, por) {
+  if (!r) return;
+  if (!S.bloqueo[r].b) S.bloqueo[r] = { b: true, motivo: motivo, por: por };
+}
+function marcar(S, m) {
+  if (S.marcas.activas.indexOf(m) < 0) S.marcas.activas.push(m);
+  if (S.marcas.hist.indexOf(m) < 0) S.marcas.hist.push(m);
+}
+function desmarcar(S, m) { S.marcas.activas = S.marcas.activas.filter(function (x) { return x !== m; }); }
+
+/* ---------- Estado de la Fase 5 ---------- */
+function slotRespondido(S, k) { return !!(S.nov[k] && S.nov[k].resp); }
+function riesgosEdicionVigente(S) {
+  return RIESGOS_ORDEN.filter(function (r) {
+    var e = S.estrategia[r];
+    return e && EDICION_SET[e.code] && e.origen !== 'ajuste';
+  });
+}
+function evaluarNotaProd(S) {
+  if (S.notaProd.evaluada) return;
+  if (slotRespondido(S, 'A') && slotRespondido(S, 'B')) {
+    S.notaProd.evaluada = true;
+    S.notaProd.mostrada = riesgosEdicionVigente(S).length > 0;
+    S.notaProd.riesgos = riesgosEdicionVigente(S);
+  }
+}
+function c4OfertaAplica(S) { return S.lanz.code !== 'L4' && S.estrategia.R7.code !== 'M7A'; }
+function riesgoPendiente(S, r) {
+  if (!S.nov.A) return false;
+  if (r === 'R1' && !slotRespondido(S, 'A')) return true;
+  if (r === 'R6' && !slotRespondido(S, 'B')) return true;
+  var c = S.nov.C;
+  if (!c.resp) {
+    var rc = NOVEDADES[c.id].riesgo;
+    if (rc === r) return true;
+    if (c.id === 'C4' && r === 'R7' && c4OfertaAplica(S)) return true;
+  }
+  if (S.notaProd.mostrada && !S.notaProd.resp && (S.notaProd.riesgos || []).indexOf(r) >= 0) return true;
+  return false;
+}
+function estadoAjuste(S, r) {
+  if (S.bloqueo[r] && S.bloqueo[r].b) return { k: 'bloqueado', txt: 'Bloqueado: ' + S.bloqueo[r].motivo };
+  if (riesgoPendiente(S, r)) return { k: 'pendiente', txt: 'Novedad pendiente' };
+  return { k: 'disponible', txt: 'Disponible' };
+}
+function novedadesCompletas(S) {
+  var ok = slotRespondido(S, 'A') && slotRespondido(S, 'B') && slotRespondido(S, 'C');
+  if (S.notaProd.mostrada && !S.notaProd.resp) ok = false;
+  return ok;
+}
+
+/* ---------- Responder novedades ---------- */
+function opcionesC4(S) {
+  if (S.lanz.code === 'L4') return ['C4-L4', 'C4-L2', 'C4-L3'];
+  if (c4OfertaAplica(S)) return ['C4-Z', 'C4-NZ'];
+  return ['C4-OK'];
+}
+function opcionesSlot(S, k) {
+  var n = S.nov[k];
+  if (n.id === 'C4') return opcionesC4(S);
+  if (n.informativa) return [];
+  return NOVEDADES[n.id].resp.map(function (x) { return x.id; });
+}
+function responder(S, k, respId) {
+  var n = S.nov[k];
+  if (!n) return { ok: false, msg: 'No hay novedad en esa ranura.' };
+  if (n.resp) return { ok: false, msg: 'Esta novedad ya tiene una respuesta confirmada.' };
+  if (opcionesSlot(S, k).indexOf(respId) < 0) return { ok: false, msg: 'Respuesta no disponible.' };
+  var R = RESP_INDEX[respId];
+  if (R.costo > S.saldo) return { ok: false, msg: 'Reserva insuficiente.' };
+  if (R.costo > 0) { S.saldo -= R.costo; S.pagos.push({ code: respId, monto: R.costo, txt: R.txt }); }
+  var r = R.riesgo || NOVEDADES[n.id].riesgo;
+  if (n.id === 'C4') {
+    if (respId === 'C4-L4') S.c4MantuvoL4 = true;
+    if (respId === 'C4-L2') cambiarLanzamiento(S, 'L2');
+    if (respId === 'C4-L3') cambiarLanzamiento(S, 'L3');
+    if (respId === 'C4-Z') { r = 'R7'; aplicarCambio(S, r, R); }
+  } else if (R.cambia) {
+    aplicarCambio(S, r, R);
+  }
+  if (R.bloquea && r) bloquear(S, r, R.motivo, respId);
+  if (R.marca) marcar(S, R.marca);
+  n.resp = respId;
+  evaluarNotaProd(S);
+  return { ok: true };
+}
+function aplicarCambio(S, r, R) {
+  var e = S.estrategia[r];
+  if (R.hunde && MEDIDAS[e.code] && e.origen === 'base' && (S.pagado[r] || 0) > 0) {
+    S.hundidos.push({ r: r, code: e.code, monto: S.pagado[r], por: R.id });
+  }
+  S.estrategia[r] = { code: R.id, origen: 'novedad', hist: e.hist.concat([e.code]) };
+}
+function responderNotaProd(S, respId) {
+  if (!S.notaProd.mostrada) return { ok: false, msg: 'No hay nota de producción.' };
+  if (S.notaProd.resp) return { ok: false, msg: 'La nota de producción ya tiene respuesta.' };
+  var R = RESP_INDEX[respId];
+  if (!R || R.nov !== 'NP') return { ok: false, msg: 'Respuesta no disponible.' };
+  if (R.costo > S.saldo) return { ok: false, msg: 'Reserva insuficiente.' };
+  if (R.costo > 0) { S.saldo -= R.costo; S.pagos.push({ code: respId, monto: R.costo, txt: R.txt }); }
+  if (R.bloquea) (S.notaProd.riesgos || []).forEach(function (r) { bloquear(S, r, R.motivo, respId); });
+  S.notaProd.resp = respId;
+  return { ok: true };
+}
+
+/* ---------- Ajuste único ---------- */
+function intentarAjuste(S, r) {
+  if (S.ajuste) return { ok: false, msg: 'Ya usaste tu ajuste único.' };
+  var st = estadoAjuste(S, r);
+  if (st.k === 'bloqueado') { S.intentosAjuste.push({ r: r, k: 'bloqueado' }); return { ok: false, msg: RIESGOS[r].corto + ' ya no admite ajuste: ' + S.bloqueo[r].motivo + '. Tu ajuste sigue disponible para otro riesgo.' }; }
+  if (st.k === 'pendiente') { S.intentosAjuste.push({ r: r, k: 'pendiente' }); return { ok: false, msg: RIESGOS[r].corto + ' tiene una novedad pendiente. Respóndela antes de ajustar este riesgo.' }; }
+  return { ok: true };
+}
+function reembolsoCancelacion(S, r) {
+  var e = S.estrategia[r];
+  if (!MEDIDAS[e.code]) return 0;
+  var p = S.pagado[r] || 0;
+  return Math.floor(p * 0.5 / 1000) * 1000;
+}
+function opcionesSustitucion(S, r) {
+  var cur = S.estrategia[r].code, acc = RIESGOS[r].aceptar;
+  return MEDIDAS_POR_RIESGO[r].filter(function (c) { return c !== cur && c !== acc; });
+}
+function momentoAjuste(S) {
+  var pend = [];
+  ['A', 'B', 'C'].forEach(function (k) { if (!slotRespondido(S, k)) pend.push(S.nov[k].id); });
+  if (S.notaProd.mostrada && !S.notaProd.resp) pend.push('nota de producción');
+  return pend.length ? 'antes de responder ' + pend.join(', ') : 'después de responder todas las novedades';
+}
+function cancelarMedida(S, r) {
+  var t = intentarAjuste(S, r); if (!t.ok) return t;
+  var e = S.estrategia[r];
+  if (!MEDIDAS[e.code] || !(S.pagado[r] > 0) || e.origen !== 'base') return { ok: false, msg: 'Esta estrategia no tiene costo que recuperar. Elige otra modalidad u otro riesgo.' };
+  var reemb = reembolsoCancelacion(S, r);
+  var acc = RIESGOS[r].aceptar;
+  S.saldo += reemb;
+  S.ajuste = { modalidad: 'cancelar', r: r, anterior: e.code, nueva: acc, monto: 0, reembolso: reemb, momento: momentoAjuste(S) };
+  S.estrategia[r] = { code: acc, origen: 'cancelada', hist: e.hist.concat([e.code]) };
+  return { ok: true };
+}
+function sustituirEstrategia(S, r, nueva) {
+  var t = intentarAjuste(S, r); if (!t.ok) return t;
+  if (opcionesSustitucion(S, r).indexOf(nueva) < 0) return { ok: false, msg: 'Esa medida no está disponible para sustituir la estrategia de este riesgo.' };
+  var precio = MEDIDAS[nueva].recargo;
+  if (precio > S.saldo) return { ok: false, msg: 'Reserva insuficiente.' };
+  var e = S.estrategia[r];
+  S.saldo -= precio;
+  if (MEDIDAS[e.code] && e.origen === 'base' && (S.pagado[r] || 0) > 0) S.hundidos.push({ r: r, code: e.code, monto: S.pagado[r], por: 'ajuste' });
+  S.ajuste = { modalidad: 'sustituir', r: r, anterior: e.code, nueva: nueva, monto: precio, reembolso: 0, momento: momentoAjuste(S) };
+  S.estrategia[r] = { code: nueva, origen: 'ajuste', hist: e.hist.concat([e.code]) };
+  if (MEDIDAS[nueva].edicion) S.ajusteImpacto[r] = 1;
+  if (r === 'R1' && S.nov.A.resp === 'A4-4') desmarcar(S, 'DESPUES_DE_AVISO');
+  if (r === 'R6' && S.nov.B.resp === 'B3-3') desmarcar(S, 'CONTRA_NEGATIVA');
+  return { ok: true };
+}
+
+/* ---------- Lanzamiento ---------- */
+function expEstrategia(S, r) {
+  var c = S.estrategia[r].code;
+  if (MEDIDAS[c]) {
+    if (c === 'M6D' && S.estrategia.R1.code === 'M1E') return 2;
+    return MEDIDAS[c].exp;
+  }
+  var R = RESP_INDEX[c];
+  return R && typeof R.exp === 'number' ? R.exp : 0;
+}
+function impEstrategia(S, r) {
+  var c = S.estrategia[r].code;
+  var base = MEDIDAS[c] ? MEDIDAS[c].imp : ((RESP_INDEX[c] && RESP_INDEX[c].imp) || 0);
+  return base + (S.ajusteImpacto[r] || 0);
+}
+function expActual(S, r) { return S.estrategia && S.estrategia[r] ? expEstrategia(S, r) : expMedidaFase4(S.financiamiento[r], S.financiamiento); }
+function elegiblesCondicion(S) { return RIESGOS_ORDEN.filter(function (r) { return r !== 'R5' && expActual(S, r) > 0; }); }
+function elegiblesRetencion(S) { return RIESGOS_ORDEN.filter(function (r) { return expActual(S, r) >= 2; }); }
+function cambiarLanzamiento(S, code) {
+  S.lanz.code = code;
+  S.lanz.cond = [];
+  S.lanz.ret = code === 'L3' ? elegiblesRetencion(S).slice() : [];
+}
+
+/* ---------- Cálculo final ---------- */
+function calcular(S) {
+  var res = { porRiesgo: {}, EXP: 0, IMP: 0, martes: S.notaProd.resp === 'NP-2', descartadas: [] };
+  RIESGOS_ORDEN.forEach(function (r) {
+    res.porRiesgo[r] = { code: S.estrategia[r].code, exp: expEstrategia(S, r), imp: impEstrategia(S, r), expL: 0, cond: false, ret: false, pos: false };
+    res.porRiesgo[r].expL = res.porRiesgo[r].exp;
+  });
+  var IMP = 0;
+  RIESGOS_ORDEN.forEach(function (r) { IMP += res.porRiesgo[r].imp; });
+  if (res.martes) IMP += 1;
+  var L = S.lanz.code;
+  if (L === 'L2') {
+    S.lanz.cond.forEach(function (r) {
+      var x = res.porRiesgo[r];
+      if (x.exp > 0) { x.expL = Math.max(0, x.exp - 1); IMP += 1; x.cond = true; }
+      else res.descartadas.push(r);
+    });
+  } else if (L === 'L3') {
+    IMP += 1;
+    S.lanz.ret.forEach(function (r) {
+      var x = res.porRiesgo[r];
+      if (x.exp > 0) { x.expL = 0; IMP += 1; x.ret = true; }
+      else res.descartadas.push(r);
+    });
+  } else if (L === 'L4') {
+    IMP += 3; if (S.c4MantuvoL4) IMP += 2;
+    RIESGOS_ORDEN.forEach(function (r) { var x = res.porRiesgo[r]; if (x.exp > 0) x.pos = true; x.expL = 0; });
+  }
+  var EXP = 0;
+  RIESGOS_ORDEN.forEach(function (r) { EXP += RIESGOS[r].peso * res.porRiesgo[r].expL; });
+  res.EXP = EXP; res.IMP = IMP;
+  /* TRAS */
+  var pesoTras = 0;
+  RIESGOS_ORDEN.forEach(function (r) {
+    var c = S.estrategia[r].code, R = RESP_INDEX[c];
+    var t = (c === 'M1D' || c === 'M3D') || ACEPTAR_SET[c] || (R && R.costo === 0 && R.cambia && typeof R.exp === 'number' && R.exp >= 2);
+    if (t) pesoTras += RIESGOS[r].peso;
+  });
+  res.TRAS = pesoTras / 15;
+  /* EVID */
+  var rev = riesgosRevisados(S), ev = 0;
+  if (rev.indexOf('R1') >= 0) ev++;
+  if (rev.indexOf('R3') >= 0) ev++;
+  var f = S.financiamiento, tieneA = f.R4 === 'M4A', tieneC = f.R1 === 'M1C';
+  if (tieneA || tieneC) ev++;
+  if (tieneA && tieneC) ev++;
+  var coinc = 0;
+  RIESGOS_ORDEN.forEach(function (r) { if (CLAVE_LECTURA[r].indexOf(S.lectura[r]) >= 0) coinc++; });
+  if (coinc >= 4) ev++;
+  if (coinc >= 6) ev++;
+  res.EVID = ev; res.coincidencias = coinc;
+  /* Estado final */
+  RIESGOS_ORDEN.forEach(function (r) {
+    var x = res.porRiesgo[r], c = x.code, st;
+    if (x.exp === 0) st = 'eliminado';
+    else if (c === 'M1D' || c === 'M3D') st = 'trasladado';
+    else st = 'aceptado';
+    if (x.pos) st = 'pospuesto'; else if (x.ret) st = 'retenido'; else if (x.cond) st = 'condicionado';
+    x.estado = st;
+  });
+  /* Marcas finales */
+  var irr = (S.estrategia.R2.code === 'M2C' || S.estrategia.R2.code === 'C1-3');
+  res.marcasActivas = S.marcas.activas.slice();
+  res.marcasHist = S.marcas.hist.slice();
+  if (irr) { if (res.marcasActivas.indexOf('IRREVERSIBLE') < 0) res.marcasActivas.push('IRREVERSIBLE'); if (res.marcasHist.indexOf('IRREVERSIBLE') < 0) res.marcasHist.push('IRREVERSIBLE'); }
+  else res.marcasActivas = res.marcasActivas.filter(function (m) { return m !== 'IRREVERSIBLE'; });
+  res.perfil = perfil(S, res);
+  return res;
+}
+
+/* ---------- Perfil ---------- */
+function perfil(S, res) {
+  var P = 1 - res.EXP / EXP_MAX, C = 1 - Math.min(res.IMP, 12) / 12, d = C - P, e1;
+  if (d < -0.6) e1 = 1; else if (d < -0.2) e1 = 2; else if (d <= 0.2) e1 = 3; else if (d <= 0.6) e1 = 4; else e1 = 5;
+  var rv = S.reserva, e2;
+  if (rv < 5000) e2 = 1; else if (rv < 15000) e2 = 2; else if (rv < 25000) e2 = 3; else if (rv <= 40000) e2 = 4; else e2 = 5;
+  var t = res.TRAS * 100, e3;
+  if (t < 10) e3 = 1; else if (t < 25) e3 = 2; else if (t < 40) e3 = 3; else if (t <= 60) e3 = 4; else e3 = 5;
+  var ev = res.EVID, e4;
+  if (ev >= 6) e4 = 1; else if (ev === 5) e4 = 2; else if (ev >= 3) e4 = 3; else if (ev === 2) e4 = 4; else e4 = 5;
+  var tipo;
+  if (res.EVID >= 5) tipo = 'evidencia';
+  else if (res.EXP <= 6 && res.IMP >= 5) tipo = 'conservador';
+  else if (res.IMP <= 4 && res.EXP >= 7) tipo = 'continuidad';
+  else tipo = 'mixto';
+  /* Observaciones */
+  var obs = [];
+  var p1 = RIESGOS_ORDEN.filter(function (r) { return S.triage[r] && S.triage[r].prioridad === 'P1'; });
+  var tiene1 = p1.indexOf('R1') >= 0, tiene3 = p1.indexOf('R3') >= 0;
+  if (tiene1 && tiene3) obs.push({ k: 'estructural', titulo: 'Atención a lo estructural', txt: 'Pusiste los dos riesgos estructurales en P1.' });
+  else if (tiene1 || tiene3) obs.push({ k: 'estructural', titulo: 'Atención a lo estructural', txt: 'Pusiste en P1 ' + (tiene1 ? 'la música (R1)' : 'el logotipo (R3)') + ', pero no ' + (tiene1 ? 'el logotipo (R3)' : 'la música (R1)') + '.' });
+  else obs.push({ k: 'estructural', titulo: 'Atención a lo estructural', txt: 'Ninguno de los dos riesgos estructurales quedó en P1.' });
+  var baratos = S.cambios.filter(function (c) { return c.masBarata; }).length;
+  if (baratos >= 2) obs.push({ k: 'precio', titulo: 'El precio y el diagnóstico', txt: 'Al ver los costos cambiaste el tratamiento de ' + baratos + ' riesgos. Revisa si cambió el riesgo o sólo el precio.' });
+  var p1n1 = RIESGOS_ORDEN.filter(function (r) { return S.triage[r] && S.triage[r].prioridad === 'P1' && String(S.triage[r].rango) === '1'; })[0];
+  if (S.financiamiento.R5 === 'M5B' || S.financiamiento.R3 === 'M3C' || p1n1 === 'R5' || p1n1 === 'R8')
+    obs.push({ k: 'alarmas', titulo: 'Alarmas ajenas', txt: 'Dedicaste recursos de primera línea a un riesgo que asustaba más de lo que pesaba.' });
+  var mk = ['IRREVERSIBLE', 'DESPUES_DE_AVISO', 'CONTRA_NEGATIVA', 'CONTRA_OPINION', 'ESTRUCTURAL_ABIERTO'].filter(function (m) { return res.marcasActivas.indexOf(m) >= 0; });
+  if (mk.length) obs.push({ k: 'marcas', titulo: 'Decisiones con marca', items: mk.map(function (m) { return MARCAS_TXT[m]; }) });
+  if (res.EXP >= 10 && res.IMP >= 6) obs.push({ k: 'doble', titulo: 'Doble costo', txt: 'Terminaste con exposición alta y con la campaña recortada a la vez. Revisa dónde un recorte no redujo riesgo, o un riesgo no salvó campaña.' });
+  return { ejes: [e1, e2, e3, e4], tipo: tipo, obs: obs };
+}
+
+/* ---------- Trayectoria más cercana ---------- */
+function trayectoriaCercana(S) {
+  var mejor = null;
+  TRAYECTORIAS.forEach(function (T) {
+    var n = 0;
+    RIESGOS_ORDEN.forEach(function (r) { if (T.medidas[r] === S.estrategia[r].code) n++; });
+    var d = Math.abs(S.reserva - T.reserva);
+    if (!mejor || n > mejor.n || (n === mejor.n && d < mejor.d)) mejor = { T: T, n: n, d: d };
+  });
+  return mejor;
+}
+var NOV_DESC = {
+  A1: 'la confirmación de la licencia con un costo adicional de cine', A2: 'la presión del director general para recuperar la canción',
+  A3: 'una oferta de $32,000 para licenciar todos los medios', A4: 'un reclamo de la editora',
+  B1: 'la aceptación de Renata, con exclusión del exterior', B2: 'la invitación de Renata a ampliar', B3: 'la queja de Renata',
+  C1: 'el cierre de imprenta del domingo', C2b: 'la petición de $50,000 por el consentimiento', C2a: 'un informe que desaconseja el nombre',
+  C3a: 'la contraoferta de Tomás por $45,000', C3b: 'la publicación de Tomás sobre el logotipo'
+};
+function novedadDeRiesgo(S, r) {
+  var out = null;
+  ['A', 'B', 'C'].forEach(function (k) { var n = S.nov[k]; if (n && NOVEDADES[n.id].riesgo === r && !n.informativa) out = n.id; });
+  return out;
+}
+function nombreEstrategia(code) {
+  if (MEDIDAS[code]) return MEDIDAS[code].txt;
+  var R = RESP_INDEX[code]; return R ? R.txt + ' (' + code + ')' : code;
+}
+function frasesCercana(S) {
+  var m = trayectoriaCercana(S), T = m.T;
+  var orden = RIESGOS_ORDEN.slice().sort(function (a, b) { return RIESGOS[b].peso - RIESGOS[a].peso || RIESGOS_ORDEN.indexOf(a) - RIESGOS_ORDEN.indexOf(b); });
+  var igual = orden.filter(function (r) { return T.medidas[r] === S.estrategia[r].code; })[0];
+  var dif = orden.filter(function (r) { return T.medidas[r] !== S.estrategia[r].code; })[0];
+  var f = [];
+  if (igual) f.push('Como la trayectoria ' + T.nombre.toLowerCase() + ', en ' + RIESGOS[igual].corto.toLowerCase() + ' terminaste con «' + nombreEstrategia(S.estrategia[igual].code) + '».');
+  else f.push('No coincides con la trayectoria ' + T.nombre.toLowerCase() + ' en ninguna estrategia final.');
+  if (dif) {
+    f.push('A diferencia de ella, en ' + RIESGOS[dif].corto.toLowerCase() + ' terminaste con «' + nombreEstrategia(S.estrategia[dif].code) + '»; la trayectoria eligió «' + MEDIDAS[T.medidas[dif]].txt + '».');
+    var suya = DOMINGO_POR_MEDIDA[T.medidas[dif]];
+    var mia = novedadDeRiesgo(S, dif);
+    var verbo = (dif === 'R1' || dif === 'R6') ? 'habrías tenido' : 'podrías haber tenido';
+    f.push('Con esa diferencia, el domingo ' + verbo + ' ' + (suya || 'ninguna novedad sobre ese riesgo') + ' en lugar de ' + (mia ? NOV_DESC[mia] : 'ninguna novedad sobre ese riesgo') + '.');
+  } else {
+    f.push('Tu estrategia final coincide con ella en los ocho riesgos.');
+  }
+  return { T: T, frases: f };
+}
+/* =========================================================
+   INTERFAZ
+   ========================================================= */
+function esc(s) { return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); }
+function load() {
+  try {
+    var raw = localStorage.getItem(STORAGE_KEY);
+    if (!raw) return null;
+    var o = JSON.parse(raw);
+    if (!o || o.v !== 1) return null;
+    var base = estadoInicial();
+    Object.keys(base).forEach(function (k) { if (!(k in o)) o[k] = base[k]; });
+    return o;
+  } catch (e) { return null; }
+}
+function save() { try { localStorage.setItem(STORAGE_KEY, JSON.stringify(S)); } catch (e) { toast('No se pudo guardar en este navegador.'); } }
+
+var S = load() || estadoInicial();
+var UI = { resume: !!S.started, errors: {}, adjR: null, adjMsg: '', f1msg: '', lastFocus: null };
+
+function $(id) { return document.getElementById(id); }
+function toast(msg) {
+  var t = $('toast'); t.textContent = msg; t.hidden = false;
+  clearTimeout(toast._t); toast._t = setTimeout(function () { t.hidden = true; }, 4200);
+}
+function fechaLarga(iso) {
+  if (!iso) return '';
+  var p = iso.split('-'); var meses = ['enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio', 'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre'];
+  return Number(p[2]) + ' de ' + meses[Number(p[1]) - 1] + ' de ' + p[0];
+}
+function hoyISO() { var d = new Date(); var m = d.getMonth() + 1, dd = d.getDate(); return d.getFullYear() + '-' + (m < 10 ? '0' : '') + m + '-' + (dd < 10 ? '0' : '') + dd; }
+function soloLectura(v) { return v < S.fase || (v === 5 && S.cerrado); }
+function faseLabel(v) { return v === 6 ? 'Cierre · Lanzamiento' : 'Fase ' + v + ' · ' + FASES[v].titulo; }
+
+/* ---------- Modales ---------- */
+var modalStack = [];
+function showModal(opt) {
+  var root = $('modal-root');
+  var prev = document.activeElement;
+  var bg = document.createElement('div');
+  bg.className = 'modal-bg';
+  var titleId = 'mt' + Date.now();
+  bg.innerHTML = '<div class="modal" role="dialog" aria-modal="true" aria-labelledby="' + titleId + '">' +
+    '<div class="modal-h"><div>' + (opt.eyebrow ? '<p class="eyebrow">' + opt.eyebrow + '</p>' : '') + '<h2 id="' + titleId + '">' + opt.title + '</h2></div>' +
+    (opt.noClose ? '' : '<button type="button" class="close-x" data-modal-close>Cerrar</button>') + '</div>' +
+    '<div class="modal-b">' + opt.body + '</div>' +
+    (opt.buttons && opt.buttons.length ? '<div class="modal-f">' + opt.buttons.map(function (b, i) { return '<button type="button" class="btn ' + (b.cls || '') + '" data-modal-btn="' + i + '">' + b.label + '</button>'; }).join('') + '</div>' : '') +
+    '</div>';
+  root.appendChild(bg);
+  var entry = { bg: bg, prev: prev, opt: opt };
+  modalStack.push(entry);
+  function close(runOnClose) {
+    if (bg.parentNode) bg.parentNode.removeChild(bg);
+    modalStack = modalStack.filter(function (x) { return x !== entry; });
+    if (runOnClose !== false && opt.onClose) opt.onClose();
+    if (prev && document.body.contains(prev)) { try { prev.focus(); } catch (e) {} }
+  }
+  entry.close = close;
+  bg.addEventListener('click', function (e) {
+    if (e.target === bg && !opt.noClose) { close(); return; }
+    var x = e.target.closest('[data-modal-close]'); if (x) { close(); return; }
+    var b = e.target.closest('[data-modal-btn]');
+    if (b) { var btn = opt.buttons[Number(b.getAttribute('data-modal-btn'))]; close(false); if (btn.act) btn.act(); else if (opt.onClose) opt.onClose(); }
+  });
+  bg.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape' && !opt.noClose) { e.preventDefault(); close(); }
+    if (e.key === 'Tab') {
+      var f = bg.querySelectorAll('button,[href],input,select,textarea,[tabindex]:not([tabindex="-1"])');
+      if (!f.length) return;
+      var first = f[0], last = f[f.length - 1];
+      if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+      else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+    }
+  });
+  var focusEl = bg.querySelector('[data-modal-btn]') || bg.querySelector('button');
+  if (focusEl) focusEl.focus();
+  return entry;
+}
+function confirmar(title, body, okLabel, onOk) {
+  showModal({ title: title, body: body, buttons: [{ label: 'Volver', cls: 'secondary' }, { label: okLabel || 'Confirmar', act: onOk }] });
+}
+
+function docHTML(id) {
+  var d = DOCUMENTOS[id];
+  var cap = d.capa === 'principal' ? '<span class="tag accent">Documento principal</span>' : d.capa === 'complementario' ? '<span class="tag">Complementario</span>' : d.capa === 'senal' ? '<span class="tag signal">Revisión a fondo · señal</span>' : '';
+  return '<div class="docmeta"><span class="code">' + id + '</span><span class="tag">' + esc(d.tipo) + '</span>' + cap + '</div>' + d.cuerpo +
+    '<p class="legend">' + (d.busqueda ? LEG_BUSQ + ' ' : '') + LEG_DOC + '</p>';
+}
+function abrirDoc(id) {
+  S.docsAbiertos[id] = true; save();
+  var d = DOCUMENTOS[id];
+  showModal({ eyebrow: 'Documento simulado ' + id, title: esc(d.titulo), body: docHTML(id), onClose: function () { render(true); } });
+}
+function abrirTratamientos() {
+  showModal({ eyebrow: 'Tarjeta de consulta', title: 'Cinco tratamientos', body:
+    '<dl class="stack">' + TRATAMIENTOS_ORDEN.map(function (t) { return '<div><dt><strong>' + t.toUpperCase() + '.</strong></dt><dd style="margin:0">' + TRATAMIENTOS_TXT[t] + '</dd></div>'; }).join('') + '</dl>' +
+    '<p class="note" style="margin-top:16px">Ninguno es correcto para todos los riesgos.</p>' });
+}
+function docsDisponibles() {
+  var g = [{ t: 'War room', ids: ['D0.3', 'D0.2', 'D0.1'] }];
+  if (S.fase >= 2) {
+    var rev = riesgosRevisados(S);
+    RIESGOS_ORDEN.forEach(function (r) {
+      var R = RIESGOS[r], ids = [R.principal].concat(R.complementarios);
+      if (rev.indexOf(r) >= 0) ids.push(R.senal);
+      g.push({ t: r + ' · ' + R.titulo, ids: ids });
+    });
+  }
+  return g;
+}
+function abrirExpediente() {
+  var html = '<p class="muted small">Todos los documentos desbloqueados siguen disponibles. Abrirlos ahora no cambia decisiones ya confirmadas.</p><ul class="drawer-list">' +
+    docsDisponibles().map(function (g) {
+      return '<li><h4>' + esc(g.t) + '</h4><ul class="doc-list">' + g.ids.map(function (id) { return '<li>' + docBtn(id) + '</li>'; }).join('') + '</ul></li>';
+    }).join('') + '</ul>';
+  showModal({ eyebrow: 'Expediente', title: 'Documentos del caso', body: html });
+}
+function docBtn(id, principal) {
+  var d = DOCUMENTOS[id], leido = !!S.docsAbiertos[id];
+  return '<button type="button" class="doc-btn' + (principal ? ' principal' : '') + '" data-act="doc" data-id="' + id + '"><span class="code">' + id + '</span><span>' + esc(d.titulo) + '</span><span class="st' + (leido ? ' read' : '') + '">' + (leido ? '✓ Consultado' : 'Sin abrir') + '</span></button>';
+}
+
+/* ---------- Encabezado y pasos ---------- */
+function renderHeader() {
+  var v = S.vista, started = S.started && !UI.resume;
+  var hitoIdx = v <= 2 ? 0 : v <= 4 ? 1 : v === 5 ? 2 : 3;
+  var reloj = !started ? '' : (v === 5 && S.nov.A && novedadesCompletas(S) ? 'Domingo 20:00 · 13 H' : FASES[v].reloj);
+  var h = '<div class="top-in"><div class="top-row"><div class="brand"><b>LABORATORIO 02 · SALVA LA CAMPAÑA</b><span>72 horas para decidir qué riesgo asumir</span></div>';
+  if (started) h += '<div class="top-actions noprint"><button type="button" class="btn small secondary" data-act="expediente">Expediente</button><button type="button" class="btn small secondary" data-act="tratamientos">Cinco tratamientos</button></div>';
+  h += '</div>';
+  if (started) {
+    h += '<div class="phase-row"><span class="phase-now">' + faseLabel(v) + (soloLectura(v) ? ' <span class="tag">Consulta</span>' : '') + '</span><span class="clock" aria-label="Reloj narrativo">' + reloj + '</span>' +
+      '<ol class="hitos" aria-label="Reloj narrativo del caso">' + HITOS.map(function (x, i) { return '<li class="' + (i === hitoIdx ? 'on' : i < hitoIdx ? 'done' : '') + '"' + (i === hitoIdx ? ' aria-current="step"' : '') + '>' + x + '</li>'; }).join('') + '</ol></div>';
+    var pct = Math.round((Math.min(S.fase, 6) / 6) * 100);
+    h += '<div class="progress" role="progressbar" aria-label="Progreso del expediente" aria-valuemin="0" aria-valuemax="100" aria-valuenow="' + pct + '"><i style="width:' + pct + '%"></i></div>';
+    if (v === 4 || v === 5) h += budgetHTML(v);
+  }
+  h += '</div>';
+  $('top').innerHTML = h;
+}
+function mensajeSaldo(s) {
+  if (s > 25000) return 'Tienes margen para imprevistos.';
+  if (s > 0) return 'Reserva ajustada: algunas respuestas del domingo podrían no estar a tu alcance.';
+  return 'Sin reserva. Lo que pase el domingo se resolverá con recortes o asumiendo riesgo.';
+}
+function budgetHTML(v) {
+  if (v === 4) {
+    var total, saldo, over = false, desc = 0;
+    if (S.fase === 4) { var p = calcularPresupuesto(S.financiamiento); total = p.total; desc = p.descuento; saldo = FONDO - total; over = total > FONDO; }
+    else { total = S.comprometido; desc = S.descuento; saldo = S.reserva; }
+    return '<dl class="budget' + (over ? ' over' : '') + '" aria-live="polite"><div><dt>Presupuesto disponible</dt><dd>' + fmt(FONDO) + '</dd></div><div><dt>Comprometido</dt><dd>' + fmt(total) + '</dd></div><div><dt>Saldo</dt><dd>' + (over ? '−' + fmt(-saldo) : fmt(saldo)) + '</dd></div>' +
+      (desc ? '<div><dt>Descuento por sesión compartida</dt><dd>−' + fmt(desc) + '</dd></div>' : '') +
+      '<p class="msg">' + (over ? 'El comprometido excede el fondo por ' + fmt(total - FONDO) + '. Ajusta tus medidas para poder confirmar.' : mensajeSaldo(saldo)) + '</p></dl>';
+  }
+  var pagado = S.pagos.reduce(function (a, b) { return a + b.monto; }, 0) + (S.ajuste ? S.ajuste.monto : 0);
+  var reemb = S.ajuste ? S.ajuste.reembolso : 0;
+  return '<dl class="budget" aria-live="polite"><div><dt>Presupuesto disponible</dt><dd>' + fmt(FONDO) + '</dd></div><div><dt>Comprometido (Fase 4)</dt><dd>' + fmt(S.comprometido) + '</dd></div><div><dt>Reserva al iniciar el domingo</dt><dd>' + fmt(S.reserva) + '</dd></div><div><dt>Gastado el domingo</dt><dd>' + fmt(pagado) + '</dd></div>' +
+    (reemb ? '<div><dt>Reembolso</dt><dd>+' + fmt(reemb) + '</dd></div>' : '') +
+    '<div><dt>Saldo</dt><dd>' + fmt(S.saldo) + '</dd></div><p class="msg">' + mensajeSaldo(S.saldo) + '</p></dl>';
+}
+function renderStepper() {
+  var el = $('stepper');
+  if (!S.started || UI.resume) { el.innerHTML = ''; return; }
+  var items = [0, 1, 2, 3, 4, 5, 6].map(function (n) {
+    var lbl = n === 6 ? 'Cierre' : n + ' · ' + FASES[n].titulo;
+    var cls = n < S.fase ? 'done' : '';
+    return '<li><button type="button" class="' + cls + '" data-act="ir" data-v="' + n + '"' + (n > S.fase ? ' disabled' : '') + (n === S.vista ? ' aria-current="step"' : '') + '>' + lbl + '</button></li>';
+  }).join('');
+  el.innerHTML = '<ol>' + items + '</ol>';
+}
+
+/* ---------- Render general ---------- */
+function render(keepFocus) {
+  var fid = keepFocus && document.activeElement ? document.activeElement.id : null;
+  var sy = window.scrollY;
+  renderHeader(); renderStepper();
+  var m = $('main');
+  document.body.classList.toggle('print-report', S.started && !UI.resume && S.vista === 6);
+  if (!S.started || UI.resume) m.innerHTML = viewPortada();
+  else m.innerHTML = [viewF0, viewF1, viewF2, viewF3, viewF4, viewF5, viewCierre][S.vista]();
+  if (keepFocus) {
+    window.scrollTo(0, sy);
+    if (fid && $(fid)) { try { $(fid).focus({ preventScroll: true }); } catch (e) { $(fid).focus(); } }
+  }
+}
+function go(v) {
+  S.vista = v; save(); render();
+  window.scrollTo(0, 0);
+  var h = document.querySelector('main h1'); if (h) { h.setAttribute('tabindex', '-1'); h.focus(); }
+}
+function footerNav(back, nextHTML) {
+  return '<div class="footer-nav noprint">' + (back != null ? '<button type="button" class="btn secondary" data-act="ir" data-v="' + back + '">← Atrás</button>' : '') + '<span class="spacer"></span>' + (nextHTML || '') + '</div>';
+}
+function roBanner(v) { return soloLectura(v) ? '<div class="readonly-banner" role="note"><span class="tag">Modo consulta</span><span>Esta fase ya está confirmada. Puedes revisarla, pero sus decisiones no se modifican.</span></div>' : ''; }
+function errList(key) {
+  var e = UI.errors[key];
+  return '<div id="err-' + key + '" aria-live="polite">' + (e && e.length ? '<ul class="errors">' + e.map(function (x) { return '<li>' + x + '</li>'; }).join('') + '</ul>' : '') + '</div>';
+}
+
+/* ---------- Portada ---------- */
+function viewPortada() {
+  var h = '<section class="cover"><p class="kicker">LABORATORIO 02</p><h1>SALVA LA CAMPAÑA</h1><p class="sub">72 horas para decidir qué riesgo asumir.</p>';
+  if (S.started) {
+    h += '<div class="card"><p class="eyebrow">Expediente en curso</p><h2>' + esc(S.nombre) + (S.id ? ' <span class="muted small">· ' + esc(S.id) + '</span>' : '') + '</h2>' +
+      '<p>' + (S.fase === 6 ? 'Expediente cerrado. El perfil y el informe están disponibles.' : 'Te quedaste en: ' + faseLabel(S.vista) + '.') + '</p>' +
+      '<div class="row"><button type="button" class="btn" data-act="continuar">Continuar expediente</button><button type="button" class="btn danger" data-act="reiniciar">Reiniciar expediente</button></div>' +
+      '<p class="small muted" style="margin-top:14px">Tus respuestas se guardan sólo en este navegador. No se envían a ningún servidor.</p></div>';
+  } else {
+    h += '<p class="lead">Una campaña nacional sale el lunes a las 09:00. La revisión final encontró problemas de propiedad intelectual y no hay tiempo ni dinero para resolverlos todos. Vas a priorizar, financiar, reaccionar a información nueva y firmar una recomendación. No hay una combinación única correcta: hay decisiones defendibles y decisiones que no lo son.</p>' +
+      '<p class="note">La empresa, la campaña, las personas, las marcas, los documentos y los costos son ficticios. Ningún resultado proviene de bases de datos reales ni del IMPI.</p>' +
+      '<form class="card" data-form="inicio" novalidate style="margin-top:22px">' +
+      '<div class="field"><label for="in-nombre">Nombre del participante <span class="muted">(obligatorio)</span></label><input type="text" id="in-nombre" autocomplete="name" maxlength="80" required aria-describedby="err-inicio"></div>' +
+      '<div class="field"><label for="in-id">Identificador <span class="muted">(opcional)</span></label><input type="text" id="in-id" maxlength="40"></div>' +
+      '<div class="field"><span class="small"><strong>Fecha:</strong> ' + fechaLarga(hoyISO()) + ' <span class="muted">(automática)</span></span></div>' +
+      errList('inicio') +
+      '<div class="row" style="margin-top:8px"><button type="submit" class="btn">Entrar al war room</button></div>' +
+      '<p class="small muted" style="margin:16px 0 0">Tus respuestas permanecen en este navegador (almacenamiento local). No se envían a ningún servidor. Si borras los datos del navegador o cambias de equipo, el expediente no estará disponible.</p>' +
+      '</form>';
+  }
+  return h + '</section>';
+}
+
+/* ---------- Fase 0 ---------- */
+function viewF0() {
+  return '<p class="eyebrow">Fase 0 · Viernes 09:00 · 72 H</p><h1>War room</h1>' +
+    '<p class="lead">Calzado Altiplano lanza el lunes a las 09:00 su línea ALTIPLANO PULSO con la campaña «La ciudad es tu pista». Eres responsable de la revisión jurídica pre-lanzamiento en el equipo de la Lic. Esquivel.</p>' +
+    '<div class="grid g2 section">' +
+      '<article class="card"><p class="eyebrow">Documento simulado D0.3</p><h2>Nota de asignación</h2>' + DOCUMENTOS['D0.3'].cuerpo + '<p class="legend">' + LEG_DOC + '</p></article>' +
+      '<article class="card"><p class="eyebrow">Documento simulado D0.2</p><h2>Correo del director de marketing</h2>' + DOCUMENTOS['D0.2'].cuerpo + '<p class="legend">' + LEG_DOC + '</p></article>' +
+    '</div>' +
+    '<article class="card"><p class="eyebrow">Documento simulado D0.1</p><h2>Brief de campaña</h2><p>El brief resume la campaña, la pieza héroe, los medios y la fecha inamovible.</p><button type="button" class="btn secondary" data-act="doc" data-id="D0.1">Abrir brief (D0.1)</button></article>' +
+    '<section class="section"><h2>Cómo funciona</h2><div class="grid g2">' +
+      '<div class="card"><h3>72 H</h3><p>El reloj avanza cuando confirmas cada fase. No hay cronómetro.</p></div>' +
+      '<div class="card"><h3>$100,000</h3><p>No alcanza para todo. El saldo que no comprometas será tu reserva para lo que pase el domingo.</p></div>' +
+      '<div class="card"><h3>Cinco tratamientos</h3><p>Evitar, sustituir, mitigar, transferir, aceptar. Ninguno es correcto para todos los riesgos.</p><button type="button" class="btn small secondary" data-act="tratamientos">Ver tarjeta</button></div>' +
+      '<div class="card"><h3>Sin calificación</h3><p>Al final recibes un perfil de cómo gestionaste el riesgo y qué compró cada peso.</p></div>' +
+    '</div></section>' +
+    footerNav(null, '<button type="button" class="btn" data-act="f0-next">' + (S.fase === 0 ? 'Continuar a Fase 1' : 'Ir a Fase 1') + ' →</button>');
+}
+
+/* ---------- Fase 1 ---------- */
+function viewF1() {
+  var ro = soloLectura(1), sel = S.revision;
+  var h = '<p class="eyebrow">Fase 1 · Viernes 10:00 · 71 H</p><h1>Revisa el material</h1>' + roBanner(1) +
+    '<p class="lead">El material de la campaña está organizado en ocho carpetas. La junta de hallazgos es a las 16:00. Hasta entonces sólo te da tiempo de revisar a fondo <strong>tres carpetas</strong>; el equipo revisará las demás en paralelo.</p><p class="lead">¿Qué tres carpetas revisarías tú?</p>' +
+    '<div class="grid g3 section" role="group" aria-label="Carpetas de revisión">' +
+    CARPETAS_ORDEN.map(function (p) {
+      var on = sel.indexOf(p) >= 0;
+      return '<button type="button" class="folder" id="fold-' + p + '" aria-pressed="' + on + '"' + (ro ? ' disabled' : ' data-act="carpeta" data-p="' + p + '"') + '><span class="fh"><span class="code">' + p + '</span>' + (on ? '<span class="check">✓ SELECCIONADA</span>' : '') + '</span><strong>' + CARPETAS[p].titulo + '</strong><span class="d">' + CARPETAS[p].desc + '</span></button>';
+    }).join('') + '</div>' +
+    '<p class="row"><strong id="f1-count">Seleccionadas: ' + sel.length + ' de 3</strong></p><p class="live" id="f1-live" aria-live="polite">' + esc(UI.f1msg) + '</p>' + errList('f1');
+  return h + footerNav(0, ro ? '<button type="button" class="btn" data-act="ir" data-v="2">Ir a Fase 2 →</button>' : '<button type="button" class="btn" data-act="f1-confirm">Confirmar revisión</button>');
+}
+
+/* ---------- Fase 2 ---------- */
+function ordenFase2() {
+  var rev = riesgosRevisados(S);
+  return rev.slice().sort(function (a, b) { return RIESGOS_ORDEN.indexOf(a) - RIESGOS_ORDEN.indexOf(b); }).concat(RIESGOS_ORDEN.filter(function (r) { return rev.indexOf(r) < 0; }));
+}
+function viewF2() {
+  var ro = soloLectura(2), rev = riesgosRevisados(S);
+  var calificados = RIESGOS_ORDEN.filter(function (r) { return S.lectura[r]; }).length;
+  var h = '<p class="eyebrow">Fase 2 · Viernes 16:00 · 65 H</p><h1>Hallazgos</h1>' + roBanner(2) +
+    '<p class="lead">Ocho carpetas tienen observaciones. Las que revisaste a fondo traen un documento adicional. En cada una, lee la ficha y abre el documento principal. Después indica qué tan sólida es la evidencia con la que cuentas. Los demás documentos son opcionales.</p>' +
+    '<p class="note"><strong>Sólida:</strong> los documentos responden lo esencial. · <strong>Parcial:</strong> hay documentos, pero no cubren todo el uso previsto. · <strong>Débil:</strong> la evidencia es informal, contradictoria o inexistente.</p>' +
+    '<p><strong id="f2-count">Calificados: ' + calificados + ' de 8</strong></p>';
+  ordenFase2().forEach(function (r) {
+    var R = RIESGOS[r], abierto = !!S.docsAbiertos[R.principal], val = S.lectura[r];
+    h += '<article class="risk" id="risk-' + r + '"><div class="risk-h"><span class="code">' + r + ' · ' + R.carpeta + '</span><h3>' + R.titulo + '</h3>' +
+      (rev.indexOf(r) >= 0 ? '<span class="tag signal">Revisión a fondo</span>' : '') + '<span class="spacer"></span>' +
+      (val ? '<span class="tag ok">Calificado: ' + val + '</span>' : '<span class="tag">Sin calificar</span>') + '</div><div class="risk-b"><div class="two"><div>' +
+      (R.pregunta ? '<p class="pregunta"><strong>Pregunta de esta carpeta:</strong> ' + R.pregunta + '</p>' : '') +
+      '<dl class="ficha"><div><dt>Hecho</dt><dd>' + R.ficha.hecho + '</dd></div><div><dt>Evidencia disponible</dt><dd>' + R.ficha.evidencia + '</dd></div><div><dt>Dato faltante</dt><dd>' + R.ficha.faltante + '</dd></div><div><dt>Posible impacto</dt><dd>' + R.ficha.impacto + '</dd></div></dl></div><div>' +
+      '<p class="eyebrow">Documento principal</p><ul class="doc-list"><li>' + docBtn(R.principal, true) + '</li></ul>' +
+      '<p class="eyebrow" style="margin-top:14px">Más documentos (opcionales)</p><ul class="doc-list">' + R.complementarios.map(function (id) { return '<li>' + docBtn(id) + '</li>'; }).join('') + '</ul>' +
+      (rev.indexOf(r) >= 0 ? '<p class="eyebrow" style="margin-top:14px">Documento de señal</p><ul class="doc-list"><li>' + docBtn(R.senal) + '</li></ul>' : '') +
+      '</div></div>' +
+      '<fieldset style="margin-top:16px"><legend id="lg-' + r + '">¿Qué tan sólida es la evidencia que tienes?</legend><div class="seg" role="radiogroup" aria-labelledby="lg-' + r + '">' +
+      ['Sólida', 'Parcial', 'Débil'].map(function (o) {
+        var dis = ro || !abierto, id = 'lect-' + r + '-' + o;
+        return '<label class="' + (dis ? 'dis' : '') + '" for="' + id + '"><input type="radio" name="lect-' + r + '" id="' + id + '" value="' + o + '" data-bind="lectura" data-r="' + r + '"' + (val === o ? ' checked' : '') + (dis ? ' disabled' : '') + '> ' + o + '</label>';
+      }).join('') + '</div>' + (!abierto && !ro ? '<p class="small muted" style="margin:6px 0 0">Abre el documento principal para calificar.</p>' : '') + '</fieldset>' +
+      '</div></article>';
+  });
+  h += errList('f2');
+  return h + footerNav(1, ro ? '<button type="button" class="btn" data-act="ir" data-v="3">Ir a Fase 3 →</button>' : '<button type="button" class="btn" data-act="f2-confirm">Continuar a Triage →</button>');
+}
+
+/* ---------- Fase 3 ---------- */
+function medidasDeTrat(r, trat) { return MEDIDAS_POR_RIESGO[r].filter(function (c) { return MEDIDAS[c].trat === trat; }); }
+function viewF3() {
+  var ro = soloLectura(3);
+  var h = '<p class="eyebrow">Fase 3 · Sábado 09:00 · 48 H</p><h1>Triage</h1>' + roBanner(3) +
+    '<p class="lead">Mariana quiere tu triage antes de hablar de dinero. Todavía no verás costos: primero decide qué importa. Puedes marcar como P1 un máximo de <strong>tres</strong> riesgos. Ordénalos: tu P1 número 1 es el que salvarías primero.</p>' +
+    '<p class="note">P1 · Resolver antes del lanzamiento · P2 · Resolver esta semana · P3 · Monitorear</p>';
+  var nP1 = RIESGOS_ORDEN.filter(function (r) { return S.triage[r] && S.triage[r].prioridad === 'P1'; }).length;
+  h += '<p><strong>Riesgos en P1: ' + nP1 + ' de 3 como máximo</strong></p>';
+  RIESGOS_ORDEN.forEach(function (r) {
+    var R = RIESGOS[r], t = S.triage[r] || {}, dis = ro ? ' disabled' : '';
+    var meds = t.trat ? medidasDeTrat(r, t.trat) : [];
+    h += '<article class="risk"><div class="risk-h"><span class="code">' + r + '</span><h3>' + R.titulo + '</h3><span class="spacer"></span>' + (S.lectura[r] ? '<span class="tag">Evidencia: ' + S.lectura[r] + '</span>' : '') + '</div><div class="risk-b"><div class="grid g2">' +
+      '<fieldset><legend id="pl-' + r + '">Prioridad</legend><div class="seg" role="radiogroup" aria-labelledby="pl-' + r + '">' +
+      ['P1', 'P2', 'P3'].map(function (p) { var id = 'pri-' + r + '-' + p; return '<label for="' + id + '"><input type="radio" id="' + id + '" name="pri-' + r + '" value="' + p + '" data-bind="pri" data-r="' + r + '"' + (t.prioridad === p ? ' checked' : '') + dis + '> ' + p + '</label>'; }).join('') + '</div>' +
+      (t.prioridad === 'P1' ? '<div class="field" style="margin-top:10px"><label for="rango-' + r + '">Orden dentro de P1</label><select id="rango-' + r + '" data-bind="rango" data-r="' + r + '"' + dis + '><option value="">Elige</option>' + [1, 2, 3].map(function (n) { return '<option value="' + n + '"' + (String(t.rango) === String(n) ? ' selected' : '') + '>P1 número ' + n + '</option>'; }).join('') + '</select></div>' : '') +
+      '</fieldset>' +
+      '<div><div class="field"><label for="trat-' + r + '">Tratamiento</label><select id="trat-' + r + '" data-bind="trat" data-r="' + r + '"' + dis + '><option value="">Elige un tratamiento</option>' + TRATAMIENTOS_ORDEN.map(function (x) { return '<option' + (t.trat === x ? ' selected' : '') + '>' + x + '</option>'; }).join('') + '</select></div>' +
+      (t.trat && !meds.length ? '<p class="note signal">' + SIN_VIA + '</p>' : '') +
+      (meds.length ? '<div class="field"><label for="acc-' + r + '">Acción concreta</label><select id="acc-' + r + '" data-bind="accion" data-r="' + r + '"' + dis + '><option value="">Elige una acción</option>' + meds.map(function (c) { return '<option value="' + c + '"' + (t.accion === c ? ' selected' : '') + '>' + esc(MEDIDAS[c].txt) + '</option>'; }).join('') + '</select></div>' : '') +
+      '<div class="field"><label for="nota-' + r + '">Nota <span class="muted">(opcional, 100 caracteres)</span></label><input type="text" id="nota-' + r + '" maxlength="100" data-bind="nota" data-r="' + r + '" value="' + esc(t.nota || '') + '"' + dis + '><span class="counter" id="cnt-nota-' + r + '">' + (t.nota || '').length + ' / 100</span></div>' +
+      '</div></div></div></article>';
+  });
+  var w = contarPalabras(S.justP1);
+  h += '<section class="section card"><div class="field"><label for="justP1">Campo 1. Tu P1 número 1 es el riesgo que salvarías primero. ¿Por qué éste y no otro?</label><span class="hint">Entre 40 y 150 palabras.</span>' +
+    '<textarea id="justP1" data-bind="justP1"' + (ro ? ' disabled' : '') + ' aria-describedby="cnt-justP1">' + esc(S.justP1) + '</textarea><span class="counter ' + (w >= 40 && w <= 150 ? 'good' : 'bad') + '" id="cnt-justP1" aria-live="polite">' + w + ' palabras · requerido: 40–150</span></div></section>' + errList('f3');
+  return h + footerNav(2, ro ? '<button type="button" class="btn" data-act="ir" data-v="4">Ir a Fase 4 →</button>' : '<button type="button" class="btn" data-act="f3-confirm">Confirmar triage</button>');
+}
+function validarF3() {
+  var e = [];
+  var p1 = [];
+  RIESGOS_ORDEN.forEach(function (r) {
+    var t = S.triage[r] || {}, n = r + ' (' + RIESGOS[r].corto + ')';
+    if (!t.prioridad) e.push(n + ': falta la prioridad.');
+    if (t.prioridad === 'P1') { p1.push(r); if (!t.rango) e.push(n + ': indica su orden dentro de P1.'); }
+    if (!t.trat) e.push(n + ': falta el tratamiento.');
+    else if (!medidasDeTrat(r, t.trat).length) e.push(n + ': ' + SIN_VIA);
+    else if (!t.accion) e.push(n + ': falta la acción concreta.');
+  });
+  if (p1.length > 3) e.push('Marcaste ' + p1.length + ' riesgos como P1; el máximo es tres.');
+  if (p1.length === 0) e.push('Marca al menos un riesgo como P1: el Campo 1 se refiere a tu P1 número 1.');
+  var rangos = p1.map(function (r) { return String(S.triage[r].rango || ''); }).filter(Boolean);
+  if (p1.length && p1.length <= 3) {
+    var esperado = []; for (var i = 1; i <= p1.length; i++) esperado.push(String(i));
+    var ok = rangos.length === p1.length && esperado.every(function (x) { return rangos.indexOf(x) >= 0; });
+    if (!ok) e.push('Ordena los riesgos P1 sin repetir: ' + esperado.map(function (x) { return 'P1 número ' + x; }).join(', ') + '.');
+  }
+  var w = contarPalabras(S.justP1);
+  if (w < 40 || w > 150) e.push('El Campo 1 tiene ' + w + ' palabras; debe tener entre 40 y 150.');
+  return e;
+}
+
+/* ---------- Fase 4 ---------- */
+function viewF4() {
+  var ro = soloLectura(4), fin = S.financiamiento;
+  var pres = ro ? { pagado: S.pagado, descontadas: {}, total: S.comprometido } : calcularPresupuesto(fin);
+  if (ro) { var tmp = calcularPresupuesto(fin); pres.descontadas = tmp.descontadas; }
+  var h = '<p class="eyebrow">Fase 4 · Sábado 15:00 · 42 H</p><h1>Presupuesto y decisión de lanzamiento</h1>' + roBanner(4) +
+    '<p class="lead">Llegaron las cotizaciones. Cada riesgo tiene un menú de medidas; marcamos la que corresponde a la acción que elegiste. Puedes cambiarla. Lo que no comprometas hoy será tu reserva de mañana.</p>';
+  RIESGOS_ORDEN.forEach(function (r) {
+    var R = RIESGOS[r], acc = S.triage[r] && S.triage[r].accion;
+    h += '<article class="risk"><div class="risk-h"><span class="code">' + r + '</span><h3>' + R.titulo + '</h3><span class="spacer"></span>' +
+      (S.triage[r] ? '<span class="tag">' + S.triage[r].prioridad + (S.triage[r].prioridad === 'P1' ? ' · ' + S.triage[r].rango : '') + ' · ' + S.triage[r].trat + '</span>' : '') + '</div><div class="risk-b" role="radiogroup" aria-label="Medida para ' + R.titulo + '">';
+    MEDIDAS_POR_RIESGO[r].forEach(function (c) {
+      var M = MEDIDAS[c], on = fin[r] === c, id = 'fin-' + r + '-' + c;
+      var base = precioFase4(c, fin), efectivo = on ? pres.pagado[r] : base;
+      var desc = on && pres.descontadas[r];
+      h += '<label class="measure' + (on ? ' sel' : '') + (ro ? ' dis' : '') + '" for="' + id + '"><input type="radio" id="' + id + '" name="fin-' + r + '" value="' + c + '" data-bind="fin" data-r="' + r + '"' + (on ? ' checked' : '') + (ro ? ' disabled' : '') + '>' +
+        '<span class="mt"><span class="code">' + c + ' · ' + M.trat + '</span><br>' + esc(M.txt) +
+        (c === acc ? ' <span class="tag accent">Tu acción del triage</span>' : '') +
+        (desc ? ' <span class="tag ok">Descuento por sesión compartida −' + fmt(DESCUENTO_EDICION) + '</span>' : '') +
+        (c === 'M6B' && fin.R1 === 'M1E' ? '<span class="sub">Precio con el spot retirado (M1E)</span>' : '') +
+        (M.edicion && !desc ? '<span class="sub">Usa la sesión de edición del spot</span>' : '') +
+        '</span><span class="mp">' + (desc ? '<s class="muted">' + fmt(base) + '</s> ' + fmt(efectivo) : fmt(base)) + '</span></label>';
+    });
+    h += '</div></article>';
+  });
+  var w = contarPalabras(S.justCosto);
+  h += '<section class="section card"><div class="field"><label for="justCosto">Campo 2. Explica la decisión que más le cuesta al cliente: un riesgo que aceptas o un recorte que impones.</label><span class="hint">Entre 30 y 100 palabras.</span>' +
+    '<textarea id="justCosto" data-bind="justCosto"' + (ro ? ' disabled' : '') + ' aria-describedby="cnt-justCosto">' + esc(S.justCosto) + '</textarea><span class="counter ' + (w >= 30 && w <= 100 ? 'good' : 'bad') + '" id="cnt-justCosto" aria-live="polite">' + w + ' palabras · requerido: 30–100</span></div></section>';
+  h += '<section class="section"><h2>Decisión de lanzamiento</h2><p class="lead">Con lo que financiaste, ¿cómo sale la campaña el lunes?</p>' + lanzamientoHTML(ro, false) + '</section>';
+  h += errList('f4');
+  return h + footerNav(3, ro ? '<button type="button" class="btn" data-act="ir" data-v="5">Ir a Fase 5 →</button>' : '<button type="button" class="btn" data-act="f4-confirm">Confirmar presupuesto y lanzamiento</button>');
+}
+function lanzamientoHTML(ro, fase5) {
+  var L = S.lanz, dis = ro ? ' disabled' : '';
+  var h = '<div class="grid g2" role="radiogroup" aria-label="Decisión de lanzamiento">';
+  ['L1', 'L2', 'L3', 'L4'].forEach(function (c) {
+    var id = 'lanz-' + c + (fase5 ? '-5' : '');
+    h += '<label class="measure' + (L.code === c ? ' sel' : '') + (ro ? ' dis' : '') + '" for="' + id + '"><input type="radio" id="' + id + '" name="lanz' + (fase5 ? '5' : '') + '" value="' + c + '" data-bind="lanz"' + (L.code === c ? ' checked' : '') + dis + '><span class="mt"><span class="code">' + c + '</span><br><strong>' + LANZ[c].titulo + '.</strong> ' + LANZ[c].txt + '</span></label>';
+  });
+  h += '</div>';
+  if (L.code === 'L2') {
+    var eleg = elegiblesCondicion(S);
+    var lista = eleg.slice();
+    L.cond.forEach(function (r) { if (lista.indexOf(r) < 0) lista.push(r); });
+    h += '<fieldset class="card" style="margin-top:14px"><legend>Condiciones (hasta tres, sólo riesgos con exposición abierta)</legend>';
+    if (!lista.length) h += '<p class="muted">No hay riesgos abiertos que admitan condición.</p>';
+    lista.forEach(function (r) {
+      var on = L.cond.indexOf(r) >= 0, id = 'cond-' + r + (fase5 ? '-5' : ''), elig = eleg.indexOf(r) >= 0;
+      var full = !on && L.cond.length >= 3;
+      h += '<label class="measure' + (on ? ' sel' : '') + ((ro || full) ? ' dis' : '') + '" for="' + id + '"><input type="checkbox" id="' + id + '" data-bind="cond" data-r="' + r + '"' + (on ? ' checked' : '') + ((ro || full) ? ' disabled' : '') + '><span class="mt"><span class="code">' + r + ' · ' + RIESGOS[r].corto + '</span><br>' + CONDICIONES[r] + (!elig ? '<span class="sub">Este riesgo ya quedó resuelto: la condición se descartará.</span>' : '') + '</span></label>';
+    });
+    h += '<p class="small muted" style="margin:8px 0 0">R5 no tiene condición: su exposición es de protección, no de uso.</p></fieldset>';
+  }
+  if (L.code === 'L3') {
+    var el = elegiblesRetencion(S);
+    var lst = el.slice(); L.ret.forEach(function (r) { if (lst.indexOf(r) < 0) lst.push(r); });
+    h += '<fieldset class="card" style="margin-top:14px"><legend>Piezas retenidas (riesgo medio o alto). Puedes desmarcar.</legend>';
+    if (!lst.length) h += '<p class="muted">No hay piezas con riesgo medio o alto que retener.</p>';
+    lst.forEach(function (r) {
+      var on = L.ret.indexOf(r) >= 0, id = 'ret-' + r + (fase5 ? '-5' : '');
+      h += '<label class="measure' + (on ? ' sel' : '') + (ro ? ' dis' : '') + '" for="' + id + '"><input type="checkbox" id="' + id + '" data-bind="ret" data-r="' + r + '"' + (on ? ' checked' : '') + dis + '><span class="mt"><span class="code">' + r + '</span> ' + RIESGOS[r].titulo + (el.indexOf(r) < 0 ? '<span class="sub">Este riesgo ya quedó resuelto: la retención se descartará.</span>' : '') + '</span></label>';
+    });
+    h += '</fieldset>';
+  }
+  return h;
+}
+function validarF4() {
+  var e = [], fin = S.financiamiento;
+  RIESGOS_ORDEN.forEach(function (r) { if (!fin[r]) e.push(r + ' no tiene tratamiento. Aceptar también es una decisión: elígela de forma explícita.'); });
+  var p = calcularPresupuesto(fin);
+  if (p.total > FONDO) e.push('El comprometido (' + fmt(p.total) + ') excede el fondo de ' + fmt(FONDO) + '.');
+  var w = contarPalabras(S.justCosto);
+  if (w < 30 || w > 100) e.push('El Campo 2 tiene ' + w + ' palabras; debe tener entre 30 y 100.');
+  e = e.concat(validarLanz());
+  return e;
+}
+function validarLanz() {
+  var e = [], L = S.lanz;
+  if (!L.code) e.push('Elige una decisión de lanzamiento.');
+  if (L.code === 'L2') {
+    var vig = L.cond.filter(function (r) { return elegiblesCondicion(S).indexOf(r) >= 0; });
+    if (!L.cond.length) e.push('En «Lanzar con condiciones» elige al menos una condición, o elige otra opción.');
+    if (L.cond.length > 3) e.push('Puedes elegir hasta tres condiciones.');
+    if (!S.estrategia.R1 && vig.length !== L.cond.length) e.push('Hay condiciones sobre riesgos sin exposición abierta.');
+  }
+  return e;
+}
+
+/* ---------- Fase 5 ---------- */
+var SLOT_TIT = { A: 'Ranura A · Música', B: 'Ranura B · Protagonista', C: 'Ranura C' };
+function respTexto(id) { var R = RESP_INDEX[id]; return R ? R.txt : id; }
+function novedadCard(k, ro) {
+  var n = S.nov[k], N = NOVEDADES[n.id];
+  var texto = N.texto;
+  if (n.id === 'A2' && S.financiamiento.R1 === 'M1E') texto = N.textoM1E;
+  if (n.informativa) texto = N.textoInformativo;
+  var h = '<article class="nov" id="nov-' + k + '"><div class="nov-h"><span class="eyebrow" style="margin:0">' + SLOT_TIT[k] + '</span><span class="code">' + n.id + '</span><span class="spacer"></span>' +
+    (n.resp ? '<span class="tag ok">Respondida</span>' : '<span class="tag signal">Pendiente</span>') + '</div><div class="nov-b">' +
+    '<div class="msgbox"><b>' + N.hora + ' · ' + esc(N.remite) + '</b>' + texto +
+    (n.id === 'A4' && S.financiamiento.R1 === 'M1D' ? '<p style="margin:10px 0 0"><strong>Marea Creativa</strong> responde a tu carta: asume hasta $30,000 en parcialidades. No cubre el retiro del spot ni el daño reputacional.</p>' : '') + '</div>';
+  if (n.informativa) h += '<div class="answered">Sin respuesta requerida.</div>';
+  else if (n.resp) h += '<div class="answered"><span>✓</span><span><strong>Respuesta confirmada:</strong> ' + esc(respTexto(n.resp)) + (RESP_INDEX[n.resp] && RESP_INDEX[n.resp].costo ? ' · ' + fmt(RESP_INDEX[n.resp].costo) : '') + '</span></div>';
+  else if (ro) h += '<p class="muted">Sin respuesta.</p>';
+  else {
+    var ops = opcionesSlot(S, k);
+    if (n.id === 'C4') h += '<p class="small muted">' + (S.lanz.code === 'L4' ? 'Tu decisión vigente es posponer el lanzamiento (L4).' : 'Tu decisión vigente mantiene el arranque del lunes.' + (c4OfertaAplica(S) ? ' Además, <strong>Agencia Zancada</strong> ofrece licenciar el reel de Ximena para pauta y edición por $3,000.' : '')) + '</p>';
+    h += '<div class="resp">' + ops.map(function (id) {
+      var R = RESP_INDEX[id], falta = R.costo > S.saldo;
+      return '<button type="button" class="btn secondary" data-act="responder" data-k="' + k + '" data-id="' + id + '"' + (falta ? ' aria-disabled="true"' : '') + '><span><span class="code">' + id + '</span> · ' + esc(R.txt) + (falta ? ' <span class="tag danger">Reserva insuficiente</span>' : '') + '</span><span class="cost">' + (R.costo ? fmt(R.costo) : '$0') + '</span></button>';
+    }).join('') + '</div>';
+  }
+  return h + '</div></article>';
+}
+function notaProdCard(ro) {
+  var h = '<article class="nov" id="nov-NP"><div class="nov-h"><span class="eyebrow" style="margin:0">Nota de producción</span><span class="spacer"></span>' + (S.notaProd.resp ? '<span class="tag ok">Respondida</span>' : '<span class="tag signal">Pendiente</span>') + '</div><div class="nov-b">' +
+    '<div class="msgbox"><b>' + NOTA_PROD.hora + ' · ' + NOTA_PROD.remite + '</b>' + NOTA_PROD.texto + '</div>';
+  if (S.notaProd.resp) h += '<div class="answered"><span>✓</span><span><strong>Respuesta confirmada:</strong> ' + esc(respTexto(S.notaProd.resp)) + '</span></div>';
+  else if (!ro) h += '<div class="resp">' + NOTA_PROD.resp.map(function (R) {
+    var falta = R.costo > S.saldo;
+    return '<button type="button" class="btn secondary" data-act="responderNP" data-id="' + R.id + '"' + (falta ? ' aria-disabled="true"' : '') + '><span>' + esc(R.txt) + (falta ? ' <span class="tag danger">Reserva insuficiente</span>' : '') + '</span><span class="cost">' + (R.costo ? fmt(R.costo) : '$0') + '</span></button>';
+  }).join('') + '</div>';
+  return h + '</div></article>';
+}
+function ajusteHTML(ro) {
+  var h = '<section class="section card" id="ajuste"><p class="eyebrow">Ajuste único · disponible durante todo el domingo</p><h2>Ajuste único</h2>' +
+    '<p>Puedes hacer un solo ajuste, antes o después de responder las novedades: cancelar una medida (recuperas la mitad de lo pagado) o sustituir la estrategia de un riesgo (pagas la nueva con recargo de 25% y no recuperas lo anterior).</p>' +
+    '<p class="muted">No puedes ajustar un riesgo cuya novedad está pendiente ni uno cuya medida ya se ejecutó o se modificó el domingo.</p>';
+  if (S.ajuste) {
+    var A = S.ajuste;
+    h += '<div class="answered"><span>✓</span><span><strong>Ajuste utilizado</strong> (' + esc(A.momento) + '): ' + RIESGOS[A.r].titulo + ' · ' + (A.modalidad === 'cancelar' ? 'cancelaste «' + esc(nombreEstrategia(A.anterior)) + '» y recuperaste ' + fmt(A.reembolso) + '.' : 'sustituiste «' + esc(nombreEstrategia(A.anterior)) + '» por «' + esc(nombreEstrategia(A.nueva)) + '» por ' + fmt(A.monto) + '.') + '</span></div>';
+  }
+  h += '<div class="live" id="adj-live" aria-live="polite">' + esc(UI.adjMsg) + '</div><div role="list">';
+  RIESGOS_ORDEN.forEach(function (r) {
+    var st = estadoAjuste(S, r), e = S.estrategia[r];
+    var tg = st.k === 'disponible' ? 'ok' : st.k === 'pendiente' ? 'signal' : '';
+    h += '<div class="adj-row" role="listitem"><span><span class="code">' + r + '</span> <strong>' + RIESGOS[r].corto + '</strong></span><span class="small">' + esc(nombreEstrategia(e.code)) + '</span><span class="tag ' + tg + '">' + esc(st.txt) + '</span>' +
+      (!ro && !S.ajuste ? '<button type="button" class="btn small secondary" data-act="ajustar" data-r="' + r + '"' + (st.k !== 'disponible' ? ' aria-disabled="true"' : '') + '>Ajustar</button>' : '<span></span>') + '</div>';
+    if (!ro && !S.ajuste && UI.adjR === r && st.k === 'disponible') h += ajusteForm(r);
+  });
+  return h + '</div></section>';
+}
+function ajusteForm(r) {
+  var e = S.estrategia[r], pag = S.pagado[r] || 0, puedeCancelar = MEDIDAS[e.code] && pag > 0 && e.origen === 'base';
+  var reemb = puedeCancelar ? reembolsoCancelacion(S, r) : 0, acc = RIESGOS[r].aceptar;
+  var ops = opcionesSustitucion(S, r);
+  var h = '<div class="card" style="margin:6px 0 14px;background:var(--surface-2)"><fieldset><legend>Modalidad del ajuste para ' + RIESGOS[r].titulo + '</legend>' +
+    '<label class="measure' + (puedeCancelar ? '' : ' dis') + '" for="adj-mod-c"><input type="radio" name="adjmod" id="adj-mod-c" value="cancelar"' + (puedeCancelar ? '' : ' disabled') + (UI.adjMod === 'cancelar' ? ' checked' : '') + ' data-bind="adjmod"><span class="mt"><strong>Cancelar medida.</strong> ' +
+    (puedeCancelar ? 'Recuperas ' + fmt(reemb) + ' (la mitad de ' + fmt(pag) + ', redondeada al millar inferior). La estrategia pasa a «' + esc(MEDIDAS[acc].txt) + '».' : 'Esta estrategia no tiene costo que recuperar.') + '</span></label>' +
+    '<label class="measure" for="adj-mod-s"><input type="radio" name="adjmod" id="adj-mod-s" value="sustituir"' + (UI.adjMod === 'sustituir' ? ' checked' : '') + ' data-bind="adjmod"><span class="mt"><strong>Sustituir estrategia.</strong> Pagas la nueva medida con recargo de 25%, sin descuento de edición.' + (pag > 0 ? ' Lo pagado antes (' + fmt(pag) + ') queda como costo hundido.' : '') + '</span></label></fieldset>';
+  if (UI.adjMod === 'sustituir') {
+    h += '<div class="field"><label for="adj-nueva">Nueva medida</label><select id="adj-nueva" data-bind="adjnueva"><option value="">Elige una medida</option>' + ops.map(function (c) {
+      var M = MEDIDAS[c], falta = M.recargo > S.saldo;
+      return '<option value="' + c + '"' + (UI.adjNueva === c ? ' selected' : '') + (falta ? ' disabled' : '') + '>' + c + ' · ' + esc(M.txt) + ' — ' + fmt(M.recargo) + (falta ? ' (reserva insuficiente)' : '') + '</option>';
+    }).join('') + '</select>' + (UI.adjNueva && MEDIDAS[UI.adjNueva].edicion ? '<span class="hint">Usa edición: llegaría el martes.</span>' : '') + '</div>';
+  }
+  h += '<div class="row"><button type="button" class="btn" data-act="adj-confirm" data-r="' + r + '">Confirmar ajuste</button><button type="button" class="btn ghost" data-act="adj-cancel">Cancelar</button></div></div>';
+  return h;
+}
+function viewF5() {
+  var ro = soloLectura(5);
+  var h = '<p class="eyebrow">Fase 5 · Domingo 09:00 · 24 H</p><h1>Novedades y cierre</h1>' + roBanner(5) +
+    '<p class="lead">El fin de semana no se detuvo. Tienes tres novedades y tu reserva: <strong>' + fmt(S.reserva) + '</strong>. Responde a cada una. Cada respuesta se confirma y no se puede reabrir.</p>';
+  h += '<section class="section">' + ['A', 'B', 'C'].map(function (k) { return novedadCard(k, ro); }).join('') + (S.notaProd.mostrada ? notaProdCard(ro) : '') + '</section>';
+  h += ajusteHTML(ro);
+  h += '<section class="section card"><h2>Decisión de lanzamiento</h2><p class="muted">Decisión inicial: ' + (S.lanzInicial ? S.lanzInicial.code + ' · ' + LANZ[S.lanzInicial.code].titulo : '') + '. Puedes cambiarla; cambiar sólo la decisión de lanzamiento no consume el ajuste. Al cambiar a L2 o L3, las listas se regeneran con la exposición vigente.</p>' + lanzamientoHTML(ro, true) + '</section>';
+  var w = contarPalabras(S.recomendacion);
+  h += '<section class="section card"><p class="eyebrow">Domingo 20:00 · 13 H</p><h2>Recomendación ejecutiva</h2><p>Mariana presenta tu recomendación al director general a las 21:00. Escríbela para alguien que la leerá en dos minutos.</p>' +
+    '<p class="note">Responde, en este orden: qué sale el lunes · qué no sale o sale con condiciones · qué riesgo queda abierto y quién lo carga · qué debe hacerse esta semana.</p>' +
+    '<div class="field"><label for="recomendacion">Campo 3. Recomendación ejecutiva</label><span class="hint">Hasta 200 palabras.</span><textarea id="recomendacion" data-bind="recomendacion"' + (ro ? ' disabled' : '') + ' aria-describedby="cnt-recomendacion">' + esc(S.recomendacion) + '</textarea><span class="counter ' + (w >= 1 && w <= 200 ? 'good' : 'bad') + '" id="cnt-recomendacion" aria-live="polite">' + w + ' palabras · máximo 200</span></div></section>';
+  h += errList('f5');
+  return h + footerNav(4, ro ? '<button type="button" class="btn" data-act="ir" data-v="6">Ir al cierre →</button>' : '<button type="button" class="btn" data-act="f5-confirm">Cerrar expediente</button>');
+}
+function validarF5() {
+  var e = [];
+  ['A', 'B', 'C'].forEach(function (k) { if (!slotRespondido(S, k)) e.push('Responde la novedad ' + S.nov[k].id + '.'); });
+  if (S.notaProd.mostrada && !S.notaProd.resp) e.push('Responde la nota de producción.');
+  e = e.concat(validarLanz());
+  var w = contarPalabras(S.recomendacion);
+  if (w < 1) e.push('Escribe la recomendación ejecutiva.');
+  if (w > 200) e.push('La recomendación tiene ' + w + ' palabras; el máximo es 200.');
+  return e;
+}
+
+/* ---------- Cierre ---------- */
+function posTexto(i, pos) {
+  var E = EJES[i];
+  return ['Cerca de ' + E.izq, 'Inclinado hacia ' + E.izq, 'Entre ' + E.izq + ' y ' + E.der, 'Inclinado hacia ' + E.der, 'Cerca de ' + E.der][pos - 1];
+}
+function quienCarga(S, r, x) {
+  if (x.code === 'M1D') return 'La agencia, en parte (hasta $30,000 en parcialidades si hay reclamo); el resto, el cliente.';
+  if (x.code === 'M3D') return 'La agencia, conforme a su garantía; si no documenta, el cliente.';
+  return 'El cliente, Calzado Altiplano.';
+}
+function viewCierre() {
+  var res = calcular(S), pf = res.perfil;
+  var h = '<p class="eyebrow">Cierre · Lunes 09:00</p><h1>LUNES 09:00 · LANZAMIENTO</h1>' +
+    '<p class="lead">La campaña salió como la dejaste. Lo que sigue no es un resultado: son escenarios plausibles para lo que quedó abierto. Algunos riesgos aceptados nunca se materializan; otros sí.</p>' +
+    '<ul class="toc noprint" aria-label="Secciones del cierre"><li><a href="#c-esc">Escenarios</a></li><li><a href="#c-est">Lo estructural</a></li><li><a href="#c-pesos">Qué compró cada peso</a></li><li><a href="#c-tras">Trasladado y abierto</a></li><li><a href="#c-tray">Trayectorias</a></li><li><a href="#c-perfil">Perfil</a></li><li><a href="#informe">Informe</a></li></ul>';
+  /* F1 */
+  var abiertos = RIESGOS_ORDEN.filter(function (r) { return res.porRiesgo[r].exp > 0; });
+  h += '<section class="section" id="c-esc"><h2>Treinta días después: escenarios plausibles</h2>';
+  if (!abiertos.length) h += '<p class="card">Ningún riesgo quedó abierto el lunes.</p>';
+  abiertos.forEach(function (r) {
+    var E = epilogoDe(r, res.porRiesgo[r].code), st = res.porRiesgo[r].estado;
+    h += '<article class="card"><div class="row"><span class="code">' + r + '</span><h3 style="margin:0">' + E.titulo + '</h3><span class="spacer"></span><span class="tag">' + E.ver + '</span></div><p style="margin-top:10px">' + E.txt + '</p>' +
+      (st === 'condicionado' || st === 'retenido' || st === 'pospuesto' ? '<p class="small muted" style="margin:0">Al lanzamiento: ' + st + '.</p>' : '') + '</article>';
+  });
+  h += '<p class="note" style="margin-top:14px">Aceptar no es un error en sí: es una apuesta que hay que poder explicar.</p></section>';
+  /* F2 */
+  var p1 = RIESGOS_ORDEN.filter(function (r) { return S.triage[r].prioridad === 'P1'; }).sort(function (a, b) { return Number(S.triage[a].rango) - Number(S.triage[b].rango); });
+  h += '<section class="section" id="c-est"><h2>Lo estructural y lo secundario</h2><div class="card"><p>Dos riesgos eran estructurales: la música (R1), porque afectaba la pieza héroe en todos los medios pagados, y el logotipo (R3), porque es el único activo que sobrevive a la campaña y hoy su cadena de derechos no puede documentarse con la claridad que exige un uso permanente. La protagonista (R6) era el siguiente en gravedad: el consentimiento de una persona no se sustituye con una garantía.</p>' +
+    '<p>Dos riesgos asustaban más de lo que pesaban: el slogan sin registro (R5) es un tema de protección, no de libertad de uso, y los banners hechos con IA (R8) son una pieza menor con remedio barato. Su problema real no era quién es autor, sino los términos de la herramienta y la trazabilidad.</p>' +
+    '<p class="eyebrow">Tu triage</p><ol>' + p1.map(function (r) { return '<li>P1 número ' + S.triage[r].rango + ': ' + r + ' · ' + RIESGOS[r].titulo + '</li>'; }).join('') + '</ol>' +
+    '<p class="small muted">P2: ' + (RIESGOS_ORDEN.filter(function (r) { return S.triage[r].prioridad === 'P2'; }).join(', ') || '—') + ' · P3: ' + (RIESGOS_ORDEN.filter(function (r) { return S.triage[r].prioridad === 'P3'; }).join(', ') || '—') + '</p></div></section>';
+  /* F3 */
+  var filas = filasPesos();
+  h += '<section class="section" id="c-pesos"><h2>Qué compró cada peso</h2><div class="tblwrap"><table><thead><tr><th scope="col">Pago</th><th scope="col">Monto</th><th scope="col">Compró</th><th scope="col">No compró</th></tr></thead><tbody>' +
+    (filas.length ? filas.map(function (f) { return '<tr><td><span class="code">' + f.code + '</span> ' + esc(f.nombre) + (f.tag ? ' <span class="tag">' + f.tag + '</span>' : '') + '</td><td class="mono">' + fmt(f.monto) + '</td><td>' + esc(f.compro) + '</td><td>' + esc(f.nocompro) + '</td></tr>'; }).join('') : '<tr><td colspan="4">No hiciste pagos.</td></tr>') +
+    '</tbody></table></div>';
+  var hund = S.hundidos.reduce(function (a, b) { return a + b.monto; }, 0);
+  if (hund) h += '<p class="note signal" style="margin-top:12px">Pagaste ' + fmt(hund) + ' por medidas que después sustituiste. ¿La información del domingo justificaba el cambio?</p>';
+  h += '</section>';
+  /* F4 */
+  var elim = [], tras = [], abiert = [];
+  RIESGOS_ORDEN.forEach(function (r) {
+    var x = res.porRiesgo[r];
+    if (x.exp === 0) elim.push(r);
+    else if (x.code === 'M1D' || x.code === 'M3D') tras.push(r);
+    else abiert.push(r);
+  });
+  function lista(arr, quien) {
+    if (!arr.length) return '<p class="muted">Ninguno.</p>';
+    return '<ul>' + arr.map(function (r) { var x = res.porRiesgo[r]; return '<li><strong>' + r + ' · ' + RIESGOS[r].corto + '</strong> — ' + esc(nombreEstrategia(x.code)) + (quien ? '<br><span class="small muted">Quién lo carga: ' + quienCarga(S, r, x) + '</span>' : '') + '</li>'; }).join('') + '</ul>';
+  }
+  var agencia = '';
+  if (S.nov.A.id === 'A4' && S.financiamiento.R1 === 'M1D') agencia += '<p class="small">Respuesta de la agencia sobre la música: asume hasta $30,000 en parcialidades; no cubre el retiro del spot ni el daño reputacional.</p>';
+  if (S.nov.C.id === 'C3a' && S.nov.C.resp) agencia += '<p class="small">Sobre el logotipo, Tomás respondió a la carta de la agencia; tu respuesta fue: ' + esc(respTexto(S.nov.C.resp)) + '.</p>';
+  h += '<section class="section" id="c-tras"><h2>Trasladado, aceptado y abierto</h2><div class="grid g3">' +
+    '<div class="card"><h3>Eliminados</h3>' + lista(elim) + '</div>' +
+    '<div class="card"><h3>Trasladados</h3>' + lista(tras, true) + agencia + '</div>' +
+    '<div class="card"><h3>Abiertos el lunes</h3>' + lista(abiert, true) + '</div></div>' +
+    '<p class="note" style="margin-top:14px">Transferir cambia quién paga, no lo que pasa. Aceptar no es un error: es una apuesta que hay que poder explicar.</p></section>';
+  /* F5 */
+  h += trayectoriasHTML(res);
+  /* Perfil */
+  h += '<section class="section" id="c-perfil"><h2>Perfil de gestión de riesgo</h2><div class="card"><p class="eyebrow">Tipo de perfil</p><h3>' + TIPOS_PERFIL[pf.tipo].nombre + '</h3><p>' + TIPOS_PERFIL[pf.tipo].txt + '</p><hr class="hr">' +
+    pf.ejes.map(function (pos, i) {
+      var E = EJES[i], t = posTexto(i, pos);
+      return '<div class="axis"><div class="axis-l"><span>' + E.izq + '<small>' + E.izqTxt + '</small></span><span style="text-align:right">' + E.der + '<small>' + E.derTxt + '</small></span></div>' +
+        '<div class="axis-track" role="img" aria-label="' + E.izq + ' frente a ' + E.der + ': ' + t + '">' + [1, 2, 3, 4, 5].map(function (n) { return '<i class="' + (n === pos ? 'on' : '') + '"></i>'; }).join('') + '</div><p class="axis-t">' + t + '</p></div>';
+    }).join('') +
+    '<p class="note">Ningún extremo es mejor. Cada polo protege algo y arriesga otra cosa.</p></div>' +
+    '<div class="card"><h3>Observaciones</h3>' + pf.obs.map(function (o) { return o.items ? '<p><strong>' + o.titulo + '.</strong></p><ul>' + o.items.map(function (x) { return '<li>' + x + '</li>'; }).join('') + '</ul>' : '<p><strong>' + o.titulo + '.</strong> ' + o.txt + '</p>'; }).join('') +
+    (res.marcasHist.length ? '<p class="eyebrow" style="margin-top:12px">Historial de marcas</p><ul>' + res.marcasHist.map(function (m) { return '<li>' + MARCAS_TXT[m] + (res.marcasActivas.indexOf(m) < 0 ? ' <span class="tag">Retirada por un ajuste</span>' : '') + '</li>'; }).join('') + '</ul>' : '') +
+    '</div></section>';
+  /* Informe */
+  var rep = construirInforme(res);
+  h += '<section class="section" id="informe"><div class="row noprint" style="margin-bottom:12px"><h2 style="margin:0">Informe de decisiones</h2><span class="spacer"></span><button type="button" class="btn" data-act="imprimir">Imprimir o guardar como PDF</button><button type="button" class="btn secondary" data-act="copiar">Copiar informe</button></div>' + rep.html + '</section>';
+  return h + footerNav(5, '');
+}
+function filasPesos() {
+  var f = [];
+  RIESGOS_ORDEN.forEach(function (r) {
+    var c = S.financiamiento[r], p = S.pagado[r];
+    if (p > 0) {
+      var cp = COMPRO[c] || ['—', '—'];
+      var tag = S.ajuste && S.ajuste.modalidad === 'cancelar' && S.ajuste.r === r ? 'cancelada · recuperaste ' + fmt(S.ajuste.reembolso) : '';
+      var hund = S.hundidos.filter(function (x) { return x.r === r && x.code === c; })[0];
+      if (hund) tag = 'costo hundido';
+      f.push({ code: c, nombre: MEDIDAS[c].txt, monto: p, compro: cp[0], nocompro: cp[1], tag: tag });
+    }
+  });
+  S.pagos.forEach(function (p) {
+    f.push({ code: p.code, nombre: p.txt, monto: p.monto, compro: RESP_COMPRO[p.code] || p.txt, nocompro: '—', tag: 'domingo' });
+  });
+  if (S.ajuste && S.ajuste.modalidad === 'sustituir' && S.ajuste.monto > 0) {
+    var cp = COMPRO[S.ajuste.nueva] || [MEDIDAS[S.ajuste.nueva].txt, '—'];
+    f.push({ code: S.ajuste.nueva, nombre: MEDIDAS[S.ajuste.nueva].txt, monto: S.ajuste.monto, compro: cp[0], nocompro: cp[1], tag: 'ajuste' });
+  }
+  return f;
+}
+function domingoParticipante() {
+  var t = [];
+  ['A', 'B', 'C'].forEach(function (k) { var n = S.nov[k]; t.push(n.id + ': ' + (n.informativa ? 'informativa' : respTexto(n.resp))); });
+  if (S.notaProd.mostrada) t.push('Nota de producción: ' + respTexto(S.notaProd.resp));
+  t.push(S.ajuste ? 'Ajuste: ' + (S.ajuste.modalidad === 'cancelar' ? 'canceló ' + S.ajuste.anterior : 'sustituyó ' + S.ajuste.anterior + ' por ' + S.ajuste.nueva) : 'Ajuste sin usar');
+  t.push('Saldo final ' + fmt(S.saldo));
+  return t.join('. ') + '.';
+}
+function trayectoriasHTML(res) {
+  var cerca = frasesCercana(S);
+  var abiertos = RIESGOS_ORDEN.filter(function (r) { return res.porRiesgo[r].exp > 0; }).map(function (r) { return RIESGOS[r].corto; });
+  var recortes = RIESGOS_ORDEN.filter(function (r) { return res.porRiesgo[r].imp > 0; }).map(function (r) { return RIESGOS[r].corto; });
+  var cols = TRAYECTORIAS.map(function (T) { return T; });
+  var row = function (lbl, vals) { return '<tr><th scope="row">' + lbl + '</th>' + vals.map(function (v) { return '<td>' + v + '</td>'; }).join('') + '</tr>'; };
+  var h = '<section class="section" id="c-tray"><h2>Tres trayectorias defendibles</h2><p class="muted">Ninguna se presenta como la mejor. Tu trayectoria aparece en la última columna.</p><div class="tblwrap"><table><thead><tr><th scope="col"></th>' +
+    cols.map(function (T) { return '<th scope="col">' + T.nombre + '<br><span style="text-transform:none;letter-spacing:0;font-weight:400">' + T.lema + '</span></th>'; }).join('') + '<th scope="col">Tu trayectoria</th></tr></thead><tbody>' +
+    row('Carpetas revisadas a fondo', cols.map(function (T) { return T.carpetas; }).concat([S.revision.join(', ')])) +
+    row('Medidas', cols.map(function (T) { return RIESGOS_ORDEN.map(function (r) { return T.medidas[r]; }).join(', '); }).concat([RIESGOS_ORDEN.map(function (r) { return S.financiamiento[r]; }).join(', ')])) +
+    row('Comprometido · reserva', cols.map(function (T) { return fmt(T.comprometido) + ' · ' + fmt(T.reserva); }).concat([fmt(S.comprometido) + ' · ' + fmt(S.reserva)])) +
+    row('Lanzamiento', cols.map(function (T) { return T.lanz; }).concat([S.lanz.code + ' · ' + LANZ[S.lanz.code].titulo])) +
+    row('Domingo', cols.map(function (T) { return T.domingo; }).concat([esc(domingoParticipante())])) +
+    row('Queda abierto el lunes', cols.map(function (T) { return T.abierto; }).concat([abiertos.length ? abiertos.join(', ') + '.' : 'Nada.'])) +
+    row('Lo que sacrificó', cols.map(function (T) { return T.sacrifico; }).concat([recortes.length ? 'Recortes en: ' + recortes.join(', ') + '.' : 'Ningún recorte.'])) +
+    row('Su apuesta', cols.map(function (T) { return T.apuesta; }).concat(['La que explicaste en tu recomendación.'])) +
+    row('Perfil resultante', cols.map(function (T) { return T.perfil; }).concat([TIPOS_PERFIL[res.perfil.tipo].nombre.replace('Perfil ', '').replace(/^./, function (c) { return c.toUpperCase(); })])) +
+    '</tbody></table></div><p class="note" style="margin-top:12px">' + NOTA_TRAYECTORIAS + '</p>' +
+    '<div class="card" style="margin-top:14px"><h3>Qué hubiera cambiado con otra estrategia</h3><p class="muted small">Trayectoria más cercana a la tuya: ' + cerca.T.nombre + '.</p>' + cerca.frases.map(function (x) { return '<p>' + esc(x) + '</p>'; }).join('') + '</div></section>';
+  return h;
+}
+
+/* ---------- Informe ---------- */
+function construirInforme(res) {
+  var H = [], T = [];
+  function sec(t) { H.push('<h3>' + t + '</h3>'); T.push('', t.toUpperCase()); }
+  function p(html, txt) { H.push('<p>' + html + '</p>'); T.push(txt != null ? txt : html.replace(/<[^>]+>/g, '')); }
+  function table(head, rows) {
+    H.push('<div class="tblwrap"><table><thead><tr>' + head.map(function (x) { return '<th scope="col">' + x + '</th>'; }).join('') + '</tr></thead><tbody>' + rows.map(function (r) { return '<tr>' + r.map(function (c) { return '<td>' + esc(c) + '</td>'; }).join('') + '</tr>'; }).join('') + '</tbody></table></div>');
+    rows.forEach(function (r) { T.push(r.join(' · ')); });
+  }
+  H.push('<h2>INFORME DE DECISIONES · SALVA LA CAMPAÑA</h2>');
+  T.push('INFORME DE DECISIONES · SALVA LA CAMPAÑA');
+  sec('1 · Encabezado');
+  p('Laboratorio 02 · Participante: <strong>' + esc(S.nombre) + '</strong>' + (S.id ? ' · Identificador: ' + esc(S.id) : '') + ' · Fecha: ' + fechaLarga(S.fecha) + (S.fechaCierre && S.fechaCierre !== S.fecha ? ' (cierre: ' + fechaLarga(S.fechaCierre) + ')' : ''),
+    'Laboratorio 02 · Participante: ' + S.nombre + (S.id ? ' · Identificador: ' + S.id : '') + ' · Fecha: ' + fechaLarga(S.fecha));
+  p('Campaña «La ciudad es tu pista» · Cliente: Calzado Altiplano (ficticio)');
+  sec('2 · Presupuesto');
+  var pagNov = S.pagos.reduce(function (a, b) { return a + b.monto; }, 0), hund = S.hundidos.reduce(function (a, b) { return a + b.monto; }, 0);
+  table(['Concepto', 'Monto'], [
+    ['Presupuesto inicial', fmt(FONDO)],
+    ['Comprometido en Fase 4', fmt(S.comprometido) + (S.descuento ? ' (incluye descuento por sesión compartida de ' + fmt(S.descuento) + ')' : '')],
+    ['Reserva', fmt(S.reserva)],
+    ['Pagado en novedades y nota de producción', fmt(pagNov)],
+    ['Pagado por ajuste', fmt(S.ajuste ? S.ajuste.monto : 0)],
+    ['Reembolso por cancelación', fmt(S.ajuste ? S.ajuste.reembolso : 0)],
+    ['Costos hundidos', fmt(hund) + (S.hundidos.length ? ' (' + S.hundidos.map(function (x) { return x.code + ' ' + fmt(x.monto); }).join(', ') + ')' : '')],
+    ['Saldo final', fmt(S.saldo)]
+  ]);
+  sec('3 · Carpetas revisadas a fondo');
+  p(S.revision.map(function (x) { return x + ' · ' + CARPETAS[x].titulo; }).join(' · '));
+  sec('4 · Matriz de decisiones');
+  table(['Riesgo', 'Evidencia', 'Prioridad', 'Tratamiento (F3)', 'Medida financiada', '¿Cambió?', 'Estrategia final (origen)', 'Bloqueo', 'Estado al lanzamiento'],
+    RIESGOS_ORDEN.map(function (r) {
+      var t = S.triage[r], c = S.financiamiento[r], e = S.estrategia[r], b = S.bloqueo[r], x = res.porRiesgo[r];
+      var cambio = S.cambios.filter(function (z) { return z.r === r; })[0];
+      return [r + ' · ' + RIESGOS[r].corto, S.lectura[r] || '—', t.prioridad + (t.prioridad === 'P1' ? ' · ' + t.rango : ''), t.trat, c + ' · ' + fmt(S.pagado[r] || 0), cambio ? 'Sí (de ' + cambio.de + ')' : 'No',
+        e.code + ' (' + e.origen + ')', b.b ? 'Sí · ' + b.motivo : 'No', x.estado];
+    }));
+  sec('5 · Riesgos aceptados y trasladados');
+  var at = RIESGOS_ORDEN.filter(function (r) { return res.porRiesgo[r].exp > 0; });
+  if (!at.length) p('Ninguno.');
+  else table(['Riesgo', 'Estrategia', 'Quién lo carga'], at.map(function (r) { var x = res.porRiesgo[r]; return [r + ' · ' + RIESGOS[r].corto, nombreEstrategia(x.code), quienCarga(S, r, x)]; }));
+  sec('6 · Decisiones modificadas');
+  var mods = [];
+  S.cambios.forEach(function (c) { mods.push(['Fase 3 → Fase 4', c.r + ': de ' + c.de + ' a ' + c.a + (c.masBarata ? ' (más barata)' : '')]); });
+  if (S.ajuste) mods.push(['Ajuste único', S.ajuste.r + ' · ' + (S.ajuste.modalidad === 'cancelar' ? 'cancelar' : 'sustituir') + ': de ' + S.ajuste.anterior + ' a ' + S.ajuste.nueva + ' · ' + (S.ajuste.modalidad === 'cancelar' ? 'reembolso ' + fmt(S.ajuste.reembolso) : 'pago ' + fmt(S.ajuste.monto)) + ' · ' + S.ajuste.momento]);
+  else mods.push(['Ajuste único', 'Sin usar']);
+  if (S.intentosAjuste.length) mods.push(['Intentos de ajuste no permitidos', S.intentosAjuste.map(function (i) { return i.r + ' (' + (i.k === 'bloqueado' ? 'bloqueado' : 'novedad pendiente') + ')'; }).join(', ')]);
+  if (S.lanzInicial && S.lanzInicial.code !== S.lanz.code) mods.push(['Lanzamiento', 'De ' + S.lanzInicial.code + ' a ' + S.lanz.code]);
+  else mods.push(['Lanzamiento', 'Sin cambio (' + S.lanz.code + ')']);
+  table(['Momento', 'Cambio'], mods);
+  sec('7 · Novedades recibidas');
+  var nv = ['A', 'B', 'C'].map(function (k) { var n = S.nov[k], N = NOVEDADES[n.id], R = RESP_INDEX[n.resp]; return [n.id + ' · ' + N.remite, n.informativa ? 'Informativa (sin respuesta requerida)' : respTexto(n.resp), R && R.costo ? fmt(R.costo) : '$0']; });
+  if (S.notaProd.mostrada) nv.push(['Nota de producción · Faro Films', respTexto(S.notaProd.resp), S.notaProd.resp === 'NP-1' ? fmt(4000) : '$0']);
+  table(['Novedad', 'Respuesta', 'Costo'], nv);
+  sec('8 · Decisión de lanzamiento');
+  var L = S.lanz, extra = '';
+  if (L.code === 'L2') extra = ' · Condiciones: ' + (L.cond.map(function (r) { return r + (res.descartadas.indexOf(r) >= 0 ? ' (descartada: riesgo resuelto)' : ''); }).join(', ') || 'ninguna');
+  if (L.code === 'L3') extra = ' · Retenidos: ' + (L.ret.map(function (r) { return r + (res.descartadas.indexOf(r) >= 0 ? ' (descartada: riesgo resuelto)' : ''); }).join(', ') || 'ninguno');
+  if (L.code === 'L4' && S.c4MantuvoL4) extra = ' · Se mantuvo después del aviso de Deportes Meridiano';
+  p(L.code + ' · ' + LANZ[L.code].titulo + extra);
+  sec('9 · Argumentación');
+  H.push('<p><strong>Campo 1 · Por qué el P1 número 1</strong></p><p class="rec">' + esc(S.justP1) + '</p><p><strong>Campo 2 · La decisión que más le cuesta al cliente</strong></p><p class="rec">' + esc(S.justCosto) + '</p>');
+  T.push('Campo 1: ' + S.justP1, 'Campo 2: ' + S.justCosto);
+  H.push('<div class="rec-block">');
+  sec('10 · Recomendación ejecutiva');
+  H.push('<p class="rec">' + esc(S.recomendacion) + '</p>'); T.push(S.recomendacion);
+  H.push('</div>');
+  sec('11 · Perfil de gestión de riesgo');
+  p('<strong>' + TIPOS_PERFIL[res.perfil.tipo].nombre + '.</strong> ' + TIPOS_PERFIL[res.perfil.tipo].txt);
+  res.perfil.ejes.forEach(function (pos, i) {
+    var cajas = [1, 2, 3, 4, 5].map(function (n) { return n === pos ? '■' : '□'; }).join('');
+    H.push('<p>' + EJES[i].izq + ' <span class="boxes" aria-hidden="true">' + cajas + '</span> ' + EJES[i].der + ' — ' + posTexto(i, pos) + '</p>');
+    T.push(EJES[i].izq + ' ' + cajas + ' ' + EJES[i].der + ' — ' + posTexto(i, pos));
+  });
+  res.perfil.obs.forEach(function (o) { p('<strong>' + o.titulo + '.</strong> ' + (o.txt || o.items.join(' ')), o.titulo + '. ' + (o.txt || o.items.join(' '))); });
+  if (res.marcasHist.length) p('Historial de marcas: ' + res.marcasHist.map(function (m) { return MARCAS_TXT[m] + (res.marcasActivas.indexOf(m) < 0 ? ' (retirada por un ajuste)' : ''); }).join(' '));
+  sec('12 · Escenarios plausibles');
+  var ab = RIESGOS_ORDEN.filter(function (r) { return res.porRiesgo[r].exp > 0; });
+  if (!ab.length) p('Ningún riesgo quedó abierto.');
+  ab.forEach(function (r) { var E = epilogoDe(r, res.porRiesgo[r].code); p('<strong>' + E.titulo + '</strong> (' + E.ver + '): ' + E.txt, E.titulo + ' (' + E.ver + '): ' + E.txt); });
+  sec('13 · Pie');
+  p('Simulación de entrenamiento. Empresa, campaña, personas, documentos y costos ficticios. No constituye asesoría jurídica.');
+  return { html: '<div class="report">' + H.join('') + '</div>', text: T.join('\n') };
+}
+
+/* ---------- Acciones ---------- */
+function act(a, el) {
+  var r = el.getAttribute('data-r');
+  switch (a) {
+    case 'continuar': UI.resume = false; go(S.vista); break;
+    case 'reiniciar':
+      confirmar('¿Reiniciar el expediente?', '<p>Se borrarán todas las decisiones de este laboratorio guardadas en este navegador. No se puede deshacer.</p>', 'Reiniciar expediente', function () {
+        try { localStorage.removeItem(STORAGE_KEY); } catch (e) {}
+        S = estadoInicial(); UI = { resume: false, errors: {}, adjR: null, adjMsg: '', f1msg: '' }; render(); var n = $('in-nombre'); if (n) n.focus();
+      }); break;
+    case 'expediente': abrirExpediente(); break;
+    case 'tratamientos': abrirTratamientos(); break;
+    case 'doc': abrirDoc(el.getAttribute('data-id')); break;
+    case 'ir': var v = Number(el.getAttribute('data-v')); if (v <= S.fase) go(v); break;
+    case 'f0-next': if (S.fase === 0) S.fase = 1; go(1); break;
+    case 'carpeta':
+      var p = el.getAttribute('data-p'), i = S.revision.indexOf(p);
+      if (i >= 0) { S.revision.splice(i, 1); UI.f1msg = 'Quitaste ' + p + '.'; }
+      else if (S.revision.length >= 3) { UI.f1msg = 'Ya elegiste tres carpetas. Quita una para elegir otra.'; }
+      else { S.revision.push(p); UI.f1msg = 'Elegiste ' + p + '.'; }
+      UI.errors.f1 = []; save(); render(true); break;
+    case 'f1-confirm':
+      if (S.revision.length !== 3) { UI.errors.f1 = ['Elige exactamente tres carpetas para confirmar (llevas ' + S.revision.length + ').']; render(true); break; }
+      confirmar('Confirmar revisión a fondo', '<p>Vas a revisar a fondo: <strong>' + S.revision.map(function (x) { return x + ' · ' + CARPETAS[x].titulo; }).join('; ') + '</strong>.</p><p>No podrás cambiar la selección.</p>', 'Confirmar revisión', function () { S.fase = 2; UI.errors.f1 = []; go(2); });
+      break;
+    case 'f2-confirm':
+      var falt = RIESGOS_ORDEN.filter(function (x) { return !S.lectura[x]; });
+      if (falt.length) { UI.errors.f2 = ['Califica la solidez de la evidencia de los ocho riesgos. Faltan: ' + falt.join(', ') + '.']; render(true); var ee = $('err-f2'); if (ee) ee.scrollIntoView({ block: 'center' }); break; }
+      UI.errors.f2 = [];
+      var sinAbrir = [];
+      RIESGOS_ORDEN.forEach(function (x) { var R = RIESGOS[x]; R.complementarios.forEach(function (d) { if (!S.docsAbiertos[d]) sinAbrir.push(d); }); if (riesgosRevisados(S).indexOf(x) >= 0 && !S.docsAbiertos[R.senal]) sinAbrir.push(R.senal); });
+      var avanzar = function () { S.fase = 3; go(3); };
+      if (sinAbrir.length) showModal({ title: 'Hay documentos que no has consultado', body: '<p>Quedan ' + sinAbrir.length + ' documentos opcionales sin abrir. No son obligatorios para avanzar.</p>', buttons: [{ label: 'Revisarlos', cls: 'secondary' }, { label: 'Continuar de todos modos', act: avanzar }] });
+      else confirmar('Cerrar hallazgos', '<p>Tus calificaciones de evidencia quedarán registradas.</p>', 'Continuar a Triage', avanzar);
+      break;
+    case 'f3-confirm':
+      var e3 = validarF3(); UI.errors.f3 = e3;
+      if (e3.length) { render(true); var el3 = $('err-f3'); if (el3) el3.scrollIntoView({ block: 'center' }); break; }
+      confirmar('Confirmar triage', '<p>Tu triage quedará fijo. En la siguiente fase verás los costos y podrás cambiar la medida de cada riesgo.</p>', 'Confirmar triage', function () {
+        S.fase = 4; S.financiamiento = {}; RIESGOS_ORDEN.forEach(function (x) { S.financiamiento[x] = S.triage[x].accion; }); go(4);
+      }); break;
+    case 'f4-confirm':
+      var e4 = validarF4(); UI.errors.f4 = e4;
+      if (e4.length) { render(true); var el4 = $('err-f4'); if (el4) el4.scrollIntoView({ block: 'center' }); break; }
+      var pr = calcularPresupuesto(S.financiamiento);
+      confirmar('Confirmar presupuesto y lanzamiento', '<p>Vas a recomendar: <strong>' + S.lanz.code + ' · ' + LANZ[S.lanz.code].titulo + '</strong>. Mariana lo presentará así al director general. Podrás cambiarlo el domingo, después de las novedades.</p><p>Comprometido: <strong>' + fmt(pr.total) + '</strong> · Reserva para el domingo: <strong>' + fmt(FONDO - pr.total) + '</strong>. Las medidas quedan contratadas.</p>', 'Confirmar', function () {
+        confirmarFase4(S); save(); go(5);
+      }); break;
+    case 'responder':
+      var k = el.getAttribute('data-k'), id = el.getAttribute('data-id'), R = RESP_INDEX[id];
+      if (R.costo > S.saldo) { toast('Reserva insuficiente para esta respuesta.'); break; }
+      confirmar('Confirmar respuesta', '<p><strong>' + esc(R.txt) + '</strong>' + (R.costo ? ' · ' + fmt(R.costo) : '') + '</p><p>La respuesta se confirma y no se puede reabrir.</p>', 'Confirmar respuesta', function () {
+        var out = responder(S, k, id); if (!out.ok) toast(out.msg); save(); render(true);
+        var nx = $('nov-' + k); if (nx) nx.scrollIntoView({ block: 'nearest' });
+      }); break;
+    case 'responderNP':
+      var idn = el.getAttribute('data-id'), RN = RESP_INDEX[idn];
+      if (RN.costo > S.saldo) { toast('Reserva insuficiente para esta respuesta.'); break; }
+      confirmar('Confirmar respuesta', '<p><strong>' + esc(RN.txt) + '</strong>' + (RN.costo ? ' · ' + fmt(RN.costo) : '') + '</p><p>La respuesta se confirma y no se puede reabrir.</p>', 'Confirmar respuesta', function () {
+        var out = responderNotaProd(S, idn); if (!out.ok) toast(out.msg); save(); render(true);
+      }); break;
+    case 'ajustar':
+      var t = intentarAjuste(S, r);
+      if (!t.ok) { UI.adjMsg = t.msg; UI.adjR = null; save(); render(true); toast(t.msg); break; }
+      UI.adjMsg = ''; UI.adjR = r; UI.adjMod = null; UI.adjNueva = null; render(true); break;
+    case 'adj-cancel': UI.adjR = null; render(true); break;
+    case 'adj-confirm':
+      if (!UI.adjMod) { UI.adjMsg = 'Elige la modalidad del ajuste.'; render(true); break; }
+      if (UI.adjMod === 'sustituir' && !UI.adjNueva) { UI.adjMsg = 'Elige la nueva medida.'; render(true); break; }
+      var txt = UI.adjMod === 'cancelar'
+        ? '<p>Cancelas «' + esc(nombreEstrategia(S.estrategia[r].code)) + '» y recuperas <strong>' + fmt(reembolsoCancelacion(S, r)) + '</strong>. La estrategia pasa a «' + esc(MEDIDAS[RIESGOS[r].aceptar].txt) + '».</p>'
+        : '<p>Sustituyes «' + esc(nombreEstrategia(S.estrategia[r].code)) + '» por «' + esc(MEDIDAS[UI.adjNueva].txt) + '» por <strong>' + fmt(MEDIDAS[UI.adjNueva].recargo) + '</strong>.</p>';
+      confirmar('Confirmar ajuste único', txt + '<p>Sólo tienes un ajuste. No se puede deshacer.</p>', 'Confirmar ajuste', function () {
+        var out = UI.adjMod === 'cancelar' ? cancelarMedida(S, r) : sustituirEstrategia(S, r, UI.adjNueva);
+        UI.adjMsg = out.ok ? 'Ajuste registrado.' : out.msg; UI.adjR = null; save(); render(true);
+      }); break;
+    case 'f5-confirm':
+      var e5 = validarF5(); UI.errors.f5 = e5;
+      if (e5.length) { render(true); var el5 = $('err-f5'); if (el5) el5.scrollIntoView({ block: 'center' }); break; }
+      confirmar('Cerrar el expediente', '<p>Tus respuestas, tu ajuste, tu decisión de lanzamiento (<strong>' + S.lanz.code + ' · ' + LANZ[S.lanz.code].titulo + '</strong>) y tu recomendación quedarán fijos. Después verás los escenarios, tu perfil y el informe.</p>', 'Cerrar expediente', function () {
+        S.cerrado = true; S.lanzFinal = JSON.parse(JSON.stringify(S.lanz)); S.fechaCierre = hoyISO(); S.fase = 6; go(6);
+      }); break;
+    case 'imprimir': document.body.classList.add('print-report'); window.print(); break;
+    case 'copiar': copiarInforme(); break;
+  }
+}
+function copiarInforme() {
+  var text = construirInforme(calcular(S)).text;
+  function fallback() {
+    var ta = document.createElement('textarea'); ta.value = text; ta.setAttribute('readonly', ''); ta.style.position = 'fixed'; ta.style.top = '-1000px';
+    document.body.appendChild(ta); ta.select(); var ok = false;
+    try { ok = document.execCommand('copy'); } catch (e) { ok = false; }
+    document.body.removeChild(ta);
+    if (ok) toast('Informe copiado al portapapeles.');
+    else showModal({ title: 'Copiar informe', body: '<p>Selecciona el texto y cópialo manualmente.</p><textarea id="copy-area" style="min-height:300px" readonly>' + esc(text) + '</textarea>' });
+  }
+  if (navigator.clipboard && window.isSecureContext) navigator.clipboard.writeText(text).then(function () { toast('Informe copiado al portapapeles.'); }, fallback);
+  else fallback();
+}
+function updateCounter(id, w, min, max, sufijo) {
+  var c = $('cnt-' + id); if (!c) return;
+  c.textContent = w + ' palabras · ' + sufijo;
+  c.className = 'counter ' + (w >= min && w <= max ? 'good' : 'bad');
+}
+function onChange(t) {
+  var b = t.getAttribute('data-bind'); if (!b) return;
+  var r = t.getAttribute('data-r');
+  if (b === 'lectura') { if (soloLectura(2) || !S.docsAbiertos[RIESGOS[r].principal]) { render(true); return; } S.lectura[r] = t.value; save(); render(true); return; }
+  if (soloLectura(S.vista) && ['adjmod', 'adjnueva'].indexOf(b) < 0) { render(true); return; }
+  var esTriage = ['pri', 'rango', 'trat', 'accion'].indexOf(b) >= 0;
+  if (esTriage && S.vista !== 3) return;
+  var tr = esTriage ? (S.triage[r] = S.triage[r] || {}) : null;
+  switch (b) {
+    case 'pri': tr.prioridad = t.value; if (t.value !== 'P1') tr.rango = ''; break;
+    case 'rango': tr.rango = t.value; break;
+    case 'trat': tr.trat = t.value; if (tr.accion && MEDIDAS[tr.accion].trat !== t.value) tr.accion = ''; var ms = medidasDeTrat(r, t.value); if (ms.length === 1) tr.accion = ms[0]; break;
+    case 'accion': tr.accion = t.value; break;
+    case 'fin': if (soloLectura(4)) return; S.financiamiento[r] = t.value; filtrarLanz(); break;
+    case 'lanz':
+      if (soloLectura(S.vista)) return;
+      cambiarLanzamiento(S, t.value); break;
+    case 'cond':
+      if (soloLectura(S.vista)) return;
+      if (t.checked) { if (S.lanz.cond.length < 3 && S.lanz.cond.indexOf(r) < 0) S.lanz.cond.push(r); }
+      else S.lanz.cond = S.lanz.cond.filter(function (x) { return x !== r; });
+      break;
+    case 'ret':
+      if (soloLectura(S.vista)) return;
+      if (t.checked) { if (S.lanz.ret.indexOf(r) < 0) S.lanz.ret.push(r); } else S.lanz.ret = S.lanz.ret.filter(function (x) { return x !== r; });
+      break;
+    case 'adjmod': UI.adjMod = t.value; UI.adjMsg = ''; render(true); return;
+    case 'adjnueva': UI.adjNueva = t.value; render(true); return;
+    default: return;
+  }
+  save(); render(true);
+}
+function filtrarLanz() {
+  if (S.lanz.code === 'L2') S.lanz.cond = S.lanz.cond.filter(function (r) { return elegiblesCondicion(S).indexOf(r) >= 0; });
+  if (S.lanz.code === 'L3') S.lanz.ret = S.lanz.ret.filter(function (r) { return elegiblesRetencion(S).indexOf(r) >= 0; });
+}
+function onInput(t) {
+  var b = t.getAttribute('data-bind'); if (!b) return;
+  var r = t.getAttribute('data-r');
+  if (b === 'justP1' && !soloLectura(3)) { S.justP1 = t.value; updateCounter('justP1', contarPalabras(t.value), 40, 150, 'requerido: 40–150'); save(); }
+  else if (b === 'justCosto' && !soloLectura(4)) { S.justCosto = t.value; updateCounter('justCosto', contarPalabras(t.value), 30, 100, 'requerido: 30–100'); save(); }
+  else if (b === 'recomendacion' && !soloLectura(5)) { S.recomendacion = t.value; updateCounter('recomendacion', contarPalabras(t.value), 1, 200, 'máximo 200'); save(); }
+  else if (b === 'nota' && !soloLectura(3)) {
+    S.triage[r] = S.triage[r] || {}; S.triage[r].nota = t.value.slice(0, 100);
+    var c = $('cnt-nota-' + r); if (c) c.textContent = S.triage[r].nota.length + ' / 100'; save();
+  }
+}
+document.addEventListener('click', function (e) {
+  var t = e.target.closest('[data-act]');
+  if (!t || t.closest('.modal-bg')) { if (t && t.closest('.modal-bg') && t.getAttribute('data-act') === 'doc') { var mb = t.closest('.modal-bg'); var top = modalStack[modalStack.length - 1]; if (top) top.close(false); abrirDoc(t.getAttribute('data-id')); } return; }
+  e.preventDefault();
+  act(t.getAttribute('data-act'), t);
+});
+document.addEventListener('change', function (e) { if (e.target.closest('#main')) onChange(e.target); });
+document.addEventListener('input', function (e) { if (e.target.closest('#main')) onInput(e.target); });
+document.addEventListener('submit', function (e) {
+  var f = e.target; if (f.getAttribute('data-form') !== 'inicio') return;
+  e.preventDefault();
+  var n = $('in-nombre').value.trim();
+  if (!n) { UI.errors.inicio = ['Escribe el nombre del participante para abrir el expediente.']; var keep = $('in-id').value; render(); $('in-id').value = keep; $('in-nombre').focus(); return; }
+  S = estadoInicial(); S.started = true; S.nombre = n; S.id = $('in-id').value.trim(); S.fecha = hoyISO(); S.fase = 0; S.vista = 0;
+  UI.errors = {}; UI.resume = false; go(0);
+});
+window.addEventListener('afterprint', function () { document.body.classList.toggle('print-report', S.started && !UI.resume && S.vista === 6); });
+
+/* Interfaz de prueba (sin efectos fuera del navegador) */
+window.LAB = { estadoInicial: estadoInicial, calcularPresupuesto: calcularPresupuesto, confirmarFase4: confirmarFase4, responder: responder, responderNotaProd: responderNotaProd,
+  cancelarMedida: cancelarMedida, sustituirEstrategia: sustituirEstrategia, intentarAjuste: intentarAjuste, estadoAjuste: estadoAjuste, calcular: calcular,
+  cambiarLanzamiento: cambiarLanzamiento, opcionesSlot: opcionesSlot, construirInforme: construirInforme, getState: function () { return S; } };
+
+render();
+
+</script>
+</body>
+</html>
