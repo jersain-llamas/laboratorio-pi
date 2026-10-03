@@ -1,0 +1,1016 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Laboratorio 01 · Estrategia de marca</title>
+<meta name="description" content="Simulación profesional de estrategia marcaria en México: del lanzamiento comercial a una estrategia de protección defendible.">
+<meta name="robots" content="noindex">
+<style>
+:root{--bg:#f4f2ed;--surface:#ffffff;--paper:#fffdf8;--ink:#1b2430;--ink2:#38414d;--muted:#5d6572;--line:#d6d0c4;--line2:#e8e3d9;--accent:#21495a;--accent2:#2c6175;--accent-soft:#e6edef;--warm:#7a4a1d;--warm-soft:#f6ede0;--err:#8a2a2a;--err-soft:#f8eaea;--focus:#1b6aa1;--r:6px;--hh:64px}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%;scroll-padding-top:calc(var(--hh) + 16px)}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif;font-size:16px;line-height:1.55}
+a{color:var(--accent2)}
+button,input,select,textarea{font:inherit;color:inherit}
+:focus-visible{outline:3px solid var(--focus);outline-offset:2px}
+.sr{position:absolute!important;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+h1,h2,h3,h4{line-height:1.25;color:var(--ink)}
+/* Header */
+.topbar{position:sticky;top:0;z-index:40;background:#17252d;color:#eef0ec;height:var(--hh);display:flex;align-items:center;gap:16px;padding:0 20px}
+.brand{display:flex;flex-direction:column;line-height:1.15;flex:0 0 auto}
+.brand .k{font-size:11px;letter-spacing:.18em;color:#a7b4b9}
+.brand .t{font-size:15px;font-weight:600;letter-spacing:.07em}
+.phaseinfo{flex:1 1 auto;min-width:0;display:flex;flex-direction:column;padding-left:16px;border-left:1px solid #33454e}
+.phaseinfo .n{font-size:12px;color:#a7b4b9;letter-spacing:.04em}
+.phaseinfo .p{font-size:14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.progress{position:absolute;left:0;right:0;bottom:0;height:3px;background:#2a3b44}
+.progress i{display:block;height:100%;background:#b8955a;width:0;transition:width .3s}
+.expbtn{flex:0 0 auto;display:inline-flex;align-items:center;gap:8px;min-height:44px;padding:0 14px;border:1px solid #4a5d66;border-radius:var(--r);background:transparent;color:#eef0ec;cursor:pointer}
+.expbtn .badge{background:#b8955a;color:#17252d;border-radius:10px;font-size:12px;font-weight:700;padding:1px 7px}
+/* Layout */
+.layout{display:grid;grid-template-columns:minmax(0,1fr) 340px;max-width:1360px;margin:0 auto}
+main{padding:28px 36px 0;min-width:0}
+.wrap{max-width:860px;margin:0 auto}
+aside#exp{border-left:1px solid var(--line);background:#efece5;position:sticky;top:var(--hh);height:calc(100vh - var(--hh));overflow:auto;padding:20px 18px 40px}
+.scrim{display:none}
+@media (min-width:1024px){.expbtn{display:none}}
+@media (max-width:1023px){
+ .layout{grid-template-columns:1fr}
+ aside#exp{position:fixed;top:0;right:0;bottom:0;height:100%;width:min(92vw,400px);transform:translateX(105%);transition:transform .22s ease;z-index:60;box-shadow:-8px 0 24px rgba(0,0,0,.18)}
+ body.exp-open aside#exp{transform:none}
+ body.exp-open .scrim{display:block;position:fixed;inset:0;background:rgba(15,22,28,.45);z-index:55}
+ main{padding:20px 18px 0}
+}
+@media (max-width:640px){.brand .k{display:none}.brand .t{font-size:13px}.phaseinfo{padding-left:10px}.topbar{padding:0 12px;gap:10px}.expbtn .lbl{display:none}}
+/* Expediente */
+.exp-h{display:flex;justify-content:space-between;align-items:center;margin:0 0 4px}
+.exp-h h2{font-size:15px;letter-spacing:.12em;text-transform:uppercase;margin:0;color:var(--ink2)}
+.exp-close{display:none;min-height:40px;min-width:40px;border:1px solid var(--line);background:#fff;border-radius:var(--r);cursor:pointer}
+@media (max-width:1023px){.exp-close{display:inline-block}}
+.exp-note{font-size:13px;color:var(--muted);margin:0 0 14px}
+.exp-list{list-style:none;margin:0;padding:0}
+.exp-list li{margin:0 0 6px}
+.exp-item{display:block;width:100%;text-align:left;background:#fff;border:1px solid var(--line2);border-radius:var(--r);padding:9px 12px;cursor:pointer;min-height:44px}
+.exp-item:hover{border-color:var(--line)}
+.exp-item .w{display:block;font-size:11.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.exp-item .ti{display:block;font-size:14.5px;line-height:1.35}
+.exp-item .nw{float:right;font-size:11px;font-weight:700;color:var(--warm);letter-spacing:.05em;text-transform:uppercase}
+.exp-empty{font-size:14px;color:var(--muted)}
+/* Phase */
+.eyebrow{font-size:12.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);margin:0}
+.ph-title{font-size:28px;margin:4px 0 6px;font-weight:650}
+.ph-lead{color:var(--ink2);margin:0 0 18px;max-width:72ch}
+.screen{border-left:3px solid var(--accent);background:var(--surface);padding:14px 18px;margin:16px 0;color:var(--ink2)}
+.block{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:20px 22px;margin:18px 0}
+.block>h3{font-size:17.5px;margin:0 0 2px}
+.block .code{font-size:12px;letter-spacing:.08em;color:var(--muted);text-transform:uppercase;margin:0 0 6px}
+.block .q{margin:6px 0 12px;color:var(--ink2)}
+.sub{font-size:14px;color:var(--muted)}
+.part{font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);margin:30px 0 0;border-top:1px solid var(--line);padding-top:16px}
+fieldset{border:0;margin:0;padding:0;min-width:0}
+legend{padding:0}
+.opt{display:flex;gap:12px;align-items:flex-start;padding:11px 14px;border:1px solid var(--line2);border-radius:var(--r);margin:7px 0;background:#fff;cursor:pointer;min-height:44px}
+.opt input{margin-top:3px;width:18px;height:18px;flex:0 0 auto;accent-color:var(--accent)}
+.opt.on{border-color:var(--accent);background:var(--accent-soft)}
+.opt.dis{cursor:default;opacity:.85}
+.opt .ot b{font-weight:600}
+.opt .od{display:block;font-size:14px;color:var(--muted)}
+.inline-opts{display:flex;flex-wrap:wrap;gap:6px}
+.inline-opts .opt{margin:0;flex:1 1 180px}
+select{width:100%;min-height:44px;border:1px solid var(--line);border-radius:var(--r);background:#fff;padding:8px 10px}
+select:disabled{background:#f2f0eb;color:var(--muted)}
+.ta,.inp{width:100%;border:1px solid var(--line);border-radius:var(--r);padding:10px 12px;background:#fff;line-height:1.5}
+.ta{min-height:96px;resize:vertical}
+.ta.long{min-height:170px}
+.ta:disabled,.inp:disabled{background:#f6f4ef;color:var(--ink2)}
+.fl{display:block;font-weight:600;margin:14px 0 6px}
+.cnt{font-size:13px;color:var(--muted);margin-top:4px;display:flex;justify-content:space-between;gap:8px}
+.cnt.short{color:var(--warm)}
+.grid-el{display:grid;grid-template-columns:1.25fr 1.35fr 1fr;gap:10px 14px;align-items:start;padding:14px 0;border-top:1px solid var(--line2)}
+.grid-el:first-of-type{border-top:0}
+.grid-el .nm b{display:block}
+.grid-el .nm span{font-size:13.5px;color:var(--muted)}
+.grid-el label.mini{font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);display:block;margin-bottom:4px}
+@media (max-width:760px){.grid-el{grid-template-columns:1fr}}
+.linegrid{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,2fr);gap:8px 16px;padding:12px 0;border-top:1px solid var(--line2);align-items:center}
+@media (max-width:760px){.linegrid{grid-template-columns:1fr}}
+.linegrid .inline-opts .opt{flex:1 1 120px;font-size:14px;padding:8px 10px}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+.chip{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--line);border-radius:20px;padding:6px 12px;background:#fff;font-size:14px;cursor:pointer;min-height:40px}
+.chip.on{background:var(--accent-soft);border-color:var(--accent)}
+.chip input{accent-color:var(--accent);width:16px;height:16px}
+.cls-row{border-top:1px solid var(--line2);padding:10px 0}
+.cls-cover{margin:6px 0 4px 30px}
+.budget{border:1px solid var(--line);background:#faf8f3;border-radius:var(--r);padding:14px 16px;margin:16px 0}
+.budget .bh{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;font-size:14px}
+.slots{display:flex;gap:6px;margin:10px 0 6px}
+.slot{flex:1;height:10px;border-radius:2px;background:#e3ded3}
+.slot.f{background:var(--accent)}
+.slot.x{background:var(--warm)}
+.blist{list-style:none;margin:8px 0 0;padding:0;font-size:14px}
+.blist li{padding:6px 0;border-top:1px dashed var(--line)}
+.olist{list-style:none;margin:10px 0;padding:0;counter-reset:o}
+.olist li{display:flex;align-items:center;gap:10px;background:#fff;border:1px solid var(--line2);border-radius:var(--r);padding:8px 10px;margin:6px 0}
+.olist li .rk{font-weight:700;color:var(--accent);min-width:22px}
+.olist li .lb{flex:1}
+.olist li button{min-height:40px;min-width:64px;border:1px solid var(--line);background:#fff;border-radius:var(--r);cursor:pointer;font-size:13.5px}
+.olist li button:disabled{opacity:.35;cursor:default}
+.divider{font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin:14px 0 4px;padding-top:8px;border-top:1px solid var(--line)}
+.divider.s4{color:var(--accent);border-top:0}
+.ant{border:1px solid var(--line);border-radius:var(--r);background:#fff;margin:18px 0;overflow:hidden}
+.ant-h{background:#f2efe8;padding:12px 16px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap}
+.ant-h b{font-size:17px;letter-spacing:.03em}
+.ant-h span{font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.ant-b{padding:12px 16px}
+.mx{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:10px;padding:12px 16px;border-top:1px solid var(--line2);background:#fbfaf6}
+.mx label{font-size:12px;letter-spacing:.04em;color:var(--muted);display:block;margin-bottom:3px}
+@media (max-width:860px){.mx{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:480px){.mx{grid-template-columns:1fr}}
+.mx-aff{padding:0 16px 14px;background:#fbfaf6}
+.newdocs{border:1px solid #d9c9ad;background:var(--warm-soft);border-radius:var(--r);padding:12px 16px;margin:14px 0}
+.newdocs b{font-size:13px;letter-spacing:.1em;text-transform:uppercase;color:var(--warm)}
+.newdocs ul{margin:6px 0 0;padding-left:18px}
+.linkbtn{background:none;border:0;padding:4px 0;color:var(--accent2);text-decoration:underline;cursor:pointer;text-align:left;min-height:32px}
+.errors{border-left:4px solid var(--err);background:var(--err-soft);padding:12px 16px;margin:18px 0;border-radius:0 var(--r) var(--r) 0}
+.errors b{color:var(--err)}
+.errors ul{margin:6px 0 0;padding-left:20px}
+.notice{border-left:3px solid var(--warm);background:var(--warm-soft);padding:10px 14px;margin:12px 0;font-size:15px}
+.ro-note{font-size:14px;color:var(--muted);background:#ece9e2;border-radius:var(--r);padding:8px 12px;margin:10px 0}
+.navbar{position:sticky;bottom:0;z-index:20;background:rgba(244,242,237,.97);border-top:1px solid var(--line);margin:36px -36px 0;padding:12px 36px;display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
+@media (max-width:1023px){.navbar{margin:28px -18px 0;padding:10px 18px}}
+.btn{min-height:46px;padding:0 20px;border-radius:var(--r);border:1px solid var(--accent);background:var(--accent);color:#fff;cursor:pointer;font-weight:600}
+.btn:hover{background:var(--accent2)}
+.btn.sec{background:#fff;color:var(--accent)}
+.btn.sec:hover{background:var(--accent-soft)}
+.btn.warn{background:var(--err);border-color:var(--err)}
+.btn[disabled]{opacity:.5;cursor:default}
+.btnrow{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+/* Portada */
+.cover{max-width:720px;margin:6vh auto 40px;background:var(--paper);border:1px solid var(--line);padding:44px 44px 36px;border-radius:4px}
+.cover .lab{font-size:13px;letter-spacing:.24em;color:var(--muted)}
+.cover h1{font-size:34px;letter-spacing:.06em;margin:6px 0 4px;font-weight:700}
+.cover .subt{font-size:18px;color:var(--ink2);margin:0 0 22px;font-style:italic}
+.cover p{color:var(--ink2)}
+.cover .priv{font-size:13.5px;color:var(--muted);border-top:1px solid var(--line);padding-top:12px;margin-top:22px}
+.cover .fict{font-size:14px;background:#f2efe8;padding:10px 14px;border-radius:var(--r)}
+@media (max-width:640px){.cover{padding:26px 20px;margin:16px auto}.cover h1{font-size:26px}}
+/* Documents */
+.doc{background:var(--paper);border:1px solid var(--line);padding:26px 30px;font-size:15px;line-height:1.6;color:var(--ink)}
+.doc+.doc{margin-top:14px}
+@media (max-width:640px){.doc{padding:18px 16px}}
+.sim{display:inline-block;border:1px solid #9b8f78;color:#5b4f3a;letter-spacing:.1em;font-size:11.5px;font-weight:600;text-transform:uppercase;padding:5px 10px;margin:0 0 14px}
+.sim2{display:block;font-size:12.5px;color:#5b4f3a;margin:-8px 0 14px}
+.doc h4{font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin:0 0 4px}
+.doc h3{font-size:19px;margin:0 0 14px}
+.doc p{margin:0 0 10px}
+.mailh{border-bottom:1px solid var(--line2);padding-bottom:10px;margin-bottom:14px;font-size:14px}
+.mailh div{display:grid;grid-template-columns:70px 1fr;gap:8px}
+.mailh span{color:var(--muted)}
+.foot{font-size:12px;color:var(--muted);border-top:1px solid var(--line2);margin-top:16px;padding-top:8px}
+.tbl{width:100%;border-collapse:collapse;font-size:14px;margin:8px 0 12px}
+.tbl th,.tbl td{border-bottom:1px solid var(--line2);padding:7px 9px;text-align:left;vertical-align:top}
+.tbl th{font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);font-weight:600;background:#f6f3ec}
+.tblwrap{overflow-x:auto}
+.kv{display:grid;grid-template-columns:190px 1fr;gap:4px 14px;font-size:14.5px}
+.kv dt{color:var(--muted)}
+.kv dd{margin:0}
+@media (max-width:640px){.kv{grid-template-columns:1fr}.kv dd{margin-bottom:8px}}
+.official{border-top:4px double #7d7462}
+.letter-sign{margin-top:14px}
+/* Modal */
+.modal{position:fixed;inset:0;background:rgba(15,22,28,.58);display:none;z-index:90;align-items:flex-start;justify-content:center;padding:4vh 14px;overflow:auto}
+.modal.open{display:flex}
+.modal-card{background:var(--bg);max-width:900px;width:100%;border-radius:6px;box-shadow:0 20px 60px rgba(0,0,0,.3)}
+.modal-h{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:14px 18px;border-bottom:1px solid var(--line);background:#fff;border-radius:6px 6px 0 0;position:sticky;top:0}
+.modal-h h2{font-size:17px;margin:0}
+.modal-h .w{font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.modal-b{padding:18px}
+.modal-x{min-height:44px;min-width:44px;border:1px solid var(--line);background:#fff;border-radius:var(--r);cursor:pointer;font-size:15px}
+.toast{position:fixed;left:50%;bottom:90px;transform:translateX(-50%);background:#17252d;color:#fff;padding:10px 16px;border-radius:var(--r);font-size:14.5px;z-index:95;display:none;max-width:90vw}
+.toast.on{display:block}
+/* Feedback */
+.fbsec{margin:28px 0}
+.fbsec>h2{font-size:21px;margin:0 0 8px;border-bottom:1px solid var(--line);padding-bottom:6px}
+.dim{display:grid;grid-template-columns:170px 230px 1fr;gap:12px;align-items:center;padding:10px 0;border-top:1px solid var(--line2)}
+@media (max-width:760px){.dim{grid-template-columns:1fr}}
+.lv{display:flex;gap:4px}
+.lv i{flex:1;height:12px;background:#e3ded3;border-radius:2px}
+.lv i.f{background:var(--accent)}
+.lvw{font-size:13px;color:var(--muted);margin-top:3px}
+.dim .rd{font-size:14.5px;color:var(--ink2)}
+.closest{border-left:3px solid var(--accent);background:var(--accent-soft);padding:10px 14px;margin:12px 0}
+.al{border-left:3px solid var(--warm);background:var(--warm-soft);padding:10px 14px;margin:8px 0}
+.al b{color:var(--warm)}
+.cm{margin:8px 0}
+.sc label{display:flex;gap:10px;align-items:flex-start;padding:6px 0;cursor:pointer}
+.sc input{width:18px;height:18px;margin-top:3px;accent-color:var(--accent)}
+.quote{white-space:pre-wrap;background:#fff;border:1px solid var(--line2);padding:12px 14px;border-radius:var(--r);font-size:15px}
+/* Report */
+.report{background:#fff;border:1px solid var(--line);padding:34px 40px}
+@media (max-width:640px){.report{padding:20px 16px}}
+.report h1{font-size:24px;margin:0 0 2px;letter-spacing:.04em}
+.report h2{font-size:17px;margin:26px 0 8px;padding-bottom:4px;border-bottom:1px solid var(--line)}
+.report h3{font-size:15px;margin:14px 0 6px}
+.report .meta{font-size:14px;color:var(--ink2)}
+.report .rep-text{white-space:pre-wrap;background:#faf8f3;border:1px solid var(--line2);padding:10px 12px;border-radius:4px;font-size:14.5px}
+.report .tbl{font-size:13.5px}
+.rep-block{break-inside:avoid;page-break-inside:avoid}
+.tag{display:inline-block;font-size:12px;border:1px solid var(--line);border-radius:3px;padding:0 6px;color:var(--ink2);background:#f6f3ec}
+@media print{
+ @page{size:letter;margin:16mm 15mm}
+ body{background:#fff;font-size:10.5pt;color:#000}
+ .topbar,aside#exp,.navbar,.no-print,.modal,.scrim,.toast{display:none!important}
+ .layout{display:block;max-width:none}
+ main{padding:0}
+ .wrap{max-width:none}
+ .report{border:0;padding:0}
+ .report h2{break-after:avoid;page-break-after:avoid}
+ .report .rep-text{background:#fff;border:1px solid #bbb;break-inside:auto}
+ .rep-block{break-inside:auto;page-break-inside:auto}
+ .tbl tr{break-inside:avoid;page-break-inside:avoid}
+ .tbl th{background:#eee!important;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+ .lv i.f{background:#333!important;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+ a{color:#000;text-decoration:none}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+<header class="topbar" id="topbar">
+ <div class="brand"><span class="k">LABORATORIO 01</span><span class="t">ESTRATEGIA DE MARCA</span></div>
+ <div class="phaseinfo" aria-live="polite"><span class="n" id="hdrN"></span><span class="p" id="hdrP"></span></div>
+ <button type="button" class="expbtn" id="expBtn" data-act="toggle-exp" aria-controls="exp" aria-expanded="false"><span class="lbl">Expediente</span><span class="badge" id="expBadge" hidden></span><span class="sr">Abrir expediente</span></button>
+ <div class="progress" aria-hidden="true"><i id="prog"></i></div>
+</header>
+<div class="layout">
+ <main id="main" tabindex="-1"></main>
+ <aside id="exp" aria-label="Expediente"></aside>
+</div>
+<div class="scrim" data-act="toggle-exp"></div>
+<div class="modal" id="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle"><div class="modal-card"><div class="modal-h"><div><div class="w" id="modalWhen"></div><h2 id="modalTitle"></h2></div><button type="button" class="modal-x" data-act="close-modal" aria-label="Cerrar">Cerrar</button></div><div class="modal-b" id="modalBody"></div></div></div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+<script>
+(function(){
+'use strict';
+var KEY='labpi_estrategia_marca_v1';
+var DIMS=['EXP','COS','VEL','AMP','REV','EVI'];
+var DIM_NAMES={EXP:'Exposición jurídica',COS:'Costo',VEL:'Velocidad',AMP:'Amplitud de protección',REV:'Reversibilidad',EVI:'Calidad de la evidencia'};
+var LEVELS=['muy bajo','bajo','medio','alto','muy alto'];
+var PH_TITLES=['Apertura del expediente','Qué se quiere proteger','Delimitar productos y servicios','Clasificación de Niza','Búsqueda de antecedentes','Decisión estratégica','Evento procesal','Cierre del expediente'];
+
+function esc(s){return String(s==null?'':s).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];});}
+function paras(s){return String(s||'').split(/\n{2,}/).map(function(p){return '<p>'+esc(p).replace(/\n/g,'<br>')+'</p>';}).join('');}
+function uniq(a){return a.filter(function(x,i){return a.indexOf(x)===i;});}
+function pe(s){var o={};String(s||'').trim().split(/\s+/).filter(Boolean).forEach(function(t){var m=t.match(/^([A-Z]{3})([+-]\d)$/);if(m)o[m[1]]=(o[m[1]]||0)+parseInt(m[2],10);});return o;}
+function len(s){return String(s||'').trim().length;}
+
+/* ---------- Datos del caso ---------- */
+var ELEMS=[
+ {k:'CACAO_VIVO',n:'CACAO VIVO',d:'Frase que aparecerá bajo el nombre como “categoría” del producto',opts:[['MARCA','Marca'],['AVISO','Aviso comercial'],['DESC','Uso descriptivo sin exclusividad']],momOn:['MARCA','AVISO']},
+ {k:'SLOGAN',n:'Slogan',d:'“Cacao vivo, energía real.”, para etiqueta, redes y punto de venta',opts:[['AVISO','Aviso comercial'],['MARCA','Marca'],['SINREG','Uso sin registro']],momOn:['AVISO','MARCA']},
+ {k:'ENVASE',n:'Envase',d:'Botella ámbar estándar de 330 ml, etiqueta vertical kraft con franja terracota',opts:[['MARCA','Marca (imagen comercial)'],['SINEXC','Uso sin exclusividad']],momOn:['MARCA']},
+ {k:'PROCESO',n:'Proceso y receta',d:'Cepa seleccionada y perfil de fermentación desarrollados con un laboratorio externo',opts:[['SECRETO','Secreto industrial y confidencialidad'],['MARCA','Registro como marca'],['NADA','Sin medidas por ahora']],momOn:['SECRETO']},
+ {k:'DOMINIO',n:'Dominio y redes',d:'xokana.mx y @xokana.mx; xokana.com ocupado por un tercero no identificado',opts:[['REGISTRO','Registro de dominio y cuentas'],['NADA','Sin acción']],momOn:['REGISTRO']},
+ {k:'CLUB',n:'Club XOKANA',d:'Nombre del programa de suscripción mensual',opts:[['CUBIERTO','Cubierto por la marca XOKANA'],['MARCA','Marca propia']],momOn:['MARCA']}
+];
+var ELEM={};ELEMS.forEach(function(e){ELEM[e.k]=e;});
+var MOM=[['P1','Primera etapa'],['POST','Etapa posterior o vigilancia'],['NO','No por ahora']];
+function optLabel(list,v){for(var i=0;i<list.length;i++)if(list[i][0]===v)return list[i][1];return '';}
+var SIGNOS=[['NOM','Sólo la denominación XOKANA, en forma nominativa; el logotipo no se registra por ahora'],['AMBAS_SEC','La denominación ahora; la mixta en una etapa posterior'],['AMBAS_SIM','Denominación y mixta al mismo tiempo'],['MIX','Sólo la mixta (la denominación queda protegida dentro del conjunto)']];
+var SIGNO_SHORT={NOM:'Nominativa',AMBAS_SEC:'Nominativa ahora; mixta después',AMBAS_SIM:'Nominativa y mixta simultáneas',MIX:'Sólo mixta'};
+var DOCLOGO=[['DOC_ANTES','Revisar los términos del encargo (mensajes, cotización, factura) y obtener un documento escrito antes de imprimir y antes de presentar cualquier mixta'],['DOC_PARALELO','Revisar y documentar los términos del encargo en paralelo, sin detener la presentación ni la impresión'],['DOC_NO','No hace falta: el cliente lo pagó'],['DOC_LICENCIA','Asumir que la diseñadora conserva los derechos y negociar una licencia']];
+var PEND=[['a','Las afirmaciones sobre “energía” y “cultivos vivos” pueden tener implicaciones regulatorias sanitarias y de publicidad.'],['b','Conviene identificar quién tiene xokana.com.'],['c','La marca debe registrarse antes de poder usarse.'],['d','Tener el dominio xokana.mx da derechos exclusivos sobre la marca XOKANA.']];
+var LINES=[['P1','Bebida de cacao fermentado lista para beber','Semana 20','66 %','“Es el negocio.”'],['P2','Cacao fermentado en polvo para preparar bebidas','Semana 20','20 %',''],['S1','Tienda en línea y suscripción (sólo productos propios)','Semana 20','canal de P1 y P2',''],['S2','Caja Origen trimestral (incluye chocolates de terceros con sus marcas)','Mes 3','10 %','“Nos posiciona como curadores.”'],['S3','Catas y talleres “Del árbol a la taza”','Mes 2','3 %',''],['F1','Barra XOKANA (cafetería de cacao en CDMX)','Mes 18, condicionada a la ronda','—','“El sueño.”'],['F2','Barras de cacao fermentado','Año 2','—','“Saldrán como XOKANA.”'],['F3','Vasos térmicos y playeras','Continuo','1 %','“Más regalo que negocio.”'],['F4','Línea cosmética con manteca de cacao','Sin fecha','—','“Idea del fondo.”']];
+var LINE_OPTS=[['1','Primera etapa'],['2','Etapa posterior y vigilancia'],['3','No proteger por ahora']];
+var REDS=[['PRECISA','“Bebidas a base de cacao; cacao en polvo; preparaciones a base de cacao para elaborar bebidas” (se agrega “barras de cacao” si las barras entran en primera etapa)'],['AMPLIA','“Bebidas no alcohólicas; bebidas a base de cacao; cacao; chocolate”'],['FUNCIONAL','“Bebidas funcionales y energéticas a base de cacao; bebidas probióticas; suplementos alimenticios a base de cacao”']];
+var CLASSES=[[3,'Cosméticos y preparaciones de tocador no medicinales; jabones; perfumería'],[5,'Productos farmacéuticos; suplementos alimenticios y dietéticos; preparaciones medicinales'],[21,'Utensilios y recipientes de uso doméstico y culinario; vasos, tazas, cristalería'],[25,'Prendas de vestir, calzado, artículos de sombrerería'],[29,'Carne, pescado, frutas y verduras en conserva; leche y productos lácteos; bebidas en las que predomina la leche'],[30,'Café, té, cacao y sus sucedáneos; chocolate; confitería; bebidas a base de café, té, cacao o chocolate'],[32,'Cervezas; bebidas sin alcohol; aguas minerales y gaseosas; bebidas a base de frutas y zumos; jarabes y otras preparaciones sin alcohol para elaborar bebidas'],[33,'Bebidas alcohólicas, excepto cervezas'],[35,'Publicidad; gestión de negocios; servicios de venta minorista y en línea, incluida la agrupación de productos de terceros para que el consumidor los vea y adquiera'],[41,'Educación y formación; organización de talleres y eventos culturales o educativos'],[43,'Servicios de restauración (alimentación); cafeterías, restaurantes, bares']];
+var CLS_EFF={30:'AMP+2 COS+1',32:'AMP+1 COS+1 EXP+2',35:'AMP+1 COS+1',41:'AMP+1 COS+1',43:'AMP+1 COS+1 EXP+1',5:'COS+1',29:'COS+1',33:'COS+1',3:'AMP+1 COS+1 EVI-1',21:'AMP+1 COS+1 EVI-1',25:'AMP+1 COS+1 EVI-1'};
+var ANTS={
+ A1:{name:'SOCANA',tag:'A1',rows:[['Tipo','Nominativa'],['Estado','Registro vigente, concedido hace 8 años'],['Clase','32'],['Productos','Aguas minerales y gaseosas; bebidas a base de frutas y jugos de frutas; bebidas isotónicas; bebidas energéticas; jarabes y otras preparaciones para elaborar bebidas.'],['Titular','Embotelladora Sierra Azul, S.A. de C.V. (León, Gto.)'],['Observación del investigador','Una revisión preliminar en línea no localizó productos SOCANA a la venta; el sitio del titular no se actualiza desde hace años. Observación no concluyente; no sustituye una investigación de uso.']]},
+ A2:{name:'MAZÁNTICA y diseño',tag:'A2',rows:[['Tipo','Mixta'],['Estado','Registro vigente, concedido hace 5 años'],['Clase','30'],['Productos','Chocolate; cacao; bebidas a base de cacao; productos de confitería.'],['Titular','Cooperativa Agroforestal Río Seco, S.C. de R.L. (Tabasco)'],['Diseño','Círculo que contiene dos mazorcas de cacao cruzadas en forma de X, con dos hojas; la denominación en arco bajo el círculo.'],['Observación','Productos a la venta en tiendas gourmet del sureste y en línea. Ver anexo figurativo.']]},
+ A3:{name:'XOKANA',tag:'A3',rows:[['Tipo','Nominativa'],['Estado','Dos registros vigentes, concedidos hace 3 años'],['Clases','9 y 42'],['Productos y servicios','Software descargable para gestión logística y rastreo de flotillas (9); software como servicio para administración de flotillas (42).'],['Titular','Xokana Logística Digital, S.A.P.I. de C.V. (Monterrey)'],['Observación','El titular opera el dominio xokana.com.']]},
+ A4:{name:'XOKAN',tag:'A4',rows:[['Tipo','Nominativa'],['Estado','Solicitud en trámite, presentada hace 3 meses, sin resolución'],['Clase','43'],['Servicios','Servicios de cafetería; servicios de restaurante.'],['Solicitante','Persona física (Puebla, Pue.)'],['Observación','No se localizó un establecimiento abierto con esa denominación.']]}
+};
+var ANT_KEYS=['A1','A2','A3','A4'];
+var SIM_LV=['nula','baja','media','alta'];
+var REL_LV=['sin relación','relacionados','idénticos o muy cercanos'];
+var RISK_LV=['bajo','medio','alto'];
+var AFF=[['den','Denominación'],['logo','Logotipo'],['c30','Clase 30'],['c32','Clase 32'],['c35','Clase 35'],['c43','Clase 43'],['exp','Expansión futura'],['dig','Presencia digital'],['nin','Ninguna']];
+var VERIF=[['iu1','Investigación de uso de SOCANA'],['iu2','Investigación de uso de MAZÁNTICA'],['xk','Seguimiento del estado de la solicitud XOKAN'],['exp1','Copia del expediente completo de SOCANA'],['none','Ninguna por ahora']];
+var ESTS=[['E1','Mantener XOKANA y el alcance definido; si la autoridad cita algún antecedente, responder con argumentos'],['E2','Mantener XOKANA, concentrar las solicitudes en lo que se venderá, con redacción precisa, y verificar el uso de SOCANA antes de decidir entre negociar o accionar'],['E3','Recomendar cambiar la denominación antes del lanzamiento'],['E4','Contactar al titular de SOCANA antes de presentar, para obtener consentimiento o un convenio de coexistencia'],['E5','Presentar sólo la mixta para diferenciarse visualmente de SOCANA'],['E6','Promover de inmediato la caducidad de SOCANA por falta de uso y presentar en paralelo']];
+var ACTS=[['INVEST_USO','Encargar una investigación de uso de SOCANA','EVI+2 COS+1'],['REDISENO','Ajustar el isotipo para alejarlo del diseño de MAZÁNTICA antes de imprimirlo o presentarlo','EXP-1 COS+1'],['DOCUMENTAR_LOGO','Revisar los términos del encargo (mensajes, cotización, factura) y obtener por escrito el reconocimiento de que se trató de una obra por encargo, o la cesión que corresponda','EXP-1 EVI+1'],['VIGILA_XOKAN','Dar seguimiento a la solicitud XOKAN y diferir la clase 43','EVI+1 REV+1'],['NEGOCIAR_DESPUES','Preparar un acercamiento con el titular de SOCANA cuando se conozca el resultado de la investigación','REV+1'],['GUIA_USO','Guía de uso para el cliente: no describir el producto como “energético” ni aludir a bebidas energéticas o isotónicas; usar la denominación con su identidad gráfica','EXP-1'],['DOMINIO','Monitorear la presencia digital y valorar un acercamiento comercial con el titular de xokana.com','EXP-1'],['VIGILANCIA','Contratar vigilancia de nuevas solicitudes similares','EVI+1 COS+1']];
+var ACT_EFF={};ACTS.forEach(function(a){ACT_EFF[a[0]]=a[2];});
+var LAUNCH=[['L1','Mantener la fecha sin cambios'],['L2','Mantener la fecha con condiciones'],['L3','Posponer el lanzamiento hasta aclarar la situación con SOCANA']];
+var CONDS=[['c1','Presentar antes del lanzamiento'],['c2','Aplicar la guía de uso'],['c3','No imprimir el isotipo hasta revisarlo'],['c4','Informar por escrito al consejo el riesgo asumido']];
+var M1R=[['R1','Argumentar que no existe riesgo de confusión'],['R2','Limitar o retirar productos'],['R3','Buscar o presentar el consentimiento del titular'],['R4','Promover la caducidad de SOCANA e informarlo en la respuesta'],['R5','Desistir de la solicitud afectada']];
+var MR={M2:[['ARG','Argumentar diferencias de conjunto'],['SUST','Sustituir por la nominativa o por una mixta con isotipo rediseñado'],['DES','Desistir de la mixta']],M3:[['ESP','Esperar y vigilar'],['REP','Desistir de la clase 43 y replantear el nombre de la barra'],['MEJ','Alegar mejor derecho']],M4:[['COR','Corregir o limitar la descripción'],['REU','Reubicar términos en una nueva solicitud'],['SOS','Sostener la redacción']],M5:[['ATE','Atender en la respuesta los argumentos de la oposición'],['LIM','Limitar productos y responder'],['CON','Proponer ahora un convenio']]};
+var MR_EFF={M2:{ARG:'EXP+1',SUST:'COS+1 EXP-1',DES:'AMP-1'},M3:{ESP:'VEL-1',REP:'AMP-1 REV+1',MEJ:''},M4:{COR:'AMP-1',REU:'COS+1',SOS:''},M5:{ATE:'COS+1',LIM:'AMP-1 EXP-1',CON:'VEL-1 REV-1'}};
+var MOD_TITLES={M1:'SOCANA',M2:'Isotipo y MAZÁNTICA y diseño',M3:'Solicitud anterior XOKAN',M4:'Formulación de productos',M5:'Oposición de Embotelladora Sierra Azul'};
+var RISKS7=[['socana','SOCANA'],['maz','MAZÁNTICA'],['xokan','XOKAN'],['logo','Titularidad del logotipo'],['cacao','Descriptividad de CACAO VIVO'],['slogan','Distintividad del slogan'],['energ','Posicionamiento “energético”'],['dig','Presencia digital']];
+
+/* ---------- Estado ---------- */
+function blank(){return {v:1,started:null,name:'',pid:'',entered:false,phase:0,view:0,conf:{},sub:{},docs:{},docSeq:0,unread:{},newDocs:{},
+ f1:{via:{},mom:{},signo:'',signoWhy:'',doc:'',pend:[],just:'',cacao:null,slogan:null},
+ f2:{items:{},red:'',just:''},
+ f3:{classes:[],cover:{},just:'',order:[],prop:null},
+ f4:{m:{A1:{aff:[]},A2:{aff:[]},A3:{aff:[]},A4:{aff:[]}},order:['A2','A4','A1','A3'],orderOk:false,just:'',verif:[]},
+ f5:{est:'',resp:'',respWhy:'',acts:[],keep:{},pendDec:{},red:'',adjWhy:'',launch:'',conds:[],launchWhy:'',msg:''},
+ f6:{ident:[],central:'',routes:{},arg:'',keep:'',keepWhy:'',lateInv:false},
+ f7:{prot:null,alc:null,estr:null,risks:[],rec:'',steps:['','',''],refl:''},
+ fb:{sc:{}},hist:[],vars:{},profile:{},alerts:[],chrono:[],finishedAt:null,savedAt:null};}
+function load(){try{var r=localStorage.getItem(KEY);if(!r)return null;var o=JSON.parse(r);if(!o||o.v!==1)return null;var b=blank();Object.keys(b).forEach(function(k){if(o[k]===undefined)o[k]=b[k];});return o;}catch(e){return null;}}
+var S=load()||blank();
+var storageOK=true;
+function save(){try{S.vars=computeVars();S.profile=profileOut();S.alerts=computeAlerts().map(function(a){return a.code;});S.chrono=buildChrono();S.savedAt=new Date().toISOString();localStorage.setItem(KEY,JSON.stringify(S));storageOK=true;}catch(e){storageOK=false;}}
+function getP(path){return path.split('.').reduce(function(o,k){return o==null?undefined:o[k];},S);}
+function setP(path,val){var ks=path.split('.'),o=S;for(var i=0;i<ks.length-1;i++){if(o[ks[i]]==null||typeof o[ks[i]]!=='object')o[ks[i]]={};o=o[ks[i]];}o[ks[ks.length-1]]=val;}
+function hist(what){S.hist.push({t:new Date().toISOString(),phase:S.phase,what:what});}
+
+/* ---------- Derivadas ---------- */
+function finalVM(k){var f1=S.f1,via=f1.via[k]||'',mom=f1.mom[k]||'';
+ if(k==='CACAO_VIVO'&&f1.cacao&&f1.cacao.final){via=f1.cacao.final.via;mom=f1.cacao.final.mom;}
+ if(k==='SLOGAN'&&f1.slogan&&f1.slogan.final){via=f1.slogan.final.via;mom=f1.slogan.final.mom;}
+ if(ELEM[k]&&ELEM[k].momOn.indexOf(via)<0)mom='';
+ return {via:via,mom:mom};}
+function needCacao(){var v=S.f1.via.CACAO_VIVO,m=S.f1.mom.CACAO_VIVO;return (v==='MARCA'||v==='AVISO')&&m==='P1';}
+function needSlogan(){return S.f1.via.SLOGAN==='MARCA'&&!!S.f1.mom.SLOGAN&&S.f1.mom.SLOGAN!=='NO';}
+function detectoEncargo(){return S.f1.doc==='DOC_ANTES'||S.f1.doc==='DOC_PARALELO';}
+function alcance(){var it=S.f2.items;if(!Object.keys(it).length)return null;var non=['S1','S2','S3','F1','F3','F4'];var prim=non.filter(function(k){return it[k]==='1';});
+ if(['F1','F3','F4'].some(function(k){return it[k]==='1';})||prim.length>=3)return 'EXTENSO';if(prim.length===0)return 'ACOTADO';return 'INTERMEDIO';}
+function redText(code){var b={PRECISA:'Bebidas a base de cacao; cacao en polvo; preparaciones a base de cacao para elaborar bebidas',AMPLIA:'Bebidas no alcohólicas; bebidas a base de cacao; cacao; chocolate',FUNCIONAL:'Bebidas funcionales y energéticas a base de cacao; bebidas probióticas; suplementos alimenticios a base de cacao'}[code]||'';return code==='PRECISA'&&S.f2.items.F2==='1'?b+'; barras de cacao':b;}
+function redFinal(){return S.f5.red||S.f2.red||'';}
+function estEf(){var e=S.f5.est;if(e==='E3')return S.f5.resp||'';return e||'';}
+function signoFinal(){return estEf()==='E5'?'MIX':S.f1.signo;}
+function investPrev(){return estEf()==='E2'||S.f5.acts.indexOf('INVEST_USO')>=0;}
+var KLAB={CACAO_VIVO:'CACAO VIVO',SLOGAN:'“Cacao vivo, energía real.”',ENVASE:'Envase',CLUB:'CLUB XOKANA'};
+function proposal(){var sig=S.f1.signo,out=[];
+ S.f3.classes.slice().sort(function(a,b){return a-b;}).forEach(function(c){out.push({id:'D'+c,kind:'D',cls:c,mixed:sig==='MIX',label:'XOKANA · '+(sig==='MIX'?'marca mixta (denominación y diseño)':'marca nominativa')+' · clase '+c});});
+ if(sig==='AMBAS_SIM'&&S.f3.classes.indexOf(30)>=0)out.push({id:'MX30',kind:'M',cls:30,mixed:true,label:'XOKANA y diseño · marca mixta adicional · clase 30'});
+ ['CACAO_VIVO','SLOGAN','ENVASE','CLUB'].forEach(function(k){var fv=finalVM(k);if((fv.via==='MARCA'||fv.via==='AVISO')&&fv.mom==='P1')out.push({id:'K_'+k,kind:'K',el:k,fig:fv.via,label:KLAB[k]+' · '+(fv.via==='AVISO'?'aviso comercial':(k==='ENVASE'?'marca (imagen comercial)':'marca'))});});
+ return out;}
+/* Solicitudes efectivamente presentadas.
+   1) Parte de la propuesta priorizada en la Fase 3 (S.f3.prop), en su orden.
+   2) Excluye pendientes no confirmadas y nominativas retiradas en 5.3.
+   3) Si SIGNO_FINAL = MIX y SIGNO_INICIAL ≠ MIX (estrategia E5), regla de consolidación:
+      - cada solicitud de la denominación pasa a mixta;
+      - si en una misma clase quedan dos solicitudes equivalentes (D30 y MX30), se conserva una sola:
+        la de semana más favorable (4 antes que 7) y, si empatan, la de mayor prioridad (posición en el orden de la Fase 3);
+      - la conservada mantiene su posición y su semana; la otra no se presenta; nunca se duplican. */
+function presented(){var prop=S.f3.prop||[],f5=S.f5,sigI=S.f1.signo,sigF=signoFinal(),has30=S.f3.classes.indexOf(30)>=0,out=[];
+ prop.forEach(function(it,idx){if(it.kind==='M'&&!has30)return;var week=it.week;if(week==='P'){if(f5.pendDec[it.id]!=='confirmar')return;week=7;}if(it.kind==='D'&&f5.keep[it.id]==='retirar')return;var o=JSON.parse(JSON.stringify(it));o.week=week;o.prio=idx;out.push(o);});
+ if(sigF==='MIX'&&sigI!=='MIX'){var groups={},drop=[];
+  out.forEach(function(o){if(o.kind==='K')return;(groups[o.cls]=groups[o.cls]||[]).push(o);});
+  Object.keys(groups).forEach(function(c){var g=groups[c].slice().sort(function(a,b){return (a.week-b.week)||(a.prio-b.prio);});if(g.length>1){g[0].consolidated=g.map(function(x){return x.id;});g[0].consolidatedWeeks=g.map(function(x){return x.week;});g.slice(1).forEach(function(x){drop.push(x);});}});
+  out=out.filter(function(o){return drop.indexOf(o)<0;});
+  out.forEach(function(o){if(o.kind==='K')return;if(!o.mixed)o.changed=true;o.mixed=true;o.label='XOKANA y diseño · marca mixta · clase '+o.cls;});}
+ out.forEach(function(o,i){o.folio='SIM-XK-'+String(i+1).padStart(3,'0');});
+ return out;}
+function consolidations(){return presented().filter(function(o){return o.consolidated&&o.consolidated.length>1;});}
+function consolidationText(o){var by={};(S.f3.prop||[]).forEach(function(p){by[p.id]=p;});return o.consolidated.map(function(id,i){var p=by[id];var w=o.consolidatedWeeks[i];return (p?p.label:id)+' ('+(w===4?'Semana 4':'Semana 7, aprobada por el consejo')+')';}).join(' + ')+' → una sola solicitud mixta en clase '+o.cls+', Semana '+o.week+'.';}
+function clsPres(){return uniq(presented().filter(function(o){return o.kind!=='K';}).map(function(o){return o.cls;}));}
+function oposicion(){var e=estEf();return e==='E6'||(e==='E4'&&clsPres().indexOf(32)>=0);}
+function modules(){var cp=clsPres(),red=redFinal(),pres=presented();
+ return {M1:(cp.indexOf(32)>=0||red==='AMPLIA'||red==='FUNCIONAL')?'A':'B',M2:pres.some(function(p){return p.mixed;})&&S.f5.acts.indexOf('REDISENO')<0,M3:cp.indexOf(43)>=0,M4:red==='FUNCIONAL'||(red==='AMPLIA'&&cp.indexOf(32)<0),M5:oposicion()};}
+function activeMods(){var m=modules();var a=['M1'];['M2','M3','M4','M5'].forEach(function(k){if(m[k])a.push(k);});return a;}
+function consentDisp(){if(estEf()!=='E4')return false;if(redFinal()==='FUNCIONAL')return false;if(clsPres().indexOf(32)<0)return true;var r=S.f6.routes.M1||{};return r.p==='R2'||r.s==='R2';}
+function m1set(){var r=S.f6.routes.M1||{};return [r.p,r.s].filter(Boolean);}
+function projection(){var m=modules(),set=m1set(),has=function(x){return set.indexOf(x)>=0;},inv=investPrev(),cons=consentDisp(),cp=clsPres(),lvl='incierta',dep='';
+ if(m.M1==='A'){
+  if(has('R5')&&cp.indexOf(32)<0)lvl='desfavorable';
+  else if(has('R3')){lvl=cons?'favorable condicionada':'incierta';if(cons)dep='la firma del convenio';}
+  else if(set.length===1&&has('R1'))lvl='desfavorable';
+  else if(has('R2')||has('R5')){if(has('R4')&&inv){lvl='favorable condicionada';dep='la acción de caducidad';}else if(has('R1')){lvl='favorable condicionada';dep='la valoración que haga la autoridad de los productos que subsisten';}else lvl='incierta';}
+  else if(has('R4')){lvl=inv?'favorable condicionada':'incierta';dep='la acción de caducidad';}
+ }else{
+  if(has('R5'))lvl='desfavorable';
+  else if(has('R3')&&cons)lvl='favorable';
+  else if(has('R1')&&has('R4')&&inv)lvl='favorable';
+  else if(has('R4')){lvl=inv?'favorable condicionada':'favorable condicionada, con margen reducido';dep='la acción de caducidad';}
+  else lvl='incierta';
+ }
+ return {lvl:lvl,dep:dep,intensity:m.M1};}
+
+function computeVars(){var v={};var f1=S.f1,f5=S.f5;
+ v.NOMBRE=S.name;v.ID=S.pid;
+ v.VIA={};v.MOMENTO={};ELEMS.forEach(function(e){var fv=finalVM(e.k);v.VIA[e.k]=fv.via||null;v.MOMENTO[e.k]=fv.mom||null;});
+ v.SIGNO_INICIAL=f1.signo||null;v.SIGNO=v.SIGNO_INICIAL;v.SIGNO_FINAL=f1.signo?signoFinal():null;
+ v.MIXTA_PLANEADA=f1.signo==='AMBAS_SEC'&&signoFinal()!=='MIX';
+ v.DOC_LOGO=f1.doc||null;v.DETECTO_ENCARGO=detectoEncargo();v.ENCARGO_EN_CURSO=v.DETECTO_ENCARGO;v.DETECTO_SECRETO=finalVM('PROCESO').via==='SECRETO';
+ v.ITEMS_ETAPA1=Object.keys(S.f2.items).filter(function(k){return S.f2.items[k]==='1';});v.ALCANCE=alcance();
+ v.REDACCION_INICIAL=S.f2.red||null;v.REDACCION=redFinal()||null;
+ v.CLASES=S.f3.classes.slice().sort(function(a,b){return a-b;});
+ var pr=proposal();v.SOLICITUDES=pr.length;
+ v.SOLICITUDES_DESGLOSE={C:pr.filter(function(o){return o.kind==='D';}).length,M:pr.filter(function(o){return o.kind==='M';}).length,K:pr.filter(function(o){return o.kind==='K';}).length};
+ v.SOLICITUDES_PROPUESTAS=(S.f3.prop||[]).map(function(o){return {id:o.id,label:o.label,momento:o.week==='P'?'Pendiente de aprobación del consejo':'Semana 4'};});
+ if(S.conf[5]){v.SOLICITUDES_PRESENTADAS=presented().map(function(o){return {folio:o.folio,label:o.label,semana:o.week};});v.CLASES_PRESENTADAS=clsPres();}
+ v.ANALISIS=S.f4.m;v.ORDEN=S.f4.order;
+ v.ESTRATEGIA=f5.est||null;v.RESPALDO=f5.resp||null;v.ESTRATEGIA_EFECTIVA=estEf()||null;v.ACCIONES=f5.acts;v.INVEST_USO=investPrev();
+ v.LANZAMIENTO=f5.launch||null;
+ if(S.conf[5]){v.OPOSICION=oposicion();var m=modules();v.MODULOS=activeMods().map(function(k){return k==='M1'?'M1-'+m.M1:k;});v.CONSENTIMIENTO_DISPONIBLE=consentDisp();}
+ v.RUTAS=S.f6.routes;
+ if(S.conf[6])v.PROYECCION=projection().lvl;
+ return v;}
+
+/* ---------- Perfil de trade-offs ---------- */
+function effEl(k,via,mom){switch(k){
+ case 'CACAO_VIVO':if(via==='DESC')return 'EXP-1 AMP-1';if(mom==='P1')return 'COS+1 EXP+2';if(mom==='POST')return 'EXP+1';return '';
+ case 'SLOGAN':if(via==='AVISO'){if(mom==='P1')return 'AMP+1 COS+1 EXP+1';if(mom==='POST')return 'REV+1 EVI+1';return 'COS-1 AMP-1';}if(via==='MARCA'){if(mom==='P1')return 'COS+1 EXP+1';if(mom==='POST')return 'EXP+1';return 'COS-1 AMP-1';}return via?'COS-1 AMP-1':'';
+ case 'ENVASE':if(via==='MARCA'){if(mom==='P1')return 'COS+1 EXP+1';if(mom==='POST')return 'REV+1';}return via?'COS-1':'';
+ case 'PROCESO':if(via==='SECRETO')return mom==='NO'?'EXP+1':'REV+1 COS-1';if(via==='NADA')return 'EXP+1';return '';
+ case 'DOMINIO':return via==='REGISTRO'&&mom!=='NO'?'EXP-1 COS-1':'';
+ case 'CLUB':if(via==='CUBIERTO')return 'COS-1';return mom==='P1'?'COS+1 AMP+1':'';}
+ return '';}
+var SIGNO_EFF={NOM:'AMP+1 VEL+1 REV+1',AMBAS_SEC:'AMP+1 REV+1',AMBAS_SIM:'AMP+2 COS+1 EXP+1',MIX:'AMP-1 EXP+1 REV-1'};
+var DOC_EFF={DOC_ANTES:'EVI+1 EXP-1 VEL-1',DOC_PARALELO:'EVI+1 VEL+1',DOC_NO:'EVI-1',DOC_LICENCIA:'COS+1 EVI-1'};
+var RED_EFF={PRECISA:'EXP-1 AMP-1 REV+1',AMPLIA:'AMP+2 EXP+2',FUNCIONAL:'AMP+1 EXP+2'};
+var LINE_EFF={S1:'AMP+1 COS+1',S2:'AMP+1 COS+1',S3:'AMP+1 COS+1',F1:'AMP+1 COS+1 EXP+1 EVI-1',F2:'AMP+1',F3:'AMP+1 COS+1',F4:'AMP+1 COS+1 EVI-2'};
+function estEff(e){var cp=clsPres(),red=redFinal();
+ return {E1:(cp.indexOf(32)>=0||red==='AMPLIA'||red==='FUNCIONAL')?'VEL+1 COS-1 EVI-1 EXP+2':'VEL+1 COS-1 EVI-1 EXP+1',E2:'EXP-1 EVI+2 COS+1 AMP-1 REV+1',E4:'EXP-1 VEL-1 COS+1 EVI-1 REV-1',E5:'AMP-1 EXP+1',E6:S.f5.acts.indexOf('INVEST_USO')>=0?'VEL+1 EXP+1 COS+1 EVI-1 REV-1':'VEL+1 EXP+1 COS+1 EVI-2 REV-1'}[e]||'';}
+function routeEff(r){var inv=investPrev();return {R1:'VEL+1 COS-1 EXP+1',R2:'AMP-1 EXP-1 REV-1',R3:consentDisp()?'EXP-1 VEL-1':'EXP-1 VEL-1 EVI-1',R4:inv?'COS+1 VEL-1 EXP-1':'COS+1 VEL-1 EVI-2',R5:'REV-2 AMP-1'}[r]||'';}
+function effects(){var L=[];function add(src,s){if(s)L.push({src:src,eff:pe(s)});}
+ var f1=S.f1;
+ ELEMS.forEach(function(e){var fv=finalVM(e.k);if(fv.via)add('1.1',effEl(e.k,fv.via,fv.mom));});
+ if(f1.signo)add('1.2',SIGNO_EFF[f1.signo]);
+ if(f1.doc)add('1.3',DOC_EFF[f1.doc]);
+ var sf=f1.signo?signoFinal():'';
+ if((sf==='AMBAS_SIM'||sf==='MIX')&&['DOC_NO','DOC_LICENCIA','DOC_PARALELO'].indexOf(f1.doc)>=0)add('1.2×1.3','EXP+1');
+ if(S.conf[2]){var it=S.f2.items;var c=['P1','P2'].filter(function(k){return it[k]==='1';}).length;add('2.1',c===2?'AMP+2 COS+1':(c===1?'AMP+1 COS+1':''));
+  Object.keys(LINE_EFF).forEach(function(k){if(it[k]==='1'&&!(k==='S1'&&it.S2==='1'))add('2.1',LINE_EFF[k]);});
+  if(['S1','S2','S3','F1','F3','F4'].filter(function(k){return it[k]&&it[k]!=='1';}).length>=4)add('2.1','REV+1 COS-1 AMP-1');
+  add('2.2',RED_EFF[S.conf[5]?redFinal():S.f2.red]);}
+ if(S.conf[3]){var cl=S.conf[5]?clsPres():S.f3.classes;cl.forEach(function(c){add('3.1',CLS_EFF[c]);});}
+ if(S.conf[5]){var e=estEf();if(e)add('5.1',estEff(e));
+  S.f5.acts.forEach(function(a){if(a==='INVEST_USO'&&e==='E2')return;if(a==='DOCUMENTAR_LOGO'&&detectoEncargo())return;add('5.2',ACT_EFF[a]);});
+  if(S.f5.launch==='L1')add('5.4','VEL+2 EXP+1');if(S.f5.launch==='L2')add('5.4','VEL+1 COS+1 EXP-'+Math.min(S.f5.conds.length,2));if(S.f5.launch==='L3')add('5.4','EXP-1 VEL-2 COS+2');}
+ if(S.conf[6]){var r=S.f6.routes,m=modules();m1set().forEach(function(x){add('6.2',routeEff(x));});
+  ['M2','M3','M4','M5'].forEach(function(k){if(m[k]&&r[k]){[r[k].p,r[k].s].filter(Boolean).forEach(function(x){add('6.2',MR_EFF[k][x]);});}});}
+ return L;}
+function rawProfile(){var o={};DIMS.forEach(function(d){o[d]=0;});effects().forEach(function(x){DIMS.forEach(function(d){o[d]+=x.eff[d]||0;});});return o;}
+function rangeGroups(){var G=[];
+ G.push(['EXP-1 AMP-1','COS+1 EXP+2','EXP+1']);
+ G.push(['AMP+1 COS+1 EXP+1','REV+1 EVI+1','COS-1 AMP-1','COS+1 EXP+1','EXP+1']);
+ G.push(['COS+1 EXP+1','REV+1','COS-1']);G.push(['REV+1 COS-1','','EXP+1']);G.push(['EXP-1 COS-1','']);G.push(['COS-1','COS+1 AMP+1','']);
+ G.push(Object.keys(SIGNO_EFF).map(function(k){return SIGNO_EFF[k];}));G.push(Object.keys(DOC_EFF).map(function(k){return DOC_EFF[k];}));G.push(['','EXP+1']);
+ G.push(['AMP+2 COS+1','AMP+1 COS+1','']);Object.keys(LINE_EFF).forEach(function(k){G.push(['',LINE_EFF[k]]);});G.push(['','REV+1 COS-1 AMP-1']);
+ G.push([RED_EFF.PRECISA,RED_EFF.AMPLIA,RED_EFF.FUNCIONAL]);
+ Object.keys(CLS_EFF).forEach(function(k){G.push(['',CLS_EFF[k]]);});
+ G.push(['VEL+1 COS-1 EVI-1 EXP+1','VEL+1 COS-1 EVI-1 EXP+2','EXP-1 EVI+2 COS+1 AMP-1 REV+1','EXP-1 VEL-1 COS+1 EVI-1 REV-1','AMP-1 EXP+1','VEL+1 EXP+1 COS+1 EVI-1 REV-1','VEL+1 EXP+1 COS+1 EVI-2 REV-1']);
+ Object.keys(ACT_EFF).forEach(function(k){G.push(['',ACT_EFF[k]]);});
+ G.push(['VEL+2 EXP+1','VEL+1 COS+1 EXP-1','VEL+1 COS+1 EXP-2','EXP-1 VEL-2 COS+2']);
+ var R=['VEL+1 COS-1 EXP+1','AMP-1 EXP-1 REV-1','EXP-1 VEL-1','EXP-1 VEL-1 EVI-1','COS+1 VEL-1 EXP-1','COS+1 VEL-1 EVI-2','REV-2 AMP-1'];
+ G.push(R);G.push(R.concat(['']));
+ ['M2','M3','M4','M5'].forEach(function(k){var o=MR_EFF[k];var arr=[''];Object.keys(o).forEach(function(x){arr.push(o[x]);});G.push(arr);G.push(arr);});
+ return G;}
+function ranges(){var mn={},mx={};DIMS.forEach(function(d){mn[d]=0;mx[d]=0;});rangeGroups().forEach(function(g){DIMS.forEach(function(d){var vals=g.map(function(s){return pe(s)[d]||0;});mn[d]+=Math.min.apply(null,vals);mx[d]+=Math.max.apply(null,vals);});});return {mn:mn,mx:mx};}
+function profileLevels(){var raw=rawProfile(),rg=ranges(),o={};DIMS.forEach(function(d){var span=rg.mx[d]-rg.mn[d];var t=span?(raw[d]-rg.mn[d])/span:.5;var i=t<.2?0:t<.4?1:t<.6?2:t<.8?3:4;o[d]={t:t,i:i,label:LEVELS[i]};});return o;}
+function profileOut(){if(!S.finishedAt)return {interno:rawProfile()};var p=profileLevels(),o={};DIMS.forEach(function(d){o[d]=p[d].label;});return o;}
+
+/* ---------- Alertas ---------- */
+var AL_TXT={
+ 'AL-1':'Un signo que describe el producto (CACAO VIVO) no da exclusividad, y un proceso se protege por confidencialidad, no por registro.',
+ 'AL-2':'El producto que se lanza en la semana 20 debe estar en la primera presentación; la prelación se gana con la fecha.',
+ 'AL-3':'La clase y la descripción responden a la naturaleza del producto; presentarlo como suplemento, lácteo o alcohólico, o como “energético”, cambia lo que se protege y con quién choca.',
+ 'AL-4':'Un diseño no neutraliza una semejanza fonética de la denominación; además, este isotipo es cercano a MAZÁNTICA.',
+ 'AL-5':'Frente a productos idénticos, argumentar sin corregir lo corregible deja el conflicto intacto.',
+ 'AL-6':'La titularidad de una obra por encargo depende de lo pactado y de su prueba; ni la falta de contrato la atribuye automáticamente a la autora ni el pago despeja toda duda.',
+ 'AL-7':'Una descripción objetada por imprecisa o fuera de clase se corrige; sostenerla sólo retrasa.',
+ 'AL-8':'Una solicitud anterior tiene prelación; no hay “mejor derecho” que alegar sin derechos previos.'};
+function computeAlerts(){var A=[];function add(c,ctx){A.push({code:c,txt:AL_TXT[c],ctx:ctx});}
+ var cv=finalVM('CACAO_VIVO'),pr=finalVM('PROCESO');
+ if(S.conf[1]){var c1=[];if((cv.via==='MARCA'||cv.via==='AVISO')&&cv.mom&&cv.mom!=='NO')c1.push('CACAO VIVO quedó como '+(cv.via==='AVISO'?'aviso comercial':'marca')+' ('+optLabel(MOM,cv.mom).toLowerCase()+').');if(pr.via==='MARCA')c1.push('El proceso de fermentación se marcó para registro como marca.');if(c1.length)add('AL-1',c1.join(' '));
+  if(S.f1.doc==='DOC_NO'||S.f1.doc==='DOC_LICENCIA')add('AL-6','En la decisión 1.3 elegiste: “'+optLabel(DOCLOGO,S.f1.doc)+'”.');}
+ if(S.conf[3]){var c2=[];if(S.f2.items.P1!=='1'||S.f2.items.P2!=='1')c2.push('Alguno de los productos que se lanzan en la semana 20 quedó fuera de la primera etapa.');var sel30=S.f3.classes.indexOf(30)>=0;
+  if(!sel30)c2.push(S.conf[5]?'La clase 30 nunca se seleccionó; ninguna solicitud finalmente presentada la cubre.':'La clase 30 no se seleccionó.');
+  else if(S.conf[5]&&clsPres().indexOf(30)<0)c2.push('La clase 30 se seleccionó en la Fase 3, pero ninguna solicitud finalmente presentada la cubre (se retiró o se descartó en la Fase 5).');
+  if(c2.length)add('AL-2',c2.join(' '));
+  var c3=[];if(S.f2.red==='FUNCIONAL'||redFinal()==='FUNCIONAL')c3.push('La descripción del producto usó la redacción funcional.');var bad=S.f3.classes.filter(function(c){return [5,29,33].indexOf(c)>=0;});if(bad.length)c3.push('Se seleccionó la clase '+bad.join(', ')+'.');if(c3.length)add('AL-3',c3.join(' '));}
+ if(S.conf[5]&&estEf()==='E5')add('AL-4','La estrategia efectiva fue presentar sólo la mixta.');
+ if(S.conf[6]){var m=modules(),r=S.f6.routes;if(m.M1==='A'&&m1set().length===1&&m1set()[0]==='R1')add('AL-5','La cita de SOCANA llegó contra productos idénticos o muy cercanos y la única ruta fue argumentar.');
+  if(m.M4&&r.M4&&(r.M4.p==='SOS'||r.M4.s==='SOS'))add('AL-7','Se eligió sostener la redacción objetada.');
+  if(m.M3&&r.M3&&(r.M3.p==='MEJ'||r.M3.s==='MEJ'))add('AL-8','Se eligió alegar mejor derecho frente a XOKAN.');}
+ return A;}
+
+/* ---------- Cronología ---------- */
+function launchText(){var l=S.f5.launch;if(l==='L1')return S.f5.acts.indexOf('GUIA_USO')<0?'XOKANA salió a la venta en la semana 20. La etiqueta dice “energía real” y la campaña la presenta como “tu nueva bebida energética de cacao”.':'XOKANA salió a la venta en la semana 20, sin cambios de calendario y conforme a la guía de uso entregada al cliente.';
+ if(l==='L2')return 'XOKANA salió a la venta en la semana 20 con las condiciones acordadas. El consejo recibió por escrito el riesgo asumido.';
+ if(l==='L3')return 'El lanzamiento se pospuso. El fondo cerró la ronda con una condición: aclarar la situación marcaria en seis meses.';return '';}
+function buildChrono(){var C=[];function add(w,o,t){C.push({cuando:w,ord:o,hito:t});}
+ if(!S.entered)return C;
+ add('Semana 1',1,'Apertura del expediente.');
+ if(S.conf[1])add('Semana 1',1.5,'Definición de vías para elementos complementarios, estrategia marcaria ('+SIGNO_SHORT[S.f1.signo]+') y postura sobre los derechos del logotipo.');
+ if(S.conf[2])add('Semana 2',2,'Delimitación de productos y servicios para la primera etapa.');
+ if(S.conf[3]){var p=S.f3.prop||[];add('Semana 2',2.5,'Propuesta de '+p.length+' solicitud(es) ante el IMPI'+(p.length>3?'; '+(p.length-3)+' quedan pendientes de aprobación del consejo.':'.'));}
+ if(S.conf[4])add('Semana 3',3,'Búsqueda de antecedentes y análisis de riesgo.');
+ if(S.conf[5]){var e=estEf(),pres=presented();
+  if(S.f5.est==='E3')add('Semana 3',3.2,'Se recomienda cambiar la denominación; el consejo decide seguir con XOKANA.');
+  if(e==='E4')add('Semana 3',3.5,'Acercamiento con el titular de SOCANA; sus representantes responden con condiciones para un convenio de coexistencia.');
+  add('Semana 4',4,'Presentación de '+pres.filter(function(o){return o.week===4;}).length+' solicitud(es).'+(e==='E6'?' Se presenta además la acción de caducidad contra SOCANA.':''));
+  add('Semana 6 aprox.',6,'Publicación de las solicitudes.');
+  var w7=pres.filter(function(o){return o.week===7;}).length;if(w7)add('Semana 7',7,'Presentación de '+w7+' solicitud(es) aprobadas por el consejo.');
+  if(investPrev())add('Semana 8',8,'Informe de investigación de uso de SOCANA.');
+  if(oposicion()){add('Semana 9',9,'Embotelladora Sierra Azul presenta oposición dentro de la etapa posterior a la publicación.');add('Semana 11',11,'Se da conocimiento de la oposición al cliente. El equipo presenta una manifestación breve dentro del plazo simulado y reserva los argumentos de fondo para el examen.');}
+  add('Semana 20',20,launchText());
+  add('Mes 5 desde la presentación',26,'Comunicación del examen de fondo'+(oposicion()?', que considera la oposición.':'.'));}
+ if(S.conf[6]){if(S.f6.lateInv)add('Mes 5 (plazo simulado)',27,'Investigación de uso encargada dentro del plazo de respuesta; resultados en la tercera semana.');add('Mes 5 (plazo simulado)',28,'Respuesta a la comunicación del examen.');}
+ if(S.conf[7])add('Mes 6',30,'Nota de seguimiento y recomendación final al consejo del cliente.');
+ return C.sort(function(a,b){return a.ord-b.ord;});}
+
+/* ---------- Documentos ---------- */
+var SIMB='<div class="sim">Documento simulado para fines de entrenamiento</div>';
+var SIMR='<div class="sim">Resultado simulado para fines de entrenamiento</div>';
+var SIMI='<div class="sim">Documento simulado para fines de entrenamiento</div><div class="sim2">No corresponde a una actuación real del IMPI.</div>';
+var FOOT='<div class="foot">Simulación de entrenamiento. Empresa, personas, marcas, búsquedas, comunicaciones y actuaciones ficticias.</div>';
+function mail(from,to,subj,body){return '<div class="doc">'+'<div class="mailh"><div><span>De</span><b>'+esc(from)+'</b></div><div><span>Para</span>'+esc(to)+'</div><div><span>Asunto</span>'+esc(subj)+'</div></div>'+body+FOOT+'</div>';}
+function memo(from,subj,body){return '<div class="doc"><h4>Nota interna</h4><div class="mailh"><div><span>De</span><b>'+esc(from)+'</b></div><div><span>Para</span>'+esc(S.name||'Asesor asignado')+'</div><div><span>Asunto</span>'+esc(subj)+'</div></div>'+body+FOOT+'</div>';}
+function tbl(head,rows){return '<div class="tblwrap"><table class="tbl"><thead><tr>'+head.map(function(h){return '<th scope="col">'+esc(h)+'</th>';}).join('')+'</tr></thead><tbody>'+rows.map(function(r){return '<tr>'+r.map(function(c){return '<td>'+c+'</td>';}).join('')+'</tr>';}).join('')+'</tbody></table></div>';}
+function P(s){return '<p>'+s+'</p>';}
+var ME='Asesor externo';
+function antDoc(k){var a=ANTS[k];return '<div class="doc">'+SIMR+'<h4>Ficha de antecedente · '+a.tag+'</h4><h3>'+esc(a.name)+'</h3><dl class="kv">'+a.rows.map(function(r){return '<dt>'+esc(r[0])+'</dt><dd>'+esc(r[1])+'</dd>';}).join('')+'</dl>'+FOOT+'</div>';}
+function descFor(o){var red=redFinal(),cp=clsPres(),cov=(S.f3.cover[o.cls]||[]);
+ if(o.kind==='K'){return o.fig==='AVISO'?'Aviso comercial para anunciar las bebidas y productos a base de cacao del cliente':'Signo referido a las bebidas y productos a base de cacao del cliente';}
+ switch(o.cls){
+  case 30:var t=redText(red);if(red==='AMPLIA'&&cp.indexOf(32)>=0)t='Bebidas a base de cacao; cacao; chocolate';if(red==='FUNCIONAL'&&cp.indexOf(5)>=0)t=t.replace('; suplementos alimenticios a base de cacao','');return t;
+  case 32:return red==='AMPLIA'?'Bebidas no alcohólicas':(red==='FUNCIONAL'?'Bebidas energéticas; bebidas sin alcohol':'Bebidas sin alcohol; preparaciones para elaborar bebidas');
+  case 5:return 'Suplementos alimenticios a base de cacao';
+  case 29:return 'Bebidas lácteas con cacao';
+  case 33:return 'Bebidas alcohólicas a base de cacao, excepto cervezas';
+  case 35:return cov.indexOf('S2')>=0?'Servicios de venta minorista y en línea de bebidas y productos a base de cacao, incluida la agrupación de productos de terceros':'Servicios de venta en línea de bebidas y productos a base de cacao';
+  case 41:return 'Organización de catas y talleres de formación sobre cacao';
+  case 43:return 'Servicios de cafetería';
+  case 3:return 'Cosméticos a base de manteca de cacao';
+  case 21:return 'Vasos y tazas; vasos térmicos';
+  case 25:return 'Prendas de vestir, en particular playeras';}
+ return '';}
+function m1Terms(o){var red=redFinal(),cp=clsPres();
+ if(o.cls===32)return red==='FUNCIONAL'?'“bebidas energéticas”, “bebidas sin alcohol”':(red==='AMPLIA'?'“bebidas no alcohólicas”':'“bebidas sin alcohol”, “preparaciones para elaborar bebidas”');
+ if(red==='FUNCIONAL')return '“bebidas funcionales y energéticas a base de cacao”, “bebidas probióticas”';
+ if(red==='AMPLIA'&&cp.indexOf(32)<0)return '“bebidas no alcohólicas”';
+ return '“bebidas a base de cacao”';}
+function m4Terms(){var red=redFinal(),cp=clsPres(),t=[];if(red==='FUNCIONAL'){t.push('“bebidas funcionales”','“bebidas probióticas”','“bebidas energéticas”');if(cp.indexOf(5)<0)t.push('“suplementos alimenticios”');}if(red==='AMPLIA'&&cp.indexOf(32)<0)t.push('“bebidas no alcohólicas”');return t.join(', ');}
+function commPlan(){var pres=presented(),m=modules(),red=redFinal(),cp=clsPres();var apps=pres.filter(function(o){return o.kind!=='K';});var plan={};function addM(o,k,extra){if(!o)return;if(!plan[o.folio])plan[o.folio]={app:o,mods:[]};plan[o.folio].mods.push({k:k,x:extra});}
+ var bev=apps.filter(function(o){return o.cls===30||o.cls===32;});if(!bev.length&&apps.length)bev=[apps[0]];
+ bev.forEach(function(o){var a=(o.cls===32||red==='FUNCIONAL'||(red==='AMPLIA'&&cp.indexOf(32)<0))?'A':'B';addM(o,'M1',a);});
+ if(m.M2){var mx=apps.filter(function(o){return o.mixed&&o.cls===30;});if(!mx.length)mx=apps.filter(function(o){return o.mixed;}).slice(0,1);mx.forEach(function(o){addM(o,'M2');});}
+ if(m.M3)apps.filter(function(o){return o.cls===43;}).forEach(function(o){addM(o,'M3');});
+ if(m.M4){var t30=apps.filter(function(o){return o.cls===30&&!o.mixed;})[0]||apps.filter(function(o){return o.cls===30;})[0]||bev[0];addM(t30,'M4');}
+ if(m.M5){var tgt=bev.filter(function(o){return o.cls===32;})[0]||bev[0];addM(tgt,'M5');}
+ return Object.keys(plan).map(function(k){return plan[k];});}
+function commDoc(folio){var p=commPlan().filter(function(x){return x.app.folio===folio;})[0];if(!p)return '<div class="doc">Comunicación no disponible.</div>';var o=p.app;var h='<div class="doc official">'+SIMI+'<h4>Instituto Mexicano de la Propiedad Industrial · Comunicación simulada</h4><h3>Resultado del examen de fondo</h3><dl class="kv"><dt>Solicitud</dt><dd>'+esc(o.folio)+' (folio simulado)</dd><dt>Signo</dt><dd>'+(o.mixed?'XOKANA y diseño (mixta)':'XOKANA (nominativa)')+'</dd><dt>Clase</dt><dd>'+o.cls+'</dd><dt>Productos o servicios</dt><dd>'+esc(descFor(o))+'</dd></dl><hr style="border:0;border-top:1px solid var(--line2);margin:14px 0">';
+ p.mods.forEach(function(md){
+  if(md.k==='M1'&&md.x==='A')h+=P('Del examen se advierte que la denominación solicitada es semejante en grado de confusión con la marca SOCANA, registrada con anterioridad para aguas minerales y gaseosas, bebidas a base de frutas, bebidas isotónicas, bebidas energéticas y preparaciones para elaborar bebidas. Los signos coinciden en su estructura y, en una de sus lecturas posibles, en su pronunciación. Los productos solicitados, entre ellos '+esc(m1Terms(o))+', son idénticos o estrechamente relacionados con los amparados por el registro citado.');
+  if(md.k==='M1'&&md.x==='B')h+=P('Del examen se advierte que la denominación solicitada es semejante en grado de confusión con la marca SOCANA, registrada con anterioridad para diversas bebidas sin alcohol y preparaciones para elaborarlas. Aunque los productos solicitados pertenecen a otra clase, se considera que comparten con aquéllos su naturaleza de bebidas, su finalidad de consumo y sus canales de comercialización.');
+  if(md.k==='M2')h+=P('El elemento figurativo de la marca mixta solicitada, dos mazorcas de cacao cruzadas en forma de X dentro de un círculo, es semejante al diseño de la marca MAZÁNTICA y diseño, registrada para productos idénticos.');
+  if(md.k==='M3')h+=P('La solicitud encuentra como antecedente la solicitud XOKAN, presentada con anterioridad para servicios de cafetería y restaurante y aún en trámite. La resolución de la presente podría quedar en espera de lo que se resuelva sobre aquélla.');
+  if(md.k==='M4')h+=P('La descripción contiene términos que no corresponden a la clase solicitada o que no permiten identificar con precisión los productos: '+esc(m4Terms())+'. Deberán aclararse, limitarse o suprimirse.');
+  if(md.k==='M5')h+=P('Se tuvo en cuenta la oposición presentada por Embotelladora Sierra Azul, S.A. de C.V., en la etapa posterior a la publicación, de la que se dio conocimiento al solicitante en su oportunidad. Sus argumentos coinciden en lo sustancial con la anterioridad citada.');});
+ h+=P('Se otorga al solicitante un plazo para manifestar lo que a su derecho convenga. <b>Plazo simulado para el ejercicio: cuatro semanas.</b>');
+ return h+FOOT+'</div>';}
+function seguimientoDoc(){var pj=projection(),m=modules(),r=S.f6.routes,cp=clsPres(),t='';
+ if(pj.lvl==='favorable')t='Con la ruta elegida, la solicitud principal tiene una perspectiva razonable de continuar y el cliente conserva su fecha de presentación.';
+ else if(pj.lvl.indexOf('favorable condicionada')===0){t='La perspectiva es buena, pero depende de '+(pj.dep||'la valoración de la autoridad')+'. El registro tomará más tiempo del previsto.';if(pj.lvl.indexOf('margen')>0)t+=' La investigación se encargó dentro del plazo de respuesta; queda poco margen para preparar la acción.';}
+ else if(pj.lvl==='incierta')t='La respuesta descansa en argumentos que la autoridad podría no compartir y no hay una ruta alterna preparada.';
+ else t='Es probable que la solicitud en la clase '+((m.M1==='A'&&cp.indexOf(32)>=0&&m1set().indexOf('R5')<0)?'32':'30')+' no prospere en estos términos.';
+ var extra=[];
+ if(m1set().indexOf('R3')>=0&&!consentDisp())extra.push('El acercamiento con el titular de SOCANA quedó iniciado, pero el documento no llegaría dentro del plazo simulado.');
+ if(m.M2&&r.M2&&r.M2.p==='ARG')extra.push('El logotipo seguirá expuesto a la objeción por su semejanza con MAZÁNTICA y diseño.');
+ if(m.M3&&r.M3&&r.M3.p==='ESP')extra.push('La clase 43 quedará supeditada a la solicitud XOKAN; la barra podría necesitar otra denominación.');
+ if(m.M4&&r.M4&&r.M4.p==='SOS')extra.push('La descripción imprecisa sigue sin resolverse y retrasa el examen.');
+ if(m.M5)extra.push('El titular de SOCANA sigue activo en el procedimiento; cualquier negociación partirá de una posición más tensa.');
+ if(!detectoEncargo()&&S.f5.acts.indexOf('DOCUMENTAR_LOGO')<0)extra.push('La titularidad del logotipo sigue apoyándose en mensajes y en una cotización ambigua; el fondo la mantiene como pendiente de su revisión.');
+ if(presented().some(function(o){return o.el==='SLOGAN'&&o.fig==='AVISO';}))extra.push('La solicitud de aviso comercial sigue su propio examen; su distintividad como frase completa será el punto a vigilar.');
+ return memo('Sofía Arellano, socia responsable','Seguimiento — respuesta al examen de fondo','<div class="sim2" style="margin:0 0 10px">Proyección simulada para fines de entrenamiento: no anticipa cómo resolvería una autoridad real.</div>'+P(esc(t))+extra.map(function(x){return P(esc(x));}).join(''));}
+function cronoDoc(){var c=buildChrono().filter(function(x){return x.ord>=3.2;});return '<div class="doc">'+SIMB+'<h4>Expediente XOKANA</h4><h3>Cronología del procedimiento</h3>'+tbl(['Momento simulado','Hito'],c.map(function(x){return [esc(x.cuando),esc(x.hito)];}))+FOOT+'</div>';}
+function acuseDoc(){var pres=presented(),h='<div class="doc official">'+SIMI+'<h4>Acuse simulado de presentación</h4><h3>Solicitudes presentadas · Orígenes Fermentados del Sureste, S.A.P.I. de C.V.</h3>';
+ if(S.f1.signo!==signoFinal())h+='<div class="notice">La estrategia de presentación se modificó en la Fase 5: '+esc(SIGNO_SHORT[S.f1.signo])+' → '+esc(SIGNO_SHORT[signoFinal()])+'.'+consolidations().map(function(o){return '<br>Consolidación: '+esc(consolidationText(o));}).join('')+'</div>';
+ h+=tbl(['Folio simulado','Momento','Signo y figura','Clase','Descripción'],pres.map(function(o){return [esc(o.folio),'Semana '+o.week,esc(o.label),o.kind==='K'?'—':String(o.cls),esc(descFor(o))];}));
+ var disc=(S.f3.prop||[]).filter(function(o){return o.week==='P'&&S.f5.pendDec[o.id]==='descartar';});if(disc.length)h+=P('Pendientes descartados: '+esc(disc.map(function(o){return o.label;}).join('; '))+'.');
+ return h+FOOT+'</div>';}
+
+var DOCS={
+ asignacion:{t:'Nota de asignación',w:'Semana 1',o:1,r:function(){return memo('Sofía Arellano, socia responsable','Nuevo asunto — Orígenes Fermentados / XOKANA',P('Te asigno este asunto. El cliente lanza en 20 semanas una bebida de cacao fermentado y quiere “proteger todo”. Además, el fondo que encabeza su ronda quiere ver una estrategia de protección marcaria antes del cierre, en la semana 12.')+P('Necesito cuatro cosas, en este orden: qué vale la pena proteger y cómo; qué alcance y qué clases; tu análisis de antecedentes cuando llegue la búsqueda; y una recomendación que yo pueda defender ante el cliente y ante su consejo.')+P('El presupuesto aprobado cubre tres solicitudes ante el IMPI; cada solicitud de marca abarca una sola clase. Si propones más, el consejo tiene que aprobarlo y eso toma dos o tres semanas. Nuestro objetivo interno es presentar en la semana 4: la fecha de presentación importa.')+P('Te dejo en el expediente la ficha del cliente, su brief, el correo de Valeria y la cronología.')+P('Sofía'));}},
+ ficha:{t:'Ficha del cliente',w:'Semana 1',o:1,r:function(){return '<div class="doc"><h4>Ficha del cliente</h4><h3>Orígenes Fermentados del Sureste, S.A.P.I. de C.V.</h3><dl class="kv">'+[['Cliente','Orígenes Fermentados del Sureste, S.A.P.I. de C.V.'],['Sede','Querétaro, Qro. Planta piloto propia; cacao comprado a dos cooperativas de Tabasco y Chiapas'],['Antigüedad y tamaño','Dos años de operación como proveedor de cacao fermentado a granel; 14 colaboradores'],['Interlocutores','Valeria Ortega Lugo, directora general y cofundadora · Andrés Pimentel Rubio, director comercial y cofundador'],['Proyecto','Lanzamiento de su primera marca de consumo: XOKANA'],['Producto principal','Bebida de cacao fermentado, lista para beber, sin lácteos, baja en azúcar, no alcohólica, en botella de vidrio ámbar de 330 ml. Dos sabores: Original y Canela-Chile'],['Producto secundario','Cacao fermentado en polvo para preparar bebidas en casa (bolsa de 250 g)'],['Canales','Tienda en línea propia (xokana.mx), suscripción mensual “Club XOKANA”, cafeterías de especialidad y gimnasios boutique en CDMX, Querétaro y Monterrey, marketplaces'],['Fecha objetivo','Lanzamiento en la Semana 20 desde la apertura del expediente'],['Inversión','Ronda semilla encabezada por el fondo Semilla Pacífico Capital; cierre previsto en la Semana 12. El fondo pidió conocer la estrategia de protección marcaria como parte de su revisión'],['Presupuesto de protección aprobado','Tres solicitudes ante el IMPI, honorarios incluidos. Cada solicitud de marca abarca una sola clase; un aviso comercial también cuenta como una solicitud. Ampliarlo requiere aprobación del consejo (2 a 3 semanas)'],['Proveedor de identidad gráfica','Estudio Lumbre (Mariana Ceja, diseñadora independiente). Encargo acordado por mensajes con base en una cotización; pago contra factura; sin contrato firmado']].map(function(r){return '<dt>'+esc(r[0])+'</dt><dd>'+esc(r[1])+'</dd>';}).join('')+'</dl>'+P('<b>Origen del nombre (según el cliente):</b> XOKANA es una palabra inventada. “Xoko” evoca el xocolatl; “kana” se eligió por sonoridad. Internamente lo pronuncian “sho-KÁ-na”. No tiene significado en español ni en otra lengua conocida por los fundadores.')+FOOT+'</div>';}},
+ brief:{t:'Brief comercial XOKANA',w:'Semana 1',o:1,r:function(){return '<div class="doc"><h4>Brief comercial · redactado por el cliente</h4><h3>XOKANA</h3>'+P('<b>Qué lanzamos.</b> XOKANA es la primera bebida de cacao fermentado lista para beber del mercado mexicano. Fermentamos el grano con una cepa seleccionada y un perfil de proceso que desarrollamos durante 18 meses con un laboratorio externo de alimentos. El resultado es una bebida ligera, ácida y especiada, sin lácteos, con cultivos activos al momento del envasado.')+P('<b>Cómo lo vamos a vender.</b> Tienda en línea y suscripción mensual (Club XOKANA). Distribución en cafeterías de especialidad y gimnasios boutique. A partir del tercer mes, una Caja Origen trimestral con nuestra bebida, chocolates de dos productores aliados (cada uno con su propia marca) y una taza de cerámica.')+P('<b>Experiencias.</b> Catas y talleres “Del árbol a la taza”, con boleto pagado, desde el segundo mes.')+P('<b>Lo que viene.</b> Barra XOKANA, una cafetería de cacao en CDMX, en unos 18 meses si cerramos la ronda. Barras de cacao fermentado en el segundo año. Vasos térmicos y playeras para la comunidad. Nuestro inversionista sugirió una línea cosmética con manteca de cacao; no tiene plan ni fecha.')+'<p><b>Identidad.</b></p><ul><li>Nombre: XOKANA.</li><li>Logotipo: una X formada por dos mazorcas de cacao cruzadas dentro de un círculo, en terracota y verde salvia, con la palabra XOKANA debajo en tipografía sans serif. Lo diseñó Estudio Lumbre: Mariana nos mandó una cotización por mensaje, la aceptamos y pagamos contra factura.</li><li>Slogan: “Cacao vivo, energía real.”</li><li>En la etiqueta, debajo del nombre, aparecerá CACAO VIVO como nombre de la categoría. Queremos registrarlo para que nadie más lo use.</li><li>Envase: botella ámbar estándar de 330 ml con etiqueta vertical de papel kraft y una franja terracota.</li><li>Dominio xokana.mx y cuentas @xokana.mx en redes. El dominio xokana.com está ocupado; no sabemos por quién.</li></ul>'+P('<b>Posicionamiento.</b> Bebida funcional para gente activa: energía sin azúcar añadida, con cultivos vivos.')+FOOT+'</div>';}},
+ correo_v1:{t:'Correo de Valeria Ortega — lo que necesitamos',w:'Semana 1',o:1,r:function(){return mail('Valeria Ortega Lugo',ME,'XOKANA — lo que necesitamos',P('Hola. Gracias por tomar el proyecto. Te comparto el brief. Para nosotros lo importante es simple: queremos registrar todo como marca. El nombre, el logo, el slogan, CACAO VIVO, y que nadie pueda usar XOKANA en nada que tenga que ver con cacao, bebidas, cafeterías o cosméticos.')+P('El fondo va a revisar la estrategia antes de cerrar la ronda en la semana 12, y lanzamos en la semana 20. Las etiquetas se mandan a imprenta en la semana 8.')+P('Andrés te va a escribir sobre la descripción de productos; él insiste en que digamos “bebida funcional y energética”, que es como la vamos a vender.')+P('Valeria'));}},
+ cronologia:{t:'Cronología del asunto',w:'Semana 1',o:1,r:function(){return '<div class="doc"><h4>Expediente XOKANA</h4><h3>Cronología del asunto</h3>'+tbl(['Momento','Hito'],[['Semana 1','Apertura del expediente'],['Semanas 2–3','Definición de estrategia; búsqueda de antecedentes'],['Semana 4','Presentación de solicitudes (objetivo interno)'],['Semana 8','Etiquetas a imprenta'],['Semana 12','Cierre de la ronda semilla'],['Semana 20','Lanzamiento comercial'],['Mes 18 aprox.','Barra XOKANA en CDMX, si se cierra la ronda']])+FOOT+'</div>';}},
+ inventario:{t:'Inventario de elementos del proyecto',w:'Semana 1',o:1.1,r:function(){return '<div class="doc"><h4>Expediente XOKANA</h4><h3>Inventario de elementos del proyecto</h3>'+tbl(['#','Elemento','Descripción','Se decide en'],[['1','Denominación XOKANA','Palabra inventada; nombre del producto y de la línea','1.2'],['2','Logotipo','Isotipo (X de dos mazorcas cruzadas en un círculo) y la palabra XOKANA. Encargado a Estudio Lumbre: cotización por mensaje, pago contra factura, sin contrato firmado','1.2 (registro) y 1.3 (derechos)'],['3','CACAO VIVO','Frase que aparecerá bajo el nombre como “categoría” del producto','1.1'],['4','Slogan','“Cacao vivo, energía real.”, para etiqueta, redes y punto de venta','1.1'],['5','Envase','Botella ámbar estándar de 330 ml, etiqueta vertical kraft con franja terracota','1.1'],['6','Proceso y receta','Cepa seleccionada y perfil de fermentación desarrollados con un laboratorio externo','1.1'],['7','Dominio y redes','xokana.mx y @xokana.mx; xokana.com ocupado por un tercero no identificado','1.1'],['8','Club XOKANA','Nombre del programa de suscripción mensual','1.1']].map(function(r){return r.map(esc);}))+FOOT+'</div>';}},
+ nota_cacao:{t:'Nota de Sofía — CACAO VIVO',w:'Semana 1',o:1.2,r:function(){return memo('Sofía Arellano, socia responsable','CACAO VIVO',P('Propones registrar CACAO VIVO. Para una bebida de cacao con cultivos activos, ¿cómo lo defenderías frente a un examen de distintividad? Si lo mantienes, ocupa una de las tres solicitudes.'));}},
+ nota_slogan:{t:'Nota de Sofía — slogan',w:'Semana 1',o:1.2,r:function(){return memo('Sofía Arellano, socia responsable','Slogan',P('Propones el slogan como marca. ¿Va a funcionar como signo que distingue el origen del producto o como frase para anunciarlo? Si es lo segundo, existe una figura pensada para eso. Si lo mantienes como marca, dime por qué en una línea.'));}},
+ correo_encargo:{t:'Correo de Valeria Ortega — logotipo',w:'Semana 2',o:2,r:function(){return mail('Valeria Ortega Lugo',ME,'Logotipo — Estudio Lumbre',P('Revisamos lo del logotipo como sugeriste. Te comparto la cotización que nos mandó Mariana. Le preguntamos y dice que siempre entendió que el logo es nuestro; está dispuesta a firmar un documento que lo confirme, siempre que pueda mostrarlo en su portafolio.'));}},
+ cotizacion:{t:'Cotización de Estudio Lumbre (extracto)',w:'Semana 2',o:2.05,r:function(){return '<div class="doc"><h4>Documento proporcionado por el cliente</h4><h3>Estudio Lumbre · Cotización (extracto)</h3><dl class="kv"><dt>Proyecto</dt><dd>Identidad gráfica XOKANA</dd><dt>Entregables</dt><dd>Logotipo, isotipo, paleta de color y archivos editables</dd><dt>Uso</dt><dd>Lanzamiento de marca (empaque y redes sociales)</dd><dt>Plazo</dt><dd>Tres semanas</dd><dt>Pago</dt><dd>100 % contra entrega</dd></dl>'+FOOT+'</div>';}},
+ cartera:{t:'Cartera de productos y servicios',w:'Semana 2',o:2.1,r:function(){return '<div class="doc"><h4>Expediente XOKANA</h4><h3>Cartera de productos y servicios</h3>'+tbl(['Código','Línea','Inicio','Ingresos estimados año 1','Comentario del cliente'],LINES.map(function(l){return l.map(esc);}))+FOOT+'</div>';}},
+ correo_andres_red:{t:'Correo de Andrés Pimentel — descripción',w:'Semana 2',o:2.2,r:function(){return mail('Andrés Pimentel Rubio',ME,'Descripción de productos',P('Para la descripción, por favor usemos lo que dice nuestra presentación a inversionistas: bebida funcional, energética y probiótica. Si no decimos “energética”, ¿cómo nos protegemos de que alguien copie la idea con una bebida energética de cacao?'));}},
+ reaccion:{t:'Correo del cliente — alcance propuesto',w:'Semana 2',o:2.3,r:function(){var a=alcance();if(a==='EXTENSO')return mail('Andrés Pimentel Rubio',ME,'Re: alcance','<p>¡Eso es! Mejor que sobre a que falte.</p>');if(a==='ACOTADO')return mail('Valeria Ortega Lugo',ME,'Re: alcance','<p>Entiendo empezar por lo esencial. ¿Y la Caja Origen y la barra? El fondo seguramente preguntará cómo protegemos la expansión.</p>');return mail('Valeria Ortega Lugo',ME,'Re: alcance','<p>Me parece razonable. Sólo quiero entender: si después abrimos la barra, ¿alguien puede adelantarse con el nombre?</p>');}},
+ niza:{t:'Extracto orientativo de clases',w:'Semana 2',o:2.4,r:function(){return '<div class="doc"><h4>Material de consulta</h4><h3>Extracto orientativo de clases</h3><p class="sim2" style="margin:0 0 10px">Resumen elaborado para la simulación. No sustituye la Clasificación de Niza vigente ni las herramientas de clasificación del IMPI.</p>'+tbl(['Clase','Contenido general (paráfrasis)'],CLASSES.map(function(c){return [String(c[0]),esc(c[1])];}))+FOOT+'</div>';}},
+ nota_presupuesto:{t:'Nota de Sofía — presupuesto',w:'Semana 2',o:2.5,r:function(){var n=proposal().length;return memo('Sofía Arellano, socia responsable','Presupuesto de solicitudes',P('Tu propuesta implica '+n+' solicitudes y el presupuesto aprobado cubre tres. Ordénalas por prioridad. Las tres primeras se presentan en la semana 4; las demás esperan la aprobación del consejo.'));}},
+ busqueda:{t:'Informe de búsqueda de antecedentes',w:'Semana 3',o:3,r:function(){return '<div class="doc">'+SIMR+'<div class="sim2">No proviene de las bases de datos del IMPI ni de ninguna fuente real.</div><h4>Informe de búsqueda de antecedentes</h4><h3>Signo buscado: XOKANA</h3><dl class="kv"><dt>Signo buscado</dt><dd>XOKANA (denominación) y elemento figurativo (X formada por dos mazorcas cruzadas dentro de un círculo).</dd><dt>Criterios</dt><dd>Lecturas de la X inicial como /s/, /sh/, /j/ y /ks/ (SOKANA, SHOKANA, JOKANA, KSOKANA); variantes gráficas (XOCANA, XOKAN*, *OKANA); clases 5, 29, 30, 32, 35, 41, 43 y relacionadas; figuras de mazorcas, granos de cacao y letra X en círculo.</dd><dt>Registros revisados</dt><dd>37</dd><dt>Relevantes</dt><dd>4 (ver fichas A1 a A4)</dd><dt>Anexo figurativo</dt><dd>9 registros vigentes en clase 30, de titulares distintos, que usan mazorcas o granos de cacao como elemento figurativo.</dd></dl>'+tbl(['Ficha','Signo','Clase','Estado'],[['A1','SOCANA','32','Registro vigente'],['A2','MAZÁNTICA y diseño','30','Registro vigente'],['A3','XOKANA','9 y 42','Registros vigentes'],['A4','XOKAN','43','Solicitud en trámite']])+FOOT+'</div>';}},
+ ant_A1:{t:'Ficha A1 · SOCANA',w:'Semana 3',o:3.01,r:function(){return antDoc('A1');}},
+ ant_A2:{t:'Ficha A2 · MAZÁNTICA y diseño',w:'Semana 3',o:3.02,r:function(){return antDoc('A2');}},
+ ant_A3:{t:'Ficha A3 · XOKANA (software)',w:'Semana 3',o:3.03,r:function(){return antDoc('A3');}},
+ ant_A4:{t:'Ficha A4 · XOKAN (cafeterías)',w:'Semana 3',o:3.04,r:function(){return antDoc('A4');}},
+ correo_v2:{t:'Correo de Valeria Ortega — búsqueda',w:'Semana 3',o:3.1,r:function(){return mail('Valeria Ortega Lugo',ME,'¿Qué hacemos?',P('Sofía me comentó que salió algo en la búsqueda. ¿Significa que no podemos usar XOKANA? El fondo ya vio el nombre en nuestra presentación y las etiquetas van a imprenta en la semana 8. Necesito tu recomendación esta semana: qué hacemos, qué riesgo corremos y qué cuesta.'));}},
+ correo_andres_logo:{t:'Correo de Andrés Pimentel — logotipo',w:'Semana 3',o:3.11,r:function(){return mail('Andrés Pimentel Rubio',ME,'Logo — mensaje de Estudio Lumbre',P('Mariana, de Estudio Lumbre, vio que vamos a registrar el logo. Nos escribió que su cotización decía “uso: lanzamiento de marca” y que, si lo vamos a registrar y usar en otros productos, quiere platicar los términos. Además, el fondo nos pidió acreditar que el logotipo es nuestro. ¿Tiene razón? ¿Podemos registrarlo así? Te adjunto la cotización.'));}},
+ respuesta_e3:{t:'Correo de Valeria Ortega — cambio de nombre',w:'Semana 3',o:3.2,r:function(){return mail('Valeria Ortega Lugo',ME,'Re: recomendación',P('Lo entiendo, pero cambiar el nombre a quince semanas del lanzamiento significa rehacer marca, empaque y presentación al fondo. El consejo decidió seguir con XOKANA. Dime cuál es la mejor ruta con ese nombre.'));}},
+ carta_socana:{t:'Respuesta de los representantes del titular de SOCANA',w:'Semana 3',o:3.5,r:function(){return '<div class="doc">'+SIMB+'<h4>Correspondencia</h4><h3>Re: XOKANA / SOCANA</h3><div class="mailh"><div><span>De</span><b>Representantes de Embotelladora Sierra Azul, S.A. de C.V.</b></div><div><span>Para</span>'+esc(ME)+'</div></div>'+P('Nuestra representada conserva interés en su marca y evalúa opciones para ella. Estaría dispuesta a explorar un convenio de coexistencia siempre que su cliente: (i) no solicite ni use la denominación en la clase 32; (ii) no describa sus productos como bebidas energéticas o isotónicas; (iii) use la denominación acompañada de su propia identidad gráfica. Podríamos tener un documento firmado en seis a ocho semanas (plazo simulado).')+FOOT+'</div>';}},
+ constancia:{t:'Constancia de presentación — acción de caducidad',w:'Semana 4',o:4,r:function(){return '<div class="doc official">'+SIMI+'<h4>Constancia simulada de presentación</h4><h3>Solicitud de declaración administrativa de caducidad · SOCANA (clase 32)</h3><dl class="kv"><dt>Promovente</dt><dd>Orígenes Fermentados del Sureste, S.A.P.I. de C.V.</dd><dt>Registro objeto</dt><dd>SOCANA, clase 32, titular Embotelladora Sierra Azul, S.A. de C.V.</dd><dt>Causa invocada</dt><dd>Falta de uso</dd><dt>Folio</dt><dd>SIM-CAD-001 (folio simulado)</dd><dt>Momento</dt><dd>Semana 4 (simulada)</dd></dl>'+FOOT+'</div>';}},
+ acuse:{t:'Acuse de presentación de solicitudes',w:'Semana 4',o:4.1,r:acuseDoc},
+ investigacion:{t:'Informe de investigación de uso de SOCANA',w:'',o:8,r:function(){var late=S.docs.investigacion&&S.docs.investigacion.late;return '<div class="doc">'+SIMR+'<h4>Investigación de uso</h4><h3>SOCANA · clase 32</h3>'+(late?'<div class="notice">Investigación encargada dentro del plazo simulado; resultados recibidos en la tercera semana. Queda poco margen para preparar la acción y la respuesta.</div>':'')+P('Se visitaron 12 puntos de venta en León, Querétaro y Guanajuato y se consultó a tres distribuidores regionales: no se localizaron productos SOCANA. La última referencia comercial hallada es un catálogo de distribuidor de hace cuatro años. El titular opera hoy como envasadora para marcas de terceros; su sitio web y sus redes no tienen actividad en ese periodo.')+P('Conclusión: los hallazgos sugieren falta de uso prolongada; una acción de caducidad tendría bases razonables, sujeta a las pruebas que aporte el titular.'+(oposicion()?' No se encontró evidencia de actos de relanzamiento.':''))+FOOT+'</div>';}},
+ oposicion:{t:'Aviso de oposición',w:'Semana 11',o:11,r:function(){return '<div class="doc official">'+SIMI+'<h4>Aviso simulado</h4><h3>Oposición a la solicitud XOKANA</h3>'+P('Se hace del conocimiento del solicitante que, dentro de la etapa posterior a la publicación de la solicitud XOKANA, Embotelladora Sierra Azul, S.A. de C.V., presentó oposición. Sostiene que XOKANA se pronuncia igual que su marca SOCANA, que ambas amparan bebidas que se venden en los mismos puntos y que prepara el relanzamiento de SOCANA. La oposición será considerada en el examen de la solicitud.')+P('<span class="sub">Presentada en la Semana 9 (simulada). Notificada en la Semana 11 (simulada). El equipo presentó una manifestación breve dentro del plazo simulado y reservó los argumentos de fondo para el examen.</span>')+FOOT+'</div>';}},
+ crono_proc:{t:'Cronología del procedimiento',w:'Mes 5',o:25,r:cronoDoc},
+ seguimiento:{t:'Nota de seguimiento',w:'Mes 6',o:30,r:seguimientoDoc},
+ correo_final:{t:'Correo de Valeria Ortega — consejo',w:'Mes 6',o:30.1,r:function(){return mail('Valeria Ortega Lugo',ME,'Recomendación para el consejo',P('El consejo se reúne el jueves. Necesito tu recomendación final en una página: qué tenemos protegido, qué riesgo seguimos corriendo y qué decidimos sobre SOCANA.'));}}
+};
+function docMeta(id){if(id.indexOf('com_')===0){var f=id.slice(4);return {t:'Comunicación del examen de fondo · '+f,w:'Mes 5',o:26,r:function(){return commDoc(f);}};}
+ var d=DOCS[id];if(!d)return null;if(id==='cotizacion'){return {t:d.t,w:detectoEncargo()?'Semana 2':'Semana 3',o:detectoEncargo()?2.05:3.12,r:d.r};}if(id==='investigacion'){var late=S.docs.investigacion&&S.docs.investigacion.late;return {t:d.t,w:late?'Mes 5 (plazo simulado)':'Semana 8',o:late?27:8,r:d.r};}return d;}
+function unlock(id,meta){if(S.docs[id])return false;S.docs[id]=Object.assign({seq:++S.docSeq},meta||{});S.unread[id]=true;var p=S.phase;if(!S.newDocs[p])S.newDocs[p]=[];if(S.newDocs[p].indexOf(id)<0)S.newDocs[p].push(id);return true;}
+function sortedDocs(){return Object.keys(S.docs).filter(function(id){return docMeta(id);}).sort(function(a,b){var ma=docMeta(a),mb=docMeta(b);return (ma.o-mb.o)||(S.docs[a].seq-S.docs[b].seq);});}
+
+/* ---------- Componentes ---------- */
+var RO=false;
+function idOf(path){return 'f_'+String(path).replace(/[^A-Za-z0-9]/g,'_');}
+function dis(){return RO?' disabled':'';}
+function radios(path,opts,val,descs){return '<fieldset><legend class="sr">Opciones</legend>'+opts.map(function(o,i){var id=idOf(path)+'_'+o[0];var on=val===o[0];return '<label class="opt'+(on?' on':'')+(RO?' dis':'')+'" for="'+id+'"><input type="radio" id="'+id+'" name="'+idOf(path)+'" data-k="'+path+'" value="'+esc(o[0])+'"'+(on?' checked':'')+dis()+'><span class="ot">'+esc(o[1])+(descs&&descs[i]?'<span class="od">'+esc(descs[i])+'</span>':'')+'</span></label>';}).join('')+'</fieldset>';}
+function checks(path,opts,arr,o){o=o||{};arr=(arr||[]).map(String);return opts.map(function(op){var v=String(op[0]);var id=idOf(path)+'_'+v.replace(/\W/g,'');var forced=o.forced&&o.forced[v];var on=forced||arr.indexOf(v)>=0;var d=RO||!!forced;return '<label class="'+(o.chip?'chip':'opt')+(on?' on':'')+(d&&!o.chip?' dis':'')+'" for="'+id+'"><input type="checkbox" id="'+id+'" data-k="'+path+'" data-multi value="'+esc(v)+'"'+(o.num?' data-num="1"':'')+(o.max?' data-max="'+o.max+'"':'')+(o.excl?' data-excl="'+o.excl+'"':'')+(on?' checked':'')+(d?' disabled':'')+'><span class="ot">'+esc(op[1])+(forced?'<span class="od">'+esc(forced)+'</span>':(op[2]?'<span class="od">'+esc(op[2])+'</span>':''))+'</span></label>';}).join('');}
+function sel(path,opts,val,label,disabled,ph){var id=idOf(path);return (label?'<label class="mini" for="'+id+'">'+esc(label)+'</label>':'')+'<select id="'+id+'" data-k="'+path+'"'+(RO||disabled?' disabled':'')+'><option value="">'+esc(ph||'Selecciona…')+'</option>'+opts.map(function(o){return '<option value="'+esc(o[0])+'"'+(String(val)===String(o[0])?' selected':'')+'>'+esc(o[1])+'</option>';}).join('')+'</select>';}
+function counter(id,v,min,max,optional){var n=len(v);return '<div class="cnt'+(!optional&&n<min?' short':'')+'" id="'+id+'_c"><span>'+n+' / '+max+' caracteres</span><span>'+(optional?'Opcional':'Mínimo '+min)+'</span></div>';}
+function ta(path,label,min,max,o){o=o||{};var v=getP(path)||'';var id=idOf(path);return '<label class="fl" for="'+id+'">'+label+'</label><textarea class="ta'+(o.long?' long':'')+'" id="'+id+'" data-k="'+path+'" data-min="'+min+'" data-max="'+max+'"'+(o.optional?' data-opt="1"':'')+' maxlength="'+max+'"'+dis()+'>'+esc(v)+'</textarea>'+counter(id,v,min,max,o.optional);}
+function inp(path,label,min,max,o){o=o||{};var v=getP(path)||'';var id=idOf(path);return '<label class="fl" for="'+id+'">'+label+'</label><input type="text" class="inp" id="'+id+'" data-k="'+path+'" data-min="'+min+'" data-max="'+max+'"'+(o.optional?' data-opt="1"':'')+' maxlength="'+max+'" value="'+esc(v)+'"'+dis()+'>'+counter(id,v,min,max,o.optional);}
+function block(code,title,inner,q){return '<section class="block">'+(code?'<p class="code">'+esc(code)+'</p>':'')+'<h3>'+esc(title)+'</h3>'+(q?'<p class="q">'+esc(q)+'</p>':'')+inner+'</section>';}
+function screen(t){return '<div class="screen">'+t.split('\n\n').map(function(p){return '<p style="margin:.3em 0">'+esc(p)+'</p>';}).join('')+'</div>';}
+function newDocsBox(v){var l=(S.newDocs[v]||[]).filter(function(id){return S.docs[id];});if(!l.length)return '';return '<div class="newdocs"><b>Nuevos documentos en el expediente</b><ul>'+l.map(function(id){return '<li><button type="button" class="linkbtn" data-act="open-doc" data-id="'+esc(id)+'">'+esc(docMeta(id).t)+'</button></li>';}).join('')+'</ul></div>';}
+function docInline(id){var m=docMeta(id);if(m&&S.docs[id]&&S.unread[id])S.unread[id]=false;return m?m.r():'';}
+function budgetBox(items,extraNote,count){var n=count!=null?count:items.length;var slots='';for(var i=0;i<Math.max(3,n);i++)slots+='<span class="slot'+(i<n?(i<3?' f':' x'):'')+'"></span>';return '<div class="budget" aria-live="polite"><div class="bh"><b>Presupuesto aprobado: 3 solicitudes ante el IMPI</b><span>Solicitudes previstas: '+n+(n>3?' · '+(n-3)+' por encima del presupuesto':'')+'</span></div><div class="slots" aria-hidden="true">'+slots+'</div>'+(items.length?'<ul class="blist">'+items.map(function(o){return '<li>'+esc(o.label)+'</li>';}).join('')+'</ul>':'')+(extraNote?'<p class="sub" style="margin:8px 0 0">'+esc(extraNote)+'</p>':'')+'</div>';}
+function orderList(path,ids,labelFn,split){var h='<ol class="olist">';ids.forEach(function(id,i){if(split&&i===0)h+='<li class="divider s4" style="display:block;border:0;background:none;padding:0">Solicitudes Semana 4</li>';if(split&&i===3)h+='<li class="divider" style="display:block;border:0;border-top:1px solid var(--line);border-radius:0;background:none;padding:8px 0 0">Pendientes de aprobación del consejo</li>';h+='<li><span class="rk">'+(i+1)+'</span><span class="lb">'+esc(labelFn(id))+'</span><button type="button" data-act="ord" data-path="'+path+'" data-i="'+i+'" data-d="-1"'+(RO||i===0?' disabled':'')+' aria-label="Subir '+esc(labelFn(id))+'">Subir</button><button type="button" data-act="ord" data-path="'+path+'" data-i="'+i+'" data-d="1"'+(RO||i===ids.length-1?' disabled':'')+' aria-label="Bajar '+esc(labelFn(id))+'">Bajar</button></li>';});return h+'</ol>';}
+
+/* ---------- Portada ---------- */
+var showCover=!!S.entered;
+function coverHTML(){var h='<div class="cover"><div class="lab">LABORATORIO 01</div><h1>ESTRATEGIA DE MARCA</h1><p class="subt">Del lanzamiento comercial a una estrategia de protección defendible.</p><p>Esta simulación reproduce un asunto de asesoría marcaria en México, desde la recepción del cliente hasta la recomendación final. Tomarás decisiones con información incompleta, como ocurre en la práctica. Algunas tendrán consecuencias en etapas posteriores. La retroalimentación completa se entrega al cierre del expediente.</p><p class="fict">La empresa, las personas, las marcas, las búsquedas, las comunicaciones y las actuaciones del procedimiento son ficticias. Ningún resultado proviene de bases de datos reales ni del IMPI.</p>';
+ if(S.entered){var where=S.phase<=7?('Fase '+S.phase+' de 7 · '+PH_TITLES[S.phase]):'Expediente cerrado · retroalimentación e informe disponibles';h+='<div class="block"><p class="code">Expediente en curso</p><h3>'+esc(S.name)+(S.pid?' · '+esc(S.pid):'')+'</h3><p class="q">'+esc(where)+'. Iniciado el '+esc(fmtDate(S.started))+'.</p><div class="btnrow"><button type="button" class="btn" data-act="resume">Continuar expediente</button><button type="button" class="btn sec" data-act="reset">Reiniciar expediente</button></div></div>';}
+ else{RO=false;h+='<form id="startForm" novalidate>'+inp('name','Nombre del participante',2,80)+inp('pid','Identificador (opcional)',0,60,{optional:true})+'<p class="sub">Fecha: '+esc(fmtDate(new Date().toISOString()))+'</p><div id="errbox"></div><button type="submit" class="btn">Abrir expediente</button></form>';}
+ h+='<p class="priv">Tu progreso se guarda únicamente en este navegador. La simulación no envía tus respuestas a ningún servidor.'+(storageOK?'':' En este momento el navegador no permite guardar: si cierras la página, el avance se perderá.')+'</p></div>';return h;}
+function fmtDate(iso){if(!iso)return '';var d=new Date(iso);try{return d.toLocaleString('es-MX',{day:'numeric',month:'long',year:'numeric',hour:'2-digit',minute:'2-digit'});}catch(e){return d.toISOString();}}
+
+/* ---------- Fases ---------- */
+function head(v,lead){return '<p class="eyebrow">Fase '+v+' de 7</p><h1 class="ph-title">'+esc(PH_TITLES[v])+'</h1>'+(lead?'<p class="ph-lead">'+esc(lead)+'</p>':'');}
+var PH={};
+PH[0]=function(){return head(0,'Recibes un nuevo asunto profesional. Revisa la nota de asignación y los documentos del expediente antes de continuar.')+docInline('asignacion')+'<div class="block"><p class="code">Expediente</p><h3>Documentos recibidos</h3><ul>'+['ficha','brief','correo_v1','cronologia'].map(function(id){return '<li><button type="button" class="linkbtn" data-act="open-doc" data-id="'+id+'">'+esc(docMeta(id).t)+'</button></li>';}).join('')+'</ul></div>';};
+
+PH[1]=function(){var ro=!!S.conf[1]||S.sub[1]==='notes';RO=ro;var f1=S.f1,h=head(1)+newDocsBox(1);
+ h+=screen('El cliente quiere registrar todo como marca. Antes de cualquier búsqueda, decide tres cosas: qué vía corresponde a cada elemento complementario del proyecto, cómo presentarías como marca el nombre y el logotipo, y qué harías respecto de los derechos sobre el logotipo. No todo se protege igual, no todo pasa por el IMPI y no todo conviene protegerlo ahora. Recuerda: el presupuesto aprobado cubre tres solicitudes ante el IMPI.');
+ h+='<details class="block" open><summary><b>Inventario de elementos del proyecto</b></summary>'+docInline('inventario')+'</details>';
+ h+='<p class="part">Parte A · Elementos complementarios</p>';
+ var rows=ELEMS.map(function(e){var via=f1.via[e.k]||'';var momOn=e.momOn.indexOf(via)>=0;return '<div class="grid-el"><div class="nm"><b>'+esc(e.n)+'</b><span>'+esc(e.d)+'</span></div><div>'+sel('f1.via.'+e.k,e.opts,via,'Vía')+'</div><div>'+sel('f1.mom.'+e.k,MOM,momOn?(f1.mom[e.k]||''):'','Momento',!momOn,momOn?'Selecciona…':'No aplica')+'</div></div>';}).join('');
+ h+=block('Decisión 1.1','Vía y momento',rows,'Elige, para cada elemento, la vía que corresponde y, cuando implique una gestión, el momento.');
+ var k=0;['CACAO_VIVO','SLOGAN','ENVASE','CLUB'].forEach(function(x){var v=f1.via[x],m=f1.mom[x];if((v==='MARCA'||v==='AVISO')&&m==='P1')k++;});
+ h+=budgetBox([],'Solicitudes ante el IMPI que suman hasta ahora: '+k+(k?' (por elementos complementarios en primera etapa)':'')+'. A ello se sumará una solicitud de la denominación por cada clase que elijas en la Fase 3'+(f1.signo==='AMBAS_SIM'?' y, si eliges la clase 30, una mixta adicional en esa clase':'')+'.',k);
+ h+='<p class="part">Parte B · XOKANA y logotipo</p>';
+ h+=block('Decisión 1.2','Estrategia de solicitudes marcarias',radios('f1.signo',SIGNOS,f1.signo)+ta('f1.signoWhy','¿Por qué esta forma de presentación?',60,200),'¿Cómo presentarías como marca el nombre y el logotipo?');
+ h+=block('Decisión 1.3','Derechos sobre el logotipo',radios('f1.doc',DOCLOGO,f1.doc),'El logotipo se usará en empaque y redes aunque no lo registres. ¿Qué harías respecto de los derechos sobre él?');
+ h+=block('Decisión 1.4','Otros pendientes que no se resuelven con un registro',checks('f1.pend',PEND,f1.pend),'Señala los puntos que plantearías al cliente aunque no se resuelvan con una solicitud ante el IMPI.');
+ h+=block('Campo 1.5','Justificación',ta('f1.just','Explícale a Sofía, en pocas líneas, qué priorizas y por qué.',150,400));
+ if(S.sub[1]==='notes'||(S.conf[1]&&(f1.cacao||f1.slogan))){RO=!!S.conf[1];h+='<p class="part">Notas de la socia</p>';
+  if(f1.cacao){var cv=ELEM.CACAO_VIVO;h+=docInline('nota_cacao')+'<section class="block"><h3>Tu respuesta sobre CACAO VIVO</h3>'+radios('f1.cacao.choice',[['mantener','Mantener'],['reconsiderar','Reconsiderar']],f1.cacao.choice);
+   if(f1.cacao.choice==='reconsiderar'){var on=cv.momOn.indexOf(f1.cacao.nvia)>=0;h+='<div class="grid-el"><div class="nm"><b>Nueva decisión</b></div><div>'+sel('f1.cacao.nvia',cv.opts,f1.cacao.nvia,'Vía')+'</div><div>'+sel('f1.cacao.nmom',MOM,on?f1.cacao.nmom:'','Momento',!on,on?'Selecciona…':'No aplica')+'</div></div>';}h+='</section>';}
+  if(f1.slogan){var sv=ELEM.SLOGAN;h+=docInline('nota_slogan')+'<section class="block"><h3>Tu respuesta sobre el slogan</h3>'+radios('f1.slogan.choice',[['mantener','Mantener como marca'],['aviso','Cambiar a aviso comercial'],['reconsiderar','Reconsiderar']],f1.slogan.choice);
+   if(f1.slogan.choice==='mantener')h+=inp('f1.slogan.why','¿Por qué lo mantienes como marca? (una línea)',20,150);
+   if(f1.slogan.choice==='reconsiderar'){var on2=sv.momOn.indexOf(f1.slogan.nvia)>=0;h+='<div class="grid-el"><div class="nm"><b>Nueva decisión</b></div><div>'+sel('f1.slogan.nvia',sv.opts,f1.slogan.nvia,'Vía')+'</div><div>'+sel('f1.slogan.nmom',MOM,on2?f1.slogan.nmom:'','Momento',!on2,on2?'Selecciona…':'No aplica')+'</div></div>';}h+='</section>';}}
+ return h;};
+
+PH[2]=function(){RO=!!S.conf[2];var f2=S.f2,h=head(2)+newDocsBox(2);
+ if(S.docs.correo_encargo)h+=docInline('correo_encargo')+docInline('cotizacion');
+ h+=screen('La cartera del cliente mezcla lo que venderá en la semana 20 con lo que quizá haga en dos años. Decide qué entra en la primera etapa, qué se difiere y qué no conviene proteger por ahora. Después, elige cómo describir el producto principal.');
+ var rows=LINES.map(function(l){return '<div class="linegrid"><div><b>'+esc(l[0])+' · '+esc(l[1])+'</b><div class="sub">'+esc(l[2])+' · Ingresos año 1: '+esc(l[3])+(l[4]?' · '+esc(l[4]):'')+'</div></div><div class="inline-opts">'+radios('f2.items.'+l[0],LINE_OPTS,f2.items[l[0]]||'')+'</div></div>';}).join('');
+ h+=block('Decisión 2.1','Matriz de alcance',rows,'Para cada línea de negocio, elige una opción.');
+ h+=docInline('correo_andres_red');
+ h+=block('Decisión 2.2','Redacción del producto principal',radios('f2.red',REDS,f2.red),'¿Qué descripción propones para la bebida y el polvo?');
+ h+=block('Campo 2.3','Justificación',ta('f2.just','¿Por qué este alcance y esta redacción?',80,300));
+ return h;};
+
+function clsLabel(c){for(var i=0;i<CLASSES.length;i++)if(CLASSES[i][0]===c)return CLASSES[i][1];return '';}
+PH[3]=function(){var ro=!!S.conf[3]||S.sub[3]==='budget';RO=ro;var f3=S.f3,h=head(3)+newDocsBox(3);
+ h+=screen('Asigna las clases que correspondan a lo que decidiste proteger como marca en la primera etapa. Para cada clase, indica qué líneas de tu cartera cubre. Al final, explica en pocas líneas por qué elegiste esas clases y no otras.');
+ h+='<details class="block"><summary><b>Extracto orientativo de clases</b> (también en el expediente)</summary>'+docInline('niza')+'</details>';
+ var lineOpts=LINES.map(function(l){return [l[0],l[0]+' · '+l[1]];});
+ var rows=CLASSES.map(function(c){var on=f3.classes.indexOf(c[0])>=0;var id='cls_'+c[0];var r='<div class="cls-row"><label class="opt'+(on?' on':'')+(RO?' dis':'')+'" for="'+id+'"><input type="checkbox" id="'+id+'" data-k="f3.classes" data-multi data-num="1" value="'+c[0]+'"'+(on?' checked':'')+dis()+'><span class="ot"><b>Clase '+c[0]+'</b><span class="od">'+esc(c[1])+'</span></span></label>';
+  if(on)r+='<div class="cls-cover"><span class="sub">¿Qué cubre de tu cartera?</span><div class="chips">'+checks('f3.cover.'+c[0],lineOpts,f3.cover[c[0]]||[],{chip:true})+'</div></div>';return r+'</div>';}).join('');
+ h+=block('Decisión 3.1','Clases',rows);
+ h+=budgetBox(S.conf[3]?(f3.prop||[]):proposal());
+ h+=block('Campo 3.2','Justificación',ta('f3.just','¿Por qué estas clases y no otras? Si algún producto podía ubicarse en más de una, ¿cómo lo resolviste?',80,300));
+ if(S.sub[3]==='budget'||(S.conf[3]&&f3.order.length>3)){RO=!!S.conf[3];var pr=proposal(),by={};pr.forEach(function(o){by[o.id]=o;});
+  h+='<p class="part">Presupuesto</p>'+docInline('nota_presupuesto')+'<section class="block"><p class="code">Priorización</p><h3>Orden de presentación</h3><p class="q">Usa “Subir” y “Bajar”. Las tres primeras se presentan en la semana 4; las demás quedan pendientes de aprobación del consejo.</p>'+orderList('f3.order',f3.order,function(id){return by[id]?by[id].label:id;},true)+'</section>';}
+ return h;};
+
+PH[4]=function(){RO=!!S.conf[4];var f4=S.f4,h=head(4)+newDocsBox(4);
+ h+=screen('Recibimos la búsqueda de antecedentes. Analiza cada resultado antes de proponer cualquier ajuste. La pregunta no es cuál se parece más, sino qué riesgo representa cada uno y para qué parte de tu estrategia.');
+ h+=docInline('busqueda');
+ ANT_KEYS.forEach(function(k){var a=ANTS[k],m=f4.m[k]||{};var base='f4.m.'+k+'.';
+  h+='<article class="ant"><div class="ant-h"><b>'+a.tag+' · '+esc(a.name)+'</b><span>Resultado simulado para fines de entrenamiento</span></div><div class="ant-b"><dl class="kv">'+a.rows.map(function(r){return '<dt>'+esc(r[0])+'</dt><dd>'+esc(r[1])+'</dd>';}).join('')+'</dl></div>';
+  var lv=function(arr){return arr.map(function(x,i){return [String(i),x];});};
+  h+='<div class="mx">'+'<div>'+sel(base+'fon',lv(SIM_LV),m.fon,'Similitud fonética')+'</div><div>'+sel(base+'gra',lv(SIM_LV),m.gra,'Similitud gráfica')+'</div><div>'+sel(base+'con',lv(SIM_LV),m.con,'Similitud conceptual')+'</div><div>'+sel(base+'rel',lv(REL_LV),m.rel,'Relación con tu estrategia')+'</div><div>'+sel(base+'risk',lv(RISK_LV),m.risk,'Riesgo global')+'</div></div><div class="mx-aff"><span class="sub">¿Qué parte de tu estrategia afecta?</span><div class="chips">'+checks(base+'aff',AFF,m.aff||[],{chip:true,excl:'nin'})+'</div></div></article>';});
+ h+=block('Decisión 4.2','Orden de riesgo y justificación',orderList('f4.order',f4.order,function(k){return k+' · '+ANTS[k].name;})+'<label class="opt'+(f4.orderOk?' on':'')+(RO?' dis':'')+'" for="ordok"><input type="checkbox" id="ordok" data-k="f4.orderOk" data-bool="1"'+(f4.orderOk?' checked':'')+dis()+'><span class="ot">Confirmo este orden, de mayor a menor riesgo para el cliente</span></label>'+ta('f4.just','Explica por qué tus dos primeros lugares representan el mayor riesgo y para qué parte de la estrategia.',300,700,{long:true}),'Ordena los cuatro antecedentes de mayor a menor riesgo para el cliente. Considera los signos en su conjunto: cómo se pronuncian, cómo se ven, qué evocan y qué amparan.');
+ h+=block('Decisión 4.3','Verificaciones',checks('f4.verif',VERIF,f4.verif,{excl:'none'}),'¿Qué información adicional pedirías antes de recomendar algo al cliente?');
+ return h;};
+
+function hasChanges5(){var f5=S.f5;var k=Object.keys(f5.keep).some(function(x){return f5.keep[x]==='retirar';});var r=f5.red&&f5.red!==S.f2.red;var c=Object.keys(f5.pendDec).some(function(x){return f5.pendDec[x]==='confirmar';});return k||r||c;}
+PH[5]=function(){var f5=S.f5,ro=!!S.conf[5]||!!S.sub[5];RO=ro;var h=head(5)+newDocsBox(5);
+ h+=docInline('correo_v2');if(S.docs.correo_andres_logo)h+=docInline('correo_andres_logo')+docInline('cotizacion');
+ h+=screen('Valeria necesita una recomendación. Elige una estrategia principal y hasta cuatro acciones complementarias. Si lo consideras necesario, ajusta el alcance antes de presentar. Indica qué recomiendas sobre el lanzamiento y escribe el mensaje que enviarías.');
+ h+=block('Decisión 5.1','Estrategia principal',radios('f5.est',ESTS,f5.est)+'<p class="sub">Esta decisión se justifica en el mensaje al cliente (5.5).</p>');
+ var forced={};if(f5.est==='E2')forced.INVEST_USO='Incluida en la estrategia elegida; no ocupa lugar.';if(detectoEncargo())forced.DOCUMENTAR_LOGO='En curso desde la Fase 2; no ocupa lugar.';
+ h+=block('Decisión 5.2','Acciones complementarias',checks('f5.acts',ACTS.map(function(a){return [a[0],a[1]];}),f5.acts,{max:4,forced:forced}),'Selecciona hasta cuatro.');
+ var prop=S.f3.prop||[];var s4=prop.filter(function(o){return o.week===4;}),pend=prop.filter(function(o){return o.week==='P';});
+ var p53='<div class="divider s4">Solicitudes Semana 4</div>'+s4.map(function(o){return '<div class="linegrid"><div>'+esc(o.label)+'</div><div class="inline-opts">'+(o.kind==='D'?radios('f5.keep.'+o.id,[['mantener','Mantener'],['retirar','Retirar']],f5.keep[o.id]||'mantener'):'<span class="sub">Se mantiene</span>')+'</div></div>';}).join('');
+ if(pend.length)p53+='<div class="divider">Pendientes de aprobación del consejo</div>'+pend.map(function(o){return '<div class="linegrid"><div>'+esc(o.label)+'</div><div class="inline-opts">'+radios('f5.pendDec.'+o.id,[['confirmar','Presentar en la Semana 7'],['descartar','Descartar']],f5.pendDec[o.id]||'')+'</div></div>';}).join('');
+ p53+='<div style="margin-top:14px">'+sel('f5.red',REDS.map(function(r){return [r[0],r[0]===S.f2.red?'Mantener la redacción actual: '+r[1]:'Cambiar a: '+r[1]];}),f5.red||S.f2.red,'Redacción del producto principal')+'</div>';
+ var redNow=f5.red||S.f2.red;var cpNow=uniq(prop.filter(function(o){return o.kind!=='K'&&!(o.week==='P'&&f5.pendDec[o.id]!=='confirmar')&&f5.keep[o.id]!=='retirar';}).map(function(o){return o.cls;}));
+ if(f5.est==='E2'&&!RO&&(cpNow.indexOf(32)>=0||redNow!=='PRECISA')){var el=[];if(cpNow.indexOf(32)>=0)el.push('la clase 32');if(redNow!=='PRECISA')el.push('una redacción distinta de la precisa');p53='<div class="notice">Elegiste concentrar las solicitudes. Tu alcance actual incluye '+esc(el.join(' y '))+'. ¿Deseas ajustarlo aquí?</div>'+p53;}
+ if(f5.est==='E5'&&S.f1.signo!=='MIX')p53='<div class="notice">Con la estrategia E5, cada solicitud de la denominación se presentará como mixta.'+(prop.some(function(o){return o.kind==='M';})?' Como en la clase 30 hay una nominativa y una mixta, se presentará una sola mixta, con la fecha más favorable de las dos.':'')+'</div>'+p53;
+ p53+=ta('f5.adjWhy','Si haces cambios, explica por qué.',60,200,{optional:!hasChanges5()});
+ h+=block('Decisión 5.3','Ajuste del alcance',p53,'Puedes retirar clases, confirmar o descartar pendientes y cambiar la redacción.');
+ var l=radios('f5.launch',LAUNCH,f5.launch);if(f5.launch==='L2')l+='<div style="margin:6px 0 0 24px"><span class="sub">Condiciones (selecciona al menos una):</span>'+checks('f5.conds',CONDS,f5.conds)+'</div>';l+=ta('f5.launchWhy','¿Por qué?',60,200);
+ h+=block('Decisión 5.4','Lanzamiento',l);
+ h+=block('Campo 5.5','Mensaje al cliente',ta('f5.msg','Escribe el mensaje que enviarías a Valeria: qué recomiendas, por qué, qué riesgo asume y qué necesita decidir.',400,900,{long:true}));
+ if(S.sub[5]==='e3'||(S.f5.est==='E3'&&(S.sub[5]==='lapso'||S.conf[5]))){RO=S.sub[5]!=='e3';h+='<p class="part">Respuesta del cliente</p>'+docInline('respuesta_e3')+block('Respaldo','Mejor ruta con XOKANA',radios('f5.resp',ESTS.filter(function(e){return e[0]!=='E3';}),f5.resp)+ta('f5.respWhy','¿Por qué esta ruta?',60,200));}
+ if(S.sub[5]==='lapso'||S.conf[5]){var c=buildChrono().filter(function(x){return x.ord>=3.2;});h+='<p class="part">Lapso simulado</p><section class="block"><p class="code">Transcurre el tiempo</p><h3>Lo que ocurrió después de tu recomendación</h3>'+tbl(['Momento simulado','Hito'],c.map(function(x){return [esc(x.cuando),esc(x.hito)];}))+'</section>';}
+ return h;};
+
+var IDN={M1:'Se cita la marca SOCANA como anterioridad',D1:'La denominación se considera descriptiva',M2:'Se objeta la semejanza del isotipo con el diseño de MAZÁNTICA',M3:'Existe una solicitud anterior XOKAN en trámite',D2:'Se cita el registro XOKANA de software',M4:'La descripción contiene términos imprecisos o fuera de clase',M5:'El examen toma en cuenta la oposición de Embotelladora Sierra Azul',D3:'Falta un documento de representación'};
+function identOpts(){var act=activeMods();return ['M1','D1','M2','M3','D2','M4','M5','D3'].filter(function(k){return k.charAt(0)==='D'||act.indexOf(k)>=0;}).map(function(k){return [k,IDN[k]];});}
+function routeOpts(k){if(k==='M1')return M1R.map(function(r){return r[0]==='R4'&&estEf()==='E6'?['R4','Informar la acción de caducidad presentada']:r;});return MR[k];}
+function routeLabel(k,v){return optLabel(routeOpts(k),v);}
+PH[6]=function(){RO=!!S.conf[6];var f6=S.f6,h=head(6)+newDocsBox(6);
+ h+=screen('Llegó la comunicación del examen. Léela junto con el resto del expediente: identifica el problema, elige qué hacer, construye un argumento breve y valora si tu estrategia sigue siendo la adecuada.');
+ if(S.docs.oposicion)h+='<p class="sub">Antecedente en tu expediente: <button type="button" class="linkbtn" data-act="open-doc" data-id="oposicion">Aviso de oposición (Semana 11)</button></p>';
+ commPlan().forEach(function(p){h+=docInline('com_'+p.app.folio);});
+ h+=block('Decisión 6.1','Identificación',checks('f6.ident',identOpts(),f6.ident)+ta('f6.central','En una frase, ¿cuál es el problema central?',60,200),'¿Qué problemas plantea la comunicación?');
+ var r='';activeMods().forEach(function(k){var cur=f6.routes[k]||{};var opts=routeOpts(k);r+='<div style="margin:14px 0 18px"><h4 style="margin:0 0 4px;font-size:15.5px">'+esc(MOD_TITLES[k])+'</h4><span class="sub">Ruta principal</span>'+radios('f6.routes.'+k+'.p',opts,cur.p||'')+'<div style="max-width:520px">'+sel('f6.routes.'+k+'.s',opts.filter(function(o){return o[0]!==cur.p;}),cur.s||'','Ruta secundaria (opcional)',false,'Sin ruta secundaria')+'</div></div>';});
+ h+=block('Decisión 6.2','Ruta de respuesta',r,'Para cada problema, elige una ruta principal y, si quieres, una secundaria.');
+ h+=block('Campo 6.3','Argumento',ta('f6.arg','Redacta la parte central de tu respuesta sobre SOCANA'+(S.docs.oposicion?' y sobre la oposición':'')+'. Estructura sugerida: hechos relevantes, argumento y petición.',400,1000,{long:true}));
+ h+=block('Decisión 6.4','Estrategia',radios('f6.keep',[['mantener','Mantener'],['modificar','Modificar']],f6.keep)+ta('f6.keepWhy','¿Por qué? Si la modificas, indica qué cambias.',60,200),'Después de esta comunicación, ¿mantienes tu estrategia o la modificas?');
+ return h;};
+
+PH[7]=function(){RO=!!S.conf[7];var h=head(7)+newDocsBox(7);
+ h+=docInline('seguimiento')+docInline('correo_final');
+ h+=screen('Prepara la recomendación final para el consejo del cliente. Los primeros campos vienen prellenados con tus decisiones; puedes editarlos.');
+ var b=ta('f7.prot','Qué se protege y por qué vía',0,1500,{optional:true})+ta('f7.alc','Alcance',0,1500,{optional:true})+ta('f7.estr','Estrategia y respuesta al obstáculo',0,1500,{optional:true});
+ b+='<p class="fl">Principales riesgos (hasta cinco)</p>'+checks('f7.risks',RISKS7,S.f7.risks,{max:5});
+ b+=ta('f7.rec','Recomendación final: qué debe decidir el consejo y por qué',400,1000,{long:true});
+ b+=inp('f7.steps.0','Siguiente paso 1',10,120)+inp('f7.steps.1','Siguiente paso 2',10,120)+inp('f7.steps.2','Siguiente paso 3',10,120);
+ b+=ta('f7.refl','Qué harías distinto',0,300,{optional:true});
+ h+=block('Pantalla 7.1','Memorando de recomendación',b);
+ return h;};
+
+/* ---------- Validación ---------- */
+function needLen(errs,path,min,label,max){var n=len(getP(path));if(n<min)errs.push(label+': tiene '+n+' caracteres; se requieren al menos '+min+'.');}
+function validate(p){var e=[],f;
+ if(p===1){f=S.f1;
+  if(!S.sub[1]){ELEMS.forEach(function(el){var v=f.via[el.k];if(!v)e.push('1.1 · Elige la vía para '+el.n+'.');else if(el.momOn.indexOf(v)>=0&&!f.mom[el.k])e.push('1.1 · Elige el momento para '+el.n+'.');});
+   if(!f.signo)e.push('1.2 · Elige la estrategia de solicitudes marcarias.');needLen(e,'f1.signoWhy',60,'1.2 · Explicación de la forma de presentación');
+   if(!f.doc)e.push('1.3 · Elige qué harías respecto de los derechos sobre el logotipo.');needLen(e,'f1.just',150,'1.5 · Justificación');}
+  else{if(f.cacao){if(!f.cacao.choice)e.push('Nota sobre CACAO VIVO · Indica si mantienes o reconsideras.');else if(f.cacao.choice==='reconsiderar'){if(!f.cacao.nvia)e.push('Nota sobre CACAO VIVO · Elige la nueva vía.');else if(ELEM.CACAO_VIVO.momOn.indexOf(f.cacao.nvia)>=0&&!f.cacao.nmom)e.push('Nota sobre CACAO VIVO · Elige el momento.');}}
+   if(f.slogan){if(!f.slogan.choice)e.push('Nota sobre el slogan · Elige una respuesta.');else if(f.slogan.choice==='mantener')needLen(e,'f1.slogan.why',20,'Nota sobre el slogan · Explicación');else if(f.slogan.choice==='reconsiderar'){if(!f.slogan.nvia)e.push('Nota sobre el slogan · Elige la nueva vía.');else if(ELEM.SLOGAN.momOn.indexOf(f.slogan.nvia)>=0&&!f.slogan.nmom)e.push('Nota sobre el slogan · Elige el momento.');}}}}
+ if(p===2){f=S.f2;LINES.forEach(function(l){if(!f.items[l[0]])e.push('2.1 · Elige una opción para '+l[0]+' ('+l[1]+').');});if(!f.red)e.push('2.2 · Elige la redacción del producto principal.');needLen(e,'f2.just',80,'2.3 · Justificación');}
+ if(p===3&&!S.sub[3]){f=S.f3;if(!f.classes.length)e.push('3.1 · Selecciona al menos una clase.');f.classes.forEach(function(c){if(!(f.cover[c]||[]).length)e.push('3.1 · Indica qué líneas de tu cartera cubre la clase '+c+'.');});needLen(e,'f3.just',80,'3.2 · Justificación');}
+ if(p===4){f=S.f4;var nm={fon:'similitud fonética',gra:'similitud gráfica',con:'similitud conceptual',rel:'relación con tu estrategia',risk:'riesgo global'};ANT_KEYS.forEach(function(k){var m=f.m[k]||{};var miss=Object.keys(nm).filter(function(x){return m[x]===undefined||m[x]==='';}).map(function(x){return nm[x];});if(miss.length)e.push('4.1 · '+ANTS[k].name+': falta '+miss.join(', ')+'.');if(!(m.aff||[]).length)e.push('4.1 · '+ANTS[k].name+': indica qué parte de tu estrategia afecta.');});
+  if(!f.orderOk)e.push('4.2 · Confirma el orden de riesgo.');needLen(e,'f4.just',300,'4.2 · Justificación de los dos primeros lugares');if(!f.verif.length)e.push('4.3 · Indica qué verificaciones pedirías (o “Ninguna por ahora”).');}
+ if(p===5){f=S.f5;
+  if(!S.sub[5]){if(!f.est)e.push('5.1 · Elige la estrategia principal.');
+   (S.f3.prop||[]).filter(function(o){return o.week==='P';}).forEach(function(o){if(!f.pendDec[o.id])e.push('5.3 · Decide si presentas o descartas la pendiente: '+o.label+'.');});
+   var keptD=presented().filter(function(o){return o.kind!=='K';});if(!keptD.length)e.push('5.3 · Debe presentarse al menos una solicitud de la denominación XOKANA.');
+   if(hasChanges5())needLen(e,'f5.adjWhy',60,'5.3 · Explicación de los cambios');
+   if(!f.launch)e.push('5.4 · Elige qué recomiendas sobre el lanzamiento.');if(f.launch==='L2'&&!f.conds.length)e.push('5.4 · Selecciona al menos una condición para el lanzamiento.');needLen(e,'f5.launchWhy',60,'5.4 · Explicación del lanzamiento');
+   needLen(e,'f5.msg',400,'5.5 · Mensaje al cliente');}
+  else if(S.sub[5]==='e3'){if(!f.resp)e.push('Respaldo · Elige la mejor ruta con XOKANA.');needLen(e,'f5.respWhy',60,'Respaldo · Explicación');}}
+ if(p===6){f=S.f6;if(!f.ident.length)e.push('6.1 · Señala al menos un problema de la comunicación.');needLen(e,'f6.central',60,'6.1 · Problema central');activeMods().forEach(function(k){if(!(f.routes[k]||{}).p)e.push('6.2 · Elige la ruta principal para: '+MOD_TITLES[k]+'.');});needLen(e,'f6.arg',400,'6.3 · Argumento');if(!f.keep)e.push('6.4 · Indica si mantienes o modificas tu estrategia.');needLen(e,'f6.keepWhy',60,'6.4 · Explicación');}
+ if(p===7){f=S.f7;if(!f.risks.length)e.push('7.1 · Selecciona al menos un riesgo principal.');needLen(e,'f7.rec',400,'7.1 · Recomendación final');[0,1,2].forEach(function(i){needLen(e,'f7.steps.'+i,10,'7.1 · Siguiente paso '+(i+1));});}
+ return e;}
+
+/* ---------- Flujo ---------- */
+function enter(n){S.phase=n;S.view=n;
+ if(n===1)unlock('inventario');
+ if(n===2){unlock('cartera');unlock('correo_andres_red');if(detectoEncargo()){unlock('correo_encargo');unlock('cotizacion');}}
+ if(n===3){unlock('reaccion');unlock('niza');}
+ if(n===4){unlock('busqueda');ANT_KEYS.forEach(function(k){unlock('ant_'+k);});}
+ if(n===5){unlock('correo_v2');if(!detectoEncargo()){unlock('correo_andres_logo');unlock('cotizacion');}}
+ if(n===6){commPlan().forEach(function(p){unlock('com_'+p.app.folio);});}
+ if(n===7){unlock('seguimiento');unlock('correo_final');prefill7();}
+ save();render(true);}
+function consequences5(){var e=estEf();S.conf[5]=true;
+ if(e==='E4')unlock('carta_socana');if(e==='E6')unlock('constancia');unlock('acuse');if(investPrev())unlock('investigacion');if(oposicion())unlock('oposicion');unlock('crono_proc');
+ S.f5.snapshot={signoInicial:S.f1.signo,signoFinal:signoFinal(),presentadas:presented().map(function(o){return {folio:o.folio,label:o.label,week:o.week};})};
+ if(S.f1.signo!==signoFinal()){hist('SIGNO_FINAL cambia de '+S.f1.signo+' a '+signoFinal()+' por la estrategia E5.');consolidations().forEach(function(o){hist('Consolidación por cambio a E5: '+consolidationText(o));});}
+ hist('Fase 5 confirmada: estrategia '+S.f5.est+(S.f5.est==='E3'?' → respaldo '+S.f5.resp:'')+'.');}
+function advance(p){
+ if(p===0){S.conf[0]=true;hist('Apertura del expediente revisada.');enter(1);return;}
+ if(p===1){var f1=S.f1;
+  if(!S.sub[1]){var nc=needCacao(),ns=needSlogan();
+   if(nc){f1.cacao={orig:{via:f1.via.CACAO_VIVO,mom:f1.mom.CACAO_VIVO},choice:'',nvia:'',nmom:''};unlock('nota_cacao');}else f1.cacao=null;
+   if(ns){f1.slogan={orig:{via:f1.via.SLOGAN,mom:f1.mom.SLOGAN},choice:'',why:'',nvia:'',nmom:''};unlock('nota_slogan');}else f1.slogan=null;
+   if(nc||ns){S.sub[1]='notes';hist('Decisiones de la Fase 1 registradas; notas de la socia recibidas.');save();render(false,'notes');return;}}
+  else{if(f1.cacao)f1.cacao.final=f1.cacao.choice==='mantener'?f1.cacao.orig:{via:f1.cacao.nvia,mom:ELEM.CACAO_VIVO.momOn.indexOf(f1.cacao.nvia)>=0?f1.cacao.nmom:''};
+   if(f1.slogan)f1.slogan.final=f1.slogan.choice==='mantener'?f1.slogan.orig:(f1.slogan.choice==='aviso'?{via:'AVISO',mom:f1.slogan.orig.mom}:{via:f1.slogan.nvia,mom:ELEM.SLOGAN.momOn.indexOf(f1.slogan.nvia)>=0?f1.slogan.nmom:''});}
+  S.conf[1]=true;hist('Fase 1 confirmada: SIGNO_INICIAL '+f1.signo+'; DOC_LOGO '+f1.doc+'.');enter(2);return;}
+ if(p===2){S.conf[2]=true;hist('Fase 2 confirmada: alcance '+alcance()+', redacción '+S.f2.red+'.');enter(3);return;}
+ if(p===3){var pr=proposal();
+  if(!S.sub[3]){if(pr.length>3){S.f3.order=pr.map(function(o){return o.id;});S.sub[3]='budget';unlock('nota_presupuesto');hist('La propuesta suma '+pr.length+' solicitudes; se requiere priorizar.');save();render(false,'budget');return;}
+   S.f3.prop=pr.map(function(o){var x=JSON.parse(JSON.stringify(o));x.week=4;return x;});}
+  else{var by={};pr.forEach(function(o){by[o.id]=o;});S.f3.prop=S.f3.order.filter(function(id){return by[id];}).map(function(id,i){var x=JSON.parse(JSON.stringify(by[id]));x.week=i<3?4:'P';return x;});}
+  S.conf[3]=true;hist('Fase 3 confirmada: '+S.f3.prop.length+' solicitudes propuestas (C+M+K).');enter(4);return;}
+ if(p===4){S.conf[4]=true;hist('Fase 4 confirmada: orden de riesgo '+S.f4.order.join(' > ')+'.');enter(5);return;}
+ if(p===5){
+  if(!S.sub[5]){if(S.f5.est==='E3'){S.sub[5]='e3';unlock('respuesta_e3');hist('Recomendación E3; el cliente la rechaza.');save();render(false,'part');return;}consequences5();S.sub[5]='lapso';save();render(false,'part');return;}
+  if(S.sub[5]==='e3'){consequences5();S.sub[5]='lapso';save();render(false,'part');return;}
+  enter(6);return;}
+ if(p===6){S.conf[6]=true;hist('Fase 6 confirmada: proyección '+projection().lvl+'.');enter(7);return;}
+ if(p===7){S.conf[7]=true;S.finishedAt=new Date().toISOString();hist('Expediente cerrado.');S.phase=8;S.view=8;save();render(true);return;}}
+function prefill7(){var f=S.f7;
+ if(f.prot==null){var sf=signoFinal(),parts=['Denominación XOKANA: '+SIGNO_SHORT[sf]+(sf!==S.f1.signo?' (estrategia inicial: '+SIGNO_SHORT[S.f1.signo]+')':'')+'.'];ELEMS.forEach(function(e){var fv=finalVM(e.k);parts.push(e.n+': '+optLabel(e.opts,fv.via)+(fv.mom?' ('+optLabel(MOM,fv.mom).toLowerCase()+')':'')+'.');});parts.push('Derechos sobre el logotipo: '+optLabel(DOCLOGO,S.f1.doc)+'.'+(S.f5.acts.indexOf('DOCUMENTAR_LOGO')>=0?' Además: documentar los términos del encargo.':''));f.prot=parts.join('\n');}
+ if(f.alc==null){f.alc='Solicitudes presentadas:\n'+presented().map(function(o){return '· '+o.label+' (Semana '+o.week+')';}).join('\n')+'\nDescripción del producto principal: '+redText(redFinal())+'.';}
+ if(f.estr==null){var t='Estrategia: '+optLabel(ESTS,S.f5.est)+'.';if(S.f5.est==='E3')t+='\nRuta tras la decisión del consejo: '+optLabel(ESTS,S.f5.resp)+'.';var acts=S.f5.acts.map(function(a){return optLabel(ACTS,a);});t+='\nAcciones complementarias: '+(acts.length?acts.join('; '):'ninguna adicional')+'.';t+='\nLanzamiento: '+optLabel(LAUNCH,S.f5.launch)+'.';t+='\nRespuesta al examen: '+activeMods().map(function(k){var r=S.f6.routes[k]||{};return MOD_TITLES[k]+': '+routeLabel(k,r.p)+(r.s?' + '+routeLabel(k,r.s):'');}).join('; ')+'.';f.estr=t;}}
+
+/* ---------- Lecturas contextuales ---------- */
+var LECT={
+ signo:{NOM:['Protección de la palabra con independencia de su presentación, al menor costo','El logotipo queda sin registro por ahora','Si el diseño fuera el principal elemento distintivo o el cliente necesitara proteger ya su identidad gráfica'],AMBAS_SEC:['Protección inmediata de la palabra y tiempo para documentar y revisar el isotipo','La mixta llegará después, con fecha de presentación posterior','Si el presupuesto permitiera presentar ambas sin sacrificar otra solicitud'],AMBAS_SIM:['Cobertura inmediata de nombre y logotipo','Una solicitud del presupuesto y la exposición del isotipo antes de revisarlo','Si el isotipo ya estuviera documentado y revisado frente a antecedentes'],MIX:['Una sola solicitud que cubre nombre y diseño en conjunto','La palabra queda protegida sólo dentro del conjunto con el diseño','Si la palabra fuera débil y el diseño aportara la distintividad']},
+ doc:{DOC_ANTES:['Certeza sobre el logotipo antes de exponerlo','Algo de tiempo antes de imprimir o presentar la mixta','Si el calendario no permitiera esperar el documento'],DOC_PARALELO:['Avanzar sin detener presentación ni impresión','La posibilidad de presentar o imprimir antes de tener el documento','Si se presentara una mixta en la Semana 4'],DOC_NO:['Ahorro inmediato de gestión','Que la prueba de lo pactado quede en mensajes y una cotización ambigua','Siempre que el logotipo vaya a registrarse, explotarse ampliamente o revisarse por un inversionista'],DOC_LICENCIA:['Una relación clara con la diseñadora','Pagar por lo que posiblemente ya correspondía al cliente','Antes, revisar qué se pactó en el encargo']},
+ slogan:{AVISO_P1:['La figura prevista para frases publicitarias, desde el lanzamiento','Una solicitud del presupuesto para una frase de distintividad discutible','Si el slogan pudiera cambiar tras el lanzamiento o el presupuesto fuera estrecho'],AVISO_POST:['Tiempo para confirmar el slogan y revisar sus afirmaciones','La frase queda sin registro durante el lanzamiento','Si el slogan fuera central en la campaña desde el primer día'],SINREG:['Ningún gasto de solicitud','Ninguna exclusividad sobre la frase','Si el slogan se convirtiera en un activo publicitario estable'],MARCA:['Un registro que, de prosperar, daría protección como signo','Una figura que exige que la frase funcione como indicación de origen','Cuando la frase sólo anuncia el producto: el aviso comercial']},
+ cacao:{DESC:['Ningún gasto y ninguna objeción previsible','Que cualquiera pueda describir así un producto similar','Sólo si el uso prolongado llegara a darle carácter distintivo'],REG:['Un intento de exclusividad sobre la frase','Una solicitud con impedimento previsible por descriptividad','Usarla como descriptor y concentrar el presupuesto en XOKANA']},
+ alcance:{ACOTADO:['Concentración del presupuesto en lo que se venderá','Que la expansión quede sin protección por ahora','Si la Caja Origen o la barra fueran inminentes'],INTERMEDIO:['Protección del núcleo y de líneas con fundamento','Más solicitudes y más superficie de contacto','Si el presupuesto no admitiera más que la clase 30'],EXTENSO:['Cobertura de líneas actuales y futuras','Gasto en líneas especulativas y más conflictos posibles','Si existiera un plan real y financiado para esas líneas']},
+ red:{PRECISA:['Menor superficie de conflicto','Ampliar después exigirá nuevas solicitudes','Si el cliente fuera a vender pronto otras bebidas'],AMPLIA:['Amplitud defensiva sobre el universo de bebidas','Contacto directo con marcas de bebidas de terceros, incluida SOCANA','Cuando hay producto real o un plan concreto en esa amplitud'],FUNCIONAL:['Coherencia con el discurso comercial','Términos de otra naturaleza (suplementos, bebidas energéticas) y más cercanía con SOCANA','Describir la naturaleza del producto, no su posicionamiento']},
+ c32:{SI:['Protección defensiva frente a bebidas sin alcohol de terceros','Una solicitud sin producto propio en la clase, en la zona del antecedente más cercano','Si el cliente planeara bebidas sin cacao'],NO:['Concentración en la clase que corresponde al producto','Que terceros puedan registrar el nombre para otras bebidas','Si hubiera presupuesto y planes en bebidas sin alcohol']},
+ est:{E1:['Rapidez y menor costo inmediato','Llegar al obstáculo sin respuesta preparada','Cuando la búsqueda revela un antecedente cercano y posiblemente sin uso'],E2:['Información verificada y menos frentes','Menos amplitud y el costo de la investigación','Si el calendario no permitiera esperar resultados'],E3:['Eliminar de raíz el conflicto principal','Rehacer marca y empaque a quince semanas del lanzamiento; el cliente lo rechazó','Antes de que el nombre se hiciera público, o si se confirmara uso de SOCANA'],E4:['La posibilidad de una salida pactada','Negociar sin saber si SOCANA se usa y alertar al titular','Después de investigar el uso'],E5:['Una identidad visual distinta de la de SOCANA','Protección más estrecha y una semejanza fonética intacta','Cuando la semejanza es visual, no fonética'],E6:['Posición ofensiva temprana','Accionar sin evidencia suficiente y alertar al titular','Una vez confirmada la falta de uso']},
+ launch:{L1:['Calendario intacto para la ronda y el mercado','Exposición sin medidas de gestión','Si el riesgo no estuviera documentado ni comunicado'],L2:['Calendario y medidas de mitigación','El costo de las condiciones','Si la investigación confirmara uso de SOCANA'],L3:['Menor exposición mientras se aclara SOCANA','Costo comercial alto y una condición del fondo','Si el riesgo pudiera gestionarse con condiciones']},
+ r1:{R1:['Rapidez y menor costo','Que el núcleo del conflicto quede intacto','Cuando los productos coinciden y algo puede corregirse'],R2:['Menos exposición','Amplitud y, en su caso, una solicitud','Si los productos retirados fueran esenciales'],R3:['Una salida pactada','Depender del titular y de sus condiciones','Si no hay acuerdo disponible a tiempo'],R4:['Atacar el antecedente','Costo, tiempo y dependencia de la prueba','Si no hay investigación previa que respalde la acción'],R5:['Cerrar el frente','La fecha de presentación de esa solicitud','Si la solicitud era defendible']}};
+function lectRows(){var R=[];function row(d,choice,l){if(l)R.push([d,choice,l[0],l[1],l[2]]);}
+ var f1=S.f1;row('1.2 · Estrategia marcaria',SIGNO_SHORT[f1.signo]+(signoFinal()!==f1.signo?' → '+SIGNO_SHORT[signoFinal()]+' (por E5)':''),LECT.signo[f1.signo]);
+ row('1.3 · Derechos sobre el logotipo',optLabel(DOCLOGO,f1.doc),LECT.doc[f1.doc]);
+ var cv=finalVM('CACAO_VIVO');row('1.1 · CACAO VIVO',optLabel(ELEM.CACAO_VIVO.opts,cv.via)+(cv.mom?' · '+optLabel(MOM,cv.mom):''),LECT.cacao[cv.via==='DESC'?'DESC':'REG']);
+ var sg=finalVM('SLOGAN');var sk=sg.via==='MARCA'?'MARCA':(sg.via==='AVISO'&&sg.mom==='P1'?'AVISO_P1':(sg.via==='AVISO'&&sg.mom==='POST'?'AVISO_POST':'SINREG'));row('1.1 · Slogan',optLabel(ELEM.SLOGAN.opts,sg.via)+(sg.mom?' · '+optLabel(MOM,sg.mom):''),LECT.slogan[sk]);
+ row('2.1 · Alcance',{ACOTADO:'Acotado',INTERMEDIO:'Intermedio',EXTENSO:'Extenso'}[alcance()],LECT.alcance[alcance()]);
+ row('2.2 / 5.3 · Redacción',S.f2.red+(redFinal()!==S.f2.red?' → '+redFinal():''),LECT.red[redFinal()]);
+ row('3.1 · Clase 32',S.f3.classes.indexOf(32)>=0?'Incluida':'No incluida',LECT.c32[S.f3.classes.indexOf(32)>=0?'SI':'NO']);
+ if(S.f5.est==='E3')row('5.1 · Estrategia recomendada',optLabel(ESTS,'E3'),LECT.est.E3);
+ row('5.1 · Estrategia '+(S.f5.est==='E3'?'efectiva (respaldo)':'principal'),optLabel(ESTS,estEf()),LECT.est[estEf()]);
+ row('5.4 · Lanzamiento',optLabel(LAUNCH,S.f5.launch),LECT.launch[S.f5.launch]);
+ var r=S.f6.routes.M1||{};row('6.2 · Ruta principal frente a SOCANA',routeLabel('M1',r.p),LECT.r1[r.p]);
+ return R;}
+
+/* ---------- Retroalimentación ---------- */
+var DIM_READ={EXP:['Tu trayectoria dejó varios frentes abiertos; revisa si cada uno compraba algo que el cliente necesitaba.','Redujiste frentes; identifica qué amplitud o velocidad cediste a cambio.'],COS:['Tu estrategia exige más que el presupuesto aprobado o costos comerciales relevantes; el consejo pedirá saber qué compra cada gasto.','Estrategia austera; verifica que ningún ahorro haya dejado un riesgo sin gestionar.'],VEL:['Priorizaste presentar y lanzar a tiempo; la prelación y la ronda se beneficiaron.','Ganaste certeza o cobertura a costa del calendario del cliente.'],AMP:['Cubriste muchos signos, productos o servicios; más superficie también es más contacto con terceros.','Protección concentrada; revisa si alguna línea real quedó fuera.'],REV:['Tus decisiones dejan margen para corregir sin perder posición.','Tomaste decisiones difíciles de deshacer (desistir, alertar al titular, rehacer marca).'],EVI:['Decidiste con información verificada.','Decidiste antes de saber; algunas decisiones quedaron expuestas a lo que la evidencia revelara.']};
+function dimRead(d,i){if(i>=3)return DIM_READ[d][0];if(i<=1)return DIM_READ[d][1];return 'Nivel intermedio: tu trayectoria no se cargó hacia ningún extremo en esta dimensión.';}
+var TRAJ=[{n:'Presentar ya y gestionar',d:'Nominativa en 30 (y 35), redacción precisa, investigación en paralelo, lanzamiento con condiciones; ante el examen, argumento y caducidad',p:{EXP:.5,COS:.5,VEL:.75,AMP:.5,REV:.5,EVI:.5},pt:'EXP media · COS media · VEL alta · AMP media · REV media · EVI media',w:'El lanzamiento y la ronda son la prioridad y el cliente tolera un riesgo gestionado'},
+ {n:'Verificar antes de exponer',d:'Documentar el logotipo y revisar el isotipo antes de imprimir, investigar uso, negociar con la evidencia en mano, lanzamiento pospuesto o con empaque provisional, alcance mínimo',p:{EXP:.25,COS:.75,VEL:.25,AMP:.25,REV:.75,EVI:.75},pt:'EXP baja · COS alta · VEL baja · AMP baja · REV alta · EVI alta',w:'El fondo condiciona la inversión a certeza o el cliente puede mover el lanzamiento'},
+ {n:'Cubrir más frentes',d:'Clases 30, 32 (defensiva) y 35; nominativa y mixta; aviso comercial; caducidad temprana si la investigación la respalda',p:{EXP:.75,COS:1,VEL:.5,AMP:1,REV:.25,EVI:.5},pt:'EXP alta · COS muy alta · VEL media · AMP muy alta · REV baja · EVI media',w:'Hay presupuesto adicional, apetito de litigio y planes reales de expansión a otras bebidas'}];
+function closestTraj(){var p=profileLevels();var best=null,bd=1e9;TRAJ.forEach(function(t){var d=0;DIMS.forEach(function(k){var x=p[k].i/4-t.p[k];d+=x*x;});if(d<bd){bd=d;best=t;}});return best;}
+var DETECT=['El activo de mayor valor era la denominación inventada XOKANA.','No todo signo verbal se tramita como marca: el slogan apunta al aviso comercial; CACAO VIVO, a un uso descriptivo sin exclusividad.','La titularidad del logotipo dependía de lo pactado en el encargo, y lo pactado no estaba bien documentado.','La base del producto (cacao) define su clase, no su fermentación ni su posicionamiento.','La redacción comercial (“funcional, energética, probiótica”) traslada riesgos a la solicitud.','SOCANA es el antecedente decisivo: semejanza fonética según la lectura de la X, bebidas relacionadas y posible falta de uso.','MAZÁNTICA amenaza al logotipo, no al nombre; XOKANA para software no amenaza al registro; XOKAN condiciona la expansión.','Frente a un registro posiblemente no usado, el orden importa: verificar, luego negociar o accionar.','Alertar al titular (negociando o accionando) puede traer una oposición después de la publicación.'];
+function comments(){var C=[],cv=finalVM('CACAO_VIVO'),cl=S.f3.classes,m=modules();function c(t,x){C.push([t,x]);}
+ c('Aviso comercial','La legislación mexicana prevé el aviso comercial para frases u oraciones que anuncian al público productos, servicios o establecimientos y los distinguen de los de su especie. Es la figura natural para “Cacao vivo, energía real.”; tramitarla como marca exigiría que funcione como indicación de origen. Ser la figura adecuada no garantiza el registro: una frase hecha de elementos descriptivos y elogiosos puede enfrentar objeciones, y la protección alcanza a la frase en conjunto, no a cada palabra. Registrarla ya, diferirla o usarla sin registro son opciones defendibles según el presupuesto y la permanencia esperada del slogan.');
+ if(cv.via!=='DESC')c('CACAO VIVO','Describe la naturaleza del producto y una característica. Un signo así enfrenta un impedimento por descriptividad. La legislación reconoce que ciertos signos adquieren distintividad por el uso, pero eso exige tiempo y prueba.');
+ c('Logotipo y obra por encargo','El régimen mexicano reconoce que, salvo pacto en contrario, quien comisiona una obra con remuneración puede ser titular de los derechos patrimoniales; la autora conserva el reconocimiento de su autoría. Aquí el problema no era la falta de un titular, sino la prueba de lo pactado: una cotización que dice “uso: lanzamiento de marca” admite lecturas distintas. Lo prudente era revisar mensajes, cotización y factura y obtener por escrito el reconocimiento de la obra por encargo o la cesión correspondiente, antes de registrar y antes de la revisión del fondo.');
+ if(S.f1.signo!=='NOM'||signoFinal()!=='NOM')c('Tipo de marca','La nominativa protege la palabra con independencia de su presentación. Presentar sólo la mixta ataba la protección a un diseño aún sin documentar y cercano a un registro anterior. Presentar ambas era defendible, pero consumía una de tres solicitudes.');
+ if(cl.indexOf(32)>=0||cl.indexOf(30)<0||cl.some(function(x){return [5,29,33].indexOf(x)>=0;}))c('Clase 30 y clase 32','Las bebidas a base de cacao pertenecen a la clase 30. Reclamar la 32 como protección defensiva puede justificarse en otros contextos; aquí no había producto propio en esa clase, el presupuesto era limitado y ahí estaba el antecedente más cercano.');
+ if(cl.indexOf(35)>=0||S.f2.items.S2==='1')c('Clase 35','Vender productos propios en línea no exige por sí mismo proteger servicios de venta; la Caja Origen, con productos de terceros, sí le da fundamento.');
+ c('SOCANA','El riesgo se oye al pronunciar: leída como /s/, la X convierte XOKANA en un casi homófono de SOCANA. La relación entre bebidas a base de cacao y bebidas sin alcohol es discutible pero real. El dato que abría opciones estaba en la observación del investigador: posible falta de uso.');
+ c('MAZÁNTICA','La denominación no amenaza a XOKANA; el diseño sí amenaza al logotipo. El anexo muestra que las mazorcas son un motivo común en el sector, lo que debilita ese elemento aislado, pero la coincidencia está en la composición completa, para productos idénticos.');
+ var o=S.f4.order;if(o[0]==='A3'||Number((S.f4.m.A3||{}).risk)>=1)c('XOKANA (software)','La identidad de los signos no basta cuando los productos y servicios no se relacionan. Su relevancia es práctica: su titular controla xokana.com.');
+ if(cl.indexOf(43)>=0||S.f2.items.F1==='1'||o.slice(0,2).indexOf('A4')>=0)c('XOKAN','Es una solicitud anterior: si llega a registro, condicionará la expansión hacia cafeterías. Lo razonable era vigilarla, diferir la clase 43 y considerar otro nombre para la barra.');
+ var e=estEf();if(e==='E1'||e==='E4'||e==='E6'||!investPrev())c('Secuencia frente a SOCANA','Investigar primero permite decidir con información; negociar antes alerta al titular sin conocer el valor de su posición; accionar antes expone al cliente sin evidencia. Conviene prever la oportunidad de cualquier acción contra un antecedente citado, porque el momento puede ser relevante dentro del procedimiento.');
+ if(e==='E4'||m1set().indexOf('R3')>=0)c('Consentimiento','Es una vía reconocida para superar este tipo de impedimento, sujeta a los requisitos vigentes. Su valor depende del momento y de las condiciones del titular.');
+ if(oposicion())c('Oposición','Se presenta en la etapa posterior a la publicación de la solicitud y la autoridad la toma en cuenta al examinar. Alertar al titular antes de esa etapa aumenta la probabilidad de recibirla.');
+ c('Lanzamiento','Usar un signo cercano a una marca registrada para productos relacionados implica riesgo mientras ese registro esté vigente, aunque su titular no lo use. Lanzar con condiciones, posponer o lanzar sin cambios intercambian velocidad y exposición de forma distinta.');
+ return C;}
+function antRef(){var cl=S.f3.classes,red=S.f2.red,sig=S.f1.signo;var a1rel=(cl.indexOf(32)>=0||red==='AMPLIA'||red==='FUNCIONAL')?2:1;
+ return {A1:{fon:[3,'alta (media aceptable)'],gra:[2,'media'],con:[0,'nula'],rel:[a1rel,REL_LV[a1rel]],risk:[2,'alto'+(a1rel===1?' (medio-alto con clase 30 precisa)':'')]},
+  A2:{fon:[1,'baja'],gra:[3,'alta frente al isotipo'],con:[2,'media, sobre un motivo común del sector'],rel:[2,'idénticos'],risk:[sig==='NOM'?1:2,sig==='NOM'?'medio-alto para el logotipo; bajo para la denominación':'medio-alto para el logotipo']},
+  A3:{fon:[3,'idéntica'],gra:[3,'idéntica'],con:[0,'nula'],rel:[0,'sin relación'],risk:[0,'bajo en lo registral']},
+  A4:{fon:[3,'alta'],gra:[3,'alta'],con:[0,'nula'],rel:[cl.indexOf(43)>=0?2:1,cl.indexOf(43)>=0?'idénticos con 43':'relacionados con 30'],risk:[(cl.indexOf(43)>=0||S.f2.items.F1==='1')?2:1,'alto para 43 y la expansión; bajo a medio para 30']}};}
+function matrixCompare(){var ref=antRef(),fld=[['fon','Fonética',SIM_LV],['gra','Gráfica',SIM_LV],['con','Conceptual',SIM_LV],['rel','Relación',REL_LV],['risk','Riesgo',RISK_LV]];var rows=[];
+ ANT_KEYS.forEach(function(k){var m=S.f4.m[k]||{};fld.forEach(function(f){var mine=m[f[0]];var r=ref[k][f[0]];var diff=Math.abs(Number(mine)-r[0]);rows.push([k+' · '+esc(ANTS[k].name),f[1],esc(f[2][Number(mine)]||'—'),esc(r[1]),diff>1?'<b>Difiere en más de un nivel</b>':'Coincide o difiere en un nivel']);});});
+ return tbl(['Antecedente','Dimensión','Tu valoración','Referencia','Contraste'],rows);}
+function retroHTML(){var p=profileLevels(),ct=closestTraj(),al=computeAlerts();var h='<p class="eyebrow">Revisión final</p><h1 class="ph-title">Retroalimentación del expediente</h1>'+screen('Retroalimentación del expediente. Este caso admite varias estrategias defendibles. Lo que sigue muestra qué ganó y qué asumió tu trayectoria, cómo se compara con otras rutas razonables y qué puntos conviene revisar.');
+ h+='<div class="btnrow no-print"><button type="button" class="btn" data-act="goto" data-to="9">Ver informe de decisiones</button></div>';
+ h+='<section class="fbsec"><h2>Lo que era importante detectar</h2><ol>'+DETECT.map(function(x){return '<li>'+esc(x)+'</li>';}).join('')+'</ol></section>';
+ h+='<section class="fbsec"><h2>Perfil de trade-offs</h2><p class="sub">Ninguna dimensión es buena o mala en sí misma: una exposición alta puede ser aceptable si compra velocidad que el cliente necesita.</p>'+DIMS.map(function(d){var i=p[d].i;var bars='';for(var j=0;j<5;j++)bars+='<i class="'+(j<=i?'f':'')+'"></i>';return '<div class="dim"><b>'+esc(DIM_NAMES[d])+'</b><div><div class="lv" role="img" aria-label="Nivel '+esc(LEVELS[i])+'">'+bars+'</div><div class="lvw">'+esc(LEVELS[i])+'</div></div><div class="rd">'+esc(dimRead(d,i))+'</div></div>';}).join('')+'</section>';
+ h+='<section class="fbsec"><h2>Trayectorias de contraste</h2><p class="sub">Tres rutas defendibles; ninguna es una respuesta modelo.</p>'+tbl(['Trayectoria','Decisiones típicas','Perfil de referencia','Conviene cuando'],TRAJ.map(function(t){return [esc(t.n),esc(t.d),esc(t.pt),esc(t.w)];}))+'<div class="closest">Tu trayectoria se parece más a: <b>'+esc(ct.n)+'</b>. Es una referencia para comparar, no un juicio sobre tu estrategia.</div></section>';
+ h+='<section class="fbsec"><h2>Lectura de tus decisiones</h2>'+tbl(['Decisión','Tu elección','Qué ganaste','Qué asumiste','Cuándo convendría otra opción'],lectRows().map(function(r){return r.map(esc);}))+'<h3 style="font-size:16px;margin:18px 0 6px">Análisis de antecedentes frente a valores de referencia</h3>'+matrixCompare()+'<p class="sub">Tu orden de riesgo: '+esc(S.f4.order.map(function(k){return ANTS[k].name;}).join(' > '))+'. A1 en primer lugar refleja que se identificó la lectura fonética de la X y la relación entre bebidas; A2 o A4 en segundo lugar son ambos defendibles; A3 en primer lugar suele indicar peso excesivo en la identidad literal.</p></section>';
+ h+='<section class="fbsec"><h2>Puntos a revisar</h2>'+(al.length?al.map(function(a){return '<div class="al"><b>'+esc(a.code)+'</b> · '+esc(a.txt)+'<br><span class="sub">En tu expediente: '+esc(a.ctx)+'</span></div>';}).join(''):'<p>Tu trayectoria no activó ninguno de los puntos de revisión previstos.</p>')+'</section>';
+ h+='<section class="fbsec"><h2>Comentarios temáticos</h2>'+comments().map(function(c){return '<p class="cm"><b>'+esc(c[0])+'.</b> '+esc(c[1])+'</p>';}).join('')+'</section>';
+ var sc1=[['m1','Dice qué recomiendo y qué debe decidir el cliente.'],['m2','Nombra lo que se gana y lo que se asume con la estrategia.'],['m3','Ordena los riesgos por importancia.'],['m4','Propone siguientes pasos con momento o responsable.']];
+ var sc2=[['a1','Comparé los signos en su conjunto, incluida su pronunciación posible.'],['a2','Expliqué con hechos la naturaleza, la finalidad y los canales de los productos.'],['a3','Usé al menos un hecho verificable (investigación de uso, acuerdo con el titular).'],['a4','Mi petición es coherente con la ruta elegida.'],['a5','Atendí los argumentos de la oposición, si la hubo.'],['a6','Evité afirmaciones que debilitan mi posición, como describir el producto como bebida energética.']];
+ function scl(list){return '<div class="sc">'+list.map(function(x){var on=!!S.fb.sc[x[0]];return '<label for="sc_'+x[0]+'"><input type="checkbox" id="sc_'+x[0]+'" data-k="fb.sc.'+x[0]+'" data-bool="1"'+(on?' checked':'')+'><span>'+esc(x[1])+'</span></label>';}).join('')+'</div>';}
+ h+='<section class="fbsec"><h2>Autocontraste</h2><p class="sub">Marca lo que reconoces en tus textos. No se califica; se guarda en tu informe.</p><h3 style="font-size:16px">Mensaje al cliente (Fase 5)</h3><div class="quote">'+esc(S.f5.msg)+'</div><h3 style="font-size:16px">Recomendación final (Fase 7)</h3><div class="quote">'+esc(S.f7.rec)+'</div>'+scl(sc1)+'<h3 style="font-size:16px">Argumento (Fase 6)</h3><div class="quote">'+esc(S.f6.arg)+'</div>'+scl(sc2)+'</section>';
+ h+='<div class="navbar no-print"><button type="button" class="btn sec" data-act="goto" data-to="7">Consultar fases</button><button type="button" class="btn" data-act="goto" data-to="9">Ver informe de decisiones</button></div>';
+ return h;}
+
+/* ---------- Informe ---------- */
+function rt(s){return '<div class="rep-text">'+esc(s||'—')+'</div>';}
+function reportHTML(){var f1=S.f1,f2=S.f2,f3=S.f3,f4=S.f4,f5=S.f5,f6=S.f6,f7=S.f7,p=profileLevels(),pj=projection(),dur='';
+ if(S.started&&S.finishedAt){var mins=Math.round((new Date(S.finishedAt)-new Date(S.started))/60000);dur=mins>=60?Math.floor(mins/60)+' h '+(mins%60)+' min':mins+' min';}
+ var h='<div class="btnrow no-print" style="margin-bottom:16px"><button type="button" class="btn" data-act="print">Imprimir / Guardar como PDF</button><button type="button" class="btn sec" data-act="copy">Copiar informe</button><button type="button" class="btn sec" data-act="goto" data-to="8">Volver a la retroalimentación</button></div>';
+ h+='<article class="report" id="report"><p class="eyebrow">LABORATORIO 01 · ESTRATEGIA DE MARCA</p><h1>Informe de decisiones</h1><p class="meta">Expediente XOKANA · Participante: <b>'+esc(S.name)+'</b>'+(S.pid?' · Identificador: '+esc(S.pid):'')+' · Inicio: '+esc(fmtDate(S.started))+' · Cierre: '+esc(fmtDate(S.finishedAt))+(dur?' · Duración: '+esc(dur):'')+'</p>';
+ h+='<h2>1. Resumen</h2><div class="rep-block">'+tbl(['Dimensión','Nivel'],DIMS.map(function(d){return [esc(DIM_NAMES[d]),esc(p[d].label)];}))+'<p>Trayectoria de contraste más cercana: <b>'+esc(closestTraj().n)+'</b>. Proyección simulada del evento: <b>'+esc(pj.lvl)+'</b>.</p></div><h3>Recomendación final (extracto)</h3>'+rt(String(f7.rec||'').slice(0,600)+(len(f7.rec)>600?'…':''));
+ h+='<h2>2. Estrategia inicial</h2><div class="rep-block">'+tbl(['Elemento','Vía inicial','Momento inicial','Vía final','Momento final'],ELEMS.map(function(e){var fv=finalVM(e.k);return [esc(e.n),esc(optLabel(e.opts,f1.via[e.k])),esc(optLabel(MOM,ELEM[e.k].momOn.indexOf(f1.via[e.k])>=0?f1.mom[e.k]:'')||'—'),esc(optLabel(e.opts,fv.via)),esc(optLabel(MOM,fv.mom)||'—')];}))+'</div>';
+ h+='<p><b>SIGNO_INICIAL (1.2):</b> '+esc(SIGNO_SHORT[f1.signo])+' · <b>SIGNO_FINAL:</b> '+esc(SIGNO_SHORT[signoFinal()])+(signoFinal()!==f1.signo?' <span class="tag">modificado por la estrategia E5</span>':'')+'</p>'+rt(f1.signoWhy)+'<p><b>Derechos sobre el logotipo (1.3):</b> '+esc(optLabel(DOCLOGO,f1.doc))+'</p><p><b>Pendientes señalados (1.4):</b> '+esc(f1.pend.length?f1.pend.map(function(x){return optLabel(PEND,x);}).join(' · '):'ninguno')+'</p><h3>Justificación (1.5)</h3>'+rt(f1.just);
+ if(f1.cacao)h+='<p><b>Nota de la socia sobre CACAO VIVO:</b> respuesta “'+esc(f1.cacao.choice==='mantener'?'Mantener':'Reconsiderar')+'”.</p>';
+ if(f1.slogan)h+='<p><b>Nota de la socia sobre el slogan:</b> respuesta “'+esc({mantener:'Mantener como marca',aviso:'Cambiar a aviso comercial',reconsiderar:'Reconsiderar'}[f1.slogan.choice])+'”'+(f1.slogan.why?': '+esc(f1.slogan.why):'')+'.</p>';
+ h+='<h2>3. Productos y servicios</h2><div class="rep-block">'+tbl(['Línea','Decisión'],LINES.map(function(l){return [esc(l[0]+' · '+l[1]),esc(optLabel(LINE_OPTS,f2.items[l[0]]))];}))+'</div><p><b>Alcance:</b> '+esc({ACOTADO:'Acotado',INTERMEDIO:'Intermedio',EXTENSO:'Extenso'}[alcance()]||'—')+' · <b>Redacción inicial:</b> '+esc(redText(f2.red))+(redFinal()!==f2.red?' · <b>Redacción final (5.3):</b> '+esc(redText(redFinal())):'')+'</p><h3>Justificación (2.3)</h3>'+rt(f2.just);
+ h+='<h2>4. Clases y solicitudes</h2><div class="rep-block">'+tbl(['Clase','Cubre'],f3.classes.slice().sort(function(a,b){return a-b;}).map(function(c){return ['Clase '+c,esc((f3.cover[c]||[]).join(', '))];}))+'</div><h3>Justificación (3.2)</h3>'+rt(f3.just);
+ var pr=f3.prop||[];var bd=computeVars().SOLICITUDES_DESGLOSE;h+='<h3>Solicitudes inicialmente propuestas (C + M + K = '+bd.C+' + '+bd.M+' + '+bd.K+' = '+pr.length+')</h3><div class="rep-block">'+tbl(['#','Solicitud','Momento propuesto'],pr.map(function(o,i){return [String(i+1),esc(o.label),o.week==='P'?'Pendiente de aprobación del consejo':'Semana 4'];}))+'</div>';
+ h+='<h2>5. Análisis de antecedentes</h2><div class="rep-block">'+tbl(['Antecedente','Fonética','Gráfica','Conceptual','Relación','Riesgo','Afecta'],ANT_KEYS.map(function(k){var m=f4.m[k]||{};return [esc(ANTS[k].name),esc(SIM_LV[m.fon]||'—'),esc(SIM_LV[m.gra]||'—'),esc(SIM_LV[m.con]||'—'),esc(REL_LV[m.rel]||'—'),esc(RISK_LV[m.risk]||'—'),esc((m.aff||[]).map(function(x){return optLabel(AFF,x);}).join(', '))];}))+'</div><p><b>Orden de riesgo:</b> '+esc(f4.order.map(function(k){return ANTS[k].name;}).join(' > '))+'</p><h3>Justificación (4.2)</h3>'+rt(f4.just)+'<p><b>Verificaciones (4.3):</b> '+esc(f4.verif.map(function(x){return optLabel(VERIF,x);}).join(' · '))+'</p>';
+ h+='<h2>6. Decisiones estratégicas</h2><p><b>Estrategia (5.1):</b> '+esc(optLabel(ESTS,f5.est))+'</p>'+(f5.est==='E3'?'<p><b>Respaldo tras la respuesta del cliente:</b> '+esc(optLabel(ESTS,f5.resp))+'</p>'+rt(f5.respWhy):'')+'<p><b>Acciones complementarias (5.2):</b> '+esc(f5.acts.map(function(a){return optLabel(ACTS,a);}).join(' · ')||'ninguna adicional')+(detectoEncargo()?' · Documentación del encargo en curso desde la Fase 2.':'')+(estEf()==='E2'?' · Investigación de uso incluida en la estrategia.':'')+'</p>';
+ var pres=presented();var cons=consolidations();h+='<h3>Solicitudes efectivamente presentadas</h3><div class="rep-block">'+tbl(['Folio simulado','Solicitud','Momento'],pres.map(function(o){return [esc(o.folio),esc(o.label)+(o.changed?' <span class="tag">cambiada a mixta</span>':'')+(o.consolidated&&o.consolidated.length>1?' <span class="tag">consolidada</span>':''),'Semana '+o.week];}))+'</div>';
+ var c0=f3.classes.slice().sort(function(a,b){return a-b;}),c1=clsPres().slice().sort(function(a,b){return a-b;});h+='<p><b>Clases seleccionadas en la Fase 3:</b> '+esc(c0.join(', ')||'ninguna')+' · <b>Clases efectivamente presentadas:</b> '+esc(c1.join(', ')||'ninguna')+(c0.join()!==c1.join()?' <span class="tag">ajustadas en la Fase 5</span>':'')+'</p>';
+ if(cons.length)h+='<p><b>Consolidación por cambio a E5:</b></p><ul>'+cons.map(function(o){return '<li>'+esc(consolidationText(o))+'</li>';}).join('')+'</ul>';
+ h+=(hasChanges5()?'<h3>Ajuste del alcance (5.3)</h3>'+rt(f5.adjWhy):'');
+ h+='<p><b>Lanzamiento (5.4):</b> '+esc(optLabel(LAUNCH,f5.launch))+(f5.launch==='L2'?' · Condiciones: '+esc(f5.conds.map(function(c){return optLabel(CONDS,c);}).join('; ')):'')+'</p>'+rt(f5.launchWhy)+'<h3>Mensaje al cliente (5.5)</h3>'+rt(f5.msg);
+ h+='<h2>7. Cronología del procedimiento</h2><div class="rep-block">'+tbl(['Momento simulado','Hito'],buildChrono().map(function(x){return [esc(x.cuando),esc(x.hito)];}))+'</div>';
+ var m=modules();h+='<h2>8. Respuesta frente al obstáculo</h2><p><b>Módulos recibidos:</b> '+esc(activeMods().map(function(k){return k==='M1'?'SOCANA ('+(m.M1==='A'?'productos idénticos o muy cercanos':'bebidas relacionadas')+')':MOD_TITLES[k];}).join(' · '))+'</p><p><b>Problemas identificados (6.1):</b> '+esc(f6.ident.map(function(x){return IDN[x];}).join(' · '))+'</p>'+rt(f6.central)+'<div class="rep-block">'+tbl(['Problema','Ruta principal','Ruta secundaria'],activeMods().map(function(k){var r=f6.routes[k]||{};return [esc(MOD_TITLES[k]),esc(routeLabel(k,r.p)),esc(routeLabel(k,r.s)||'—')];}))+'</div><h3>Argumento (6.3)</h3>'+rt(f6.arg)+'<p><b>Estrategia tras la comunicación (6.4):</b> '+esc(f6.keep==='mantener'?'Mantener':'Modificar')+'</p>'+rt(f6.keepWhy);
+ h+='<h2>9. Estrategia final</h2><h3>Qué se protege y por qué vía</h3>'+rt(f7.prot)+'<h3>Alcance</h3>'+rt(f7.alc)+'<h3>Estrategia y respuesta al obstáculo</h3>'+rt(f7.estr)+'<p><b>Principales riesgos:</b> '+esc(f7.risks.map(function(x){return optLabel(RISKS7,x);}).join(' · '))+'</p><h3>Recomendación final</h3>'+rt(f7.rec)+'<h3>Siguientes pasos</h3><ol>'+f7.steps.map(function(s){return '<li>'+esc(s)+'</li>';}).join('')+'</ol>'+(len(f7.refl)?'<h3>Qué harías distinto</h3>'+rt(f7.refl):'');
+ var idf=riskIdentified();h+='<h2>10. Principales riesgos identificados</h2><div class="rep-block">'+tbl(['Riesgo de referencia','Situación'],RISKS7.map(function(r){return [esc(r[1]),idf[r[0]]?'Identificado':'No mencionado'];}))+'</div>';
+ var al=computeAlerts();h+='<h2>11. Retroalimentación</h2><div class="rep-block">'+tbl(['Decisión','Tu elección','Qué ganaste','Qué asumiste','Cuándo convendría otra opción'],lectRows().map(function(r){return r.map(esc);}))+'</div><h3>Puntos a revisar</h3>'+(al.length?'<ul>'+al.map(function(a){return '<li><b>'+esc(a.code)+'</b> · '+esc(a.txt)+' <i>'+esc(a.ctx)+'</i></li>';}).join('')+'</ul>':'<p>Ninguno activado.</p>')+'<h3>Comentarios temáticos</h3>'+comments().map(function(c){return '<p><b>'+esc(c[0])+'.</b> '+esc(c[1])+'</p>';}).join('');
+ var scAll=[['m1','Mensaje y recomendación: dice qué recomiendo y qué debe decidir el cliente'],['m2','Nombra lo que se gana y lo que se asume'],['m3','Ordena los riesgos por importancia'],['m4','Propone siguientes pasos con momento o responsable'],['a1','Argumento: comparé los signos en su conjunto'],['a2','Expliqué con hechos la naturaleza, finalidad y canales'],['a3','Usé al menos un hecho verificable'],['a4','Petición coherente con la ruta'],['a5','Atendí la oposición, si la hubo'],['a6','Evité afirmaciones que debilitan mi posición']];
+ h+='<h3>Autocontraste marcado por el participante</h3><ul>'+scAll.map(function(x){return '<li>'+(S.fb.sc[x[0]]?'[x] ':'[ ] ')+esc(x[1])+'</li>';}).join('')+'</ul>';
+ h+='<h2>12. Nota</h2><p class="sub">Simulación de entrenamiento. Empresa, personas, marcas, búsquedas, comunicaciones y actuaciones ficticias. No constituye asesoría jurídica.</p></article>';
+ h+='<div class="navbar no-print"><button type="button" class="btn sec" data-act="goto" data-to="8">Volver a la retroalimentación</button><button type="button" class="btn" data-act="print">Imprimir / Guardar como PDF</button></div>';
+ return h;}
+function riskIdentified(){var o={},r=S.f7.risks,top=S.f4.order.slice(0,2);RISKS7.forEach(function(x){o[x[0]]=r.indexOf(x[0])>=0;});
+ if(top.indexOf('A1')>=0)o.socana=true;if(top.indexOf('A2')>=0)o.maz=true;if(top.indexOf('A4')>=0)o.xokan=true;if(detectoEncargo())o.logo=true;if(finalVM('CACAO_VIVO').via==='DESC')o.cacao=true;if(S.f5.acts.indexOf('GUIA_USO')>=0||S.f1.pend.indexOf('a')>=0)o.energ=true;if(S.f5.acts.indexOf('DOMINIO')>=0||S.f1.pend.indexOf('b')>=0)o.dig=true;return o;}
+
+/* ---------- Render ---------- */
+function navbar(){var v=S.view,p=S.phase;var L=v>0&&v<=7?'<button type="button" class="btn sec" data-act="goto" data-to="'+(v-1)+'">Anterior</button>':'<span></span>';var R='';
+ if(v<p){R+='<button type="button" class="btn sec" data-act="goto" data-to="'+(v+1>7&&p>=8?8:v+1)+'">'+(v+1>7?'Ir a la retroalimentación':'Siguiente')+'</button>';if(p<=7&&v+1!==p)R+=' <button type="button" class="btn" data-act="goto" data-to="'+p+'">Volver a la fase actual</button>';if(p>=8&&v<7)R+=' <button type="button" class="btn" data-act="goto" data-to="8">Ir a la retroalimentación</button>';}
+ else{var lbl='Continuar';if(p===7)lbl='Cerrar expediente';if(p===1&&!S.sub[1])lbl='Confirmar decisiones';if(p===3&&!S.sub[3])lbl='Confirmar clases';if(p===5&&!S.sub[5])lbl='Confirmar recomendación';if(p===5&&S.sub[5]==='lapso')lbl='Continuar a la Fase 6';R='<button type="button" class="btn" data-act="next">'+lbl+'</button>';}
+ return '<div class="navbar no-print"><div class="btnrow">'+L+'</div><div class="btnrow">'+R+'</div></div>';}
+function phaseHTML(v){var body=PH[v]();var h=body;if(v<S.phase)h=body.replace('</h1>','</h1><div class="ro-note">Fase confirmada. Puedes consultarla; las decisiones quedaron registradas.</div>');return h+'<div id="errbox"></div>'+navbar();}
+function renderHeader(){var n=document.getElementById('hdrN'),p=document.getElementById('hdrP');var v=S.view;
+ if(showCover||!S.entered){n.textContent='Simulación';p.textContent='Del lanzamiento comercial a una estrategia de protección defendible';}
+ else if(v<=7){n.textContent='Fase '+v+' de 7';p.textContent=PH_TITLES[v];}
+ else{n.textContent='Expediente cerrado';p.textContent=v===8?'Retroalimentación':'Informe de decisiones';}
+ var pr=S.finishedAt?100:Math.round(Math.min(S.phase,7)/7*100);document.getElementById('prog').style.width=(S.entered&&!showCover?pr:0)+'%';
+ var u=Object.keys(S.unread).filter(function(k){return S.unread[k]&&S.docs[k];}).length;var b=document.getElementById('expBadge');b.hidden=!u;b.textContent=u;}
+function renderExp(){var a=document.getElementById('exp');var ids=sortedDocs();var h='<div class="exp-h"><h2>Expediente</h2><button type="button" class="exp-close" data-act="toggle-exp" aria-label="Cerrar expediente">✕</button></div><p class="exp-note">Documentos recibidos, en orden cronológico.</p>';
+ if(!S.entered||showCover||!ids.length)h+='<p class="exp-empty">El expediente se abrirá al registrar tu participación.</p>';
+ else h+='<ul class="exp-list">'+ids.map(function(id){var m=docMeta(id);return '<li><button type="button" class="exp-item" data-act="open-doc" data-id="'+esc(id)+'">'+(S.unread[id]?'<span class="nw">Nuevo</span>':'')+'<span class="w">'+esc(m.w)+'</span><span class="ti">'+esc(m.t)+'</span></button></li>';}).join('')+'</ul>';
+ a.innerHTML=h;}
+function render(top,scrollTo){var m=document.getElementById('main');var act=document.activeElement&&document.activeElement.id;var y=window.scrollY;
+ if(showCover||!S.entered){m.innerHTML=coverHTML();}
+ else{var v=S.view;m.innerHTML='<div class="wrap">'+(v<=7?phaseHTML(v):(v===8?retroHTML():reportHTML()))+'</div>';}
+ renderHeader();renderExp();
+ if(top){window.scrollTo(0,0);try{m.focus({preventScroll:true});}catch(e){}}
+ else if(scrollTo){var parts=m.querySelectorAll('.part');var t=parts[parts.length-1];if(t)t.scrollIntoView({block:'start'});}
+ else{window.scrollTo(0,y);if(act){var el=document.getElementById(act);if(el)try{el.focus({preventScroll:true});}catch(e){}}}}
+function showErrors(list){var b=document.getElementById('errbox');if(!b)return;b.innerHTML='<div class="errors" role="alert" tabindex="-1"><b>Antes de continuar, completa lo siguiente:</b><ul>'+list.map(function(x){return '<li>'+esc(x)+'</li>';}).join('')+'</ul></div>';var e=b.firstChild;e.scrollIntoView({block:'center'});try{e.focus({preventScroll:true});}catch(er){}}
+var toastT=null;function toast(t){var el=document.getElementById('toast');el.textContent=t;el.classList.add('on');clearTimeout(toastT);toastT=setTimeout(function(){el.classList.remove('on');},3200);}
+
+/* ---------- Modal ---------- */
+var lastFocus=null;
+function openDoc(id){var m=docMeta(id);if(!m||!S.docs[id])return;lastFocus=document.activeElement;document.getElementById('modalTitle').textContent=m.t;document.getElementById('modalWhen').textContent=m.w;document.getElementById('modalBody').innerHTML=m.r();var md=document.getElementById('modal');md.classList.add('open');md.scrollTop=0;document.body.classList.remove('exp-open');if(S.unread[id]){S.unread[id]=false;save();renderHeader();renderExp();}var x=md.querySelector('.modal-x');if(x)x.focus();}
+function openModalHTML(title,html){lastFocus=document.activeElement;document.getElementById('modalTitle').textContent=title;document.getElementById('modalWhen').textContent='';document.getElementById('modalBody').innerHTML=html;document.getElementById('modal').classList.add('open');var x=document.querySelector('#modal .modal-x');if(x)x.focus();}
+function closeModal(){document.getElementById('modal').classList.remove('open');if(lastFocus&&document.body.contains(lastFocus))try{lastFocus.focus();}catch(e){}}
+
+/* ---------- Eventos ---------- */
+function afterSet(k,t){
+ var mm=k.match(/^f1\.via\.(\w+)$/);if(mm){var e=ELEM[mm[1]];if(e&&e.momOn.indexOf(S.f1.via[mm[1]])<0)S.f1.mom[mm[1]]='';}
+ if(k==='f1.cacao.nvia'&&ELEM.CACAO_VIVO.momOn.indexOf(S.f1.cacao.nvia)<0)S.f1.cacao.nmom='';
+ if(k==='f1.slogan.nvia'&&ELEM.SLOGAN.momOn.indexOf(S.f1.slogan.nvia)<0)S.f1.slogan.nmom='';
+ if(k==='f3.classes'){Object.keys(S.f3.cover).forEach(function(c){if(S.f3.classes.indexOf(Number(c))<0)delete S.f3.cover[c];});}
+ if(k==='f5.est'&&S.f5.est==='E2')S.f5.acts=S.f5.acts.filter(function(a){return a!=='INVEST_USO';});
+ if(k==='f5.launch'&&S.f5.launch!=='L2')S.f5.conds=[];
+ if(k==='f5.red'&&S.f5.red===S.f2.red)S.f5.red='';
+ var rm=k.match(/^f6\.routes\.(M\d)\.(p|s)$/);if(rm){var r=S.f6.routes[rm[1]];if(rm[2]==='p'&&r.s===r.p)r.s='';
+  if(rm[1]==='M1'&&getP(k)==='R4'&&!investPrev()&&!S.docs.investigacion){unlock('investigacion',{late:true});S.f6.lateInv=true;toast('Nuevo documento en el expediente: Informe de investigación de uso de SOCANA.');}}
+ if(k.indexOf('f4.m.')===0||k==='f4.order')S.f4.orderOk=k==='f4.order'?false:S.f4.orderOk;}
+function onField(t,isText){var k=t.getAttribute('data-k');if(!k)return;
+ if(t.type==='checkbox'&&t.hasAttribute('data-multi')){var arr=getP(k);if(!Array.isArray(arr))arr=[];arr=arr.slice();var v=t.hasAttribute('data-num')?Number(t.value):t.value;var ex=t.getAttribute('data-excl');
+  if(t.checked){if(ex){if(String(v)===ex)arr=[];else arr=arr.filter(function(x){return String(x)!==ex;});}var mx=parseInt(t.getAttribute('data-max')||'0',10);if(mx&&arr.length>=mx){t.checked=false;toast('Puedes seleccionar como máximo '+mx+'.');return;}if(arr.indexOf(v)<0)arr.push(v);}
+  else arr=arr.filter(function(x){return x!==v;});setP(k,arr);}
+ else if(t.type==='checkbox'&&t.hasAttribute('data-bool'))setP(k,t.checked);
+ else setP(k,t.value);
+ afterSet(k,t);save();
+ if(isText){var c=document.getElementById(t.id+'_c');if(c){var mn=parseInt(t.getAttribute('data-min')||'0',10),mx2=t.getAttribute('data-max'),opt=t.hasAttribute('data-opt');var n=len(t.value);c.className='cnt'+(!opt&&n<mn?' short':'');c.firstChild.textContent=n+' / '+mx2+' caracteres';}}
+ else render(false);}
+document.addEventListener('change',function(e){var t=e.target;if(!t.getAttribute||!t.getAttribute('data-k'))return;if(t.tagName==='TEXTAREA'||(t.tagName==='INPUT'&&t.type==='text'))return;onField(t,false);});
+document.addEventListener('input',function(e){var t=e.target;if(!t.getAttribute||!t.getAttribute('data-k'))return;if(t.tagName==='TEXTAREA'||(t.tagName==='INPUT'&&t.type==='text'))onField(t,true);});
+document.addEventListener('submit',function(e){if(e.target&&e.target.id==='startForm'){e.preventDefault();var errs=[];if(len(S.name)<2)errs.push('Escribe tu nombre (al menos 2 caracteres).');if(errs.length){showErrors(errs);return;}S.entered=true;S.started=new Date().toISOString();S.phase=0;S.view=0;showCover=false;['asignacion','ficha','brief','correo_v1','cronologia'].forEach(function(id){unlock(id);});hist('Expediente abierto.');save();render(true);}});
+document.addEventListener('click',function(e){var b=e.target.closest?e.target.closest('[data-act]'):null;if(!b)return;var a=b.getAttribute('data-act');
+ if(a==='toggle-exp'){var o=document.body.classList.toggle('exp-open');document.getElementById('expBtn').setAttribute('aria-expanded',o?'true':'false');if(o){var f=document.querySelector('#exp .exp-item,#exp .exp-close');if(f)f.focus();}return;}
+ if(a==='open-doc'){openDoc(b.getAttribute('data-id'));return;}
+ if(a==='close-modal'){closeModal();return;}
+ if(a==='resume'){showCover=false;render(true);return;}
+ if(a==='reset'){openModalHTML('Reiniciar expediente','<div class="doc"><p>Se borrarán de este navegador todas tus decisiones, textos, documentos desbloqueados y el informe. Esta acción no se puede deshacer.</p><div class="btnrow"><button type="button" class="btn warn" data-act="reset-ok">Sí, reiniciar el expediente</button><button type="button" class="btn sec" data-act="close-modal">Cancelar</button></div></div>');return;}
+ if(a==='reset-ok'){try{localStorage.removeItem(KEY);}catch(er){}S=blank();showCover=false;closeModal();render(true);return;}
+ if(a==='next'){if(S.view!==S.phase)return;var errs=S.phase===0?[]:validate(S.phase);if(errs.length){showErrors(errs);return;}advance(S.phase);return;}
+ if(a==='goto'){var to=parseInt(b.getAttribute('data-to'),10);if(to>S.phase&&!(to===9&&S.phase>=8))return;S.view=to;save();render(true);return;}
+ if(a==='ord'){var path=b.getAttribute('data-path'),i=parseInt(b.getAttribute('data-i'),10),d=parseInt(b.getAttribute('data-d'),10);var arr=getP(path).slice();var j=i+d;if(j<0||j>=arr.length)return;var tmp=arr[i];arr[i]=arr[j];arr[j]=tmp;setP(path,arr);afterSet(path);save();render(false);var btns=document.querySelectorAll('[data-act="ord"][data-path="'+path+'"][data-i="'+j+'"][data-d="'+d+'"]');if(btns[0]&&!btns[0].disabled)btns[0].focus();else{var alt=document.querySelector('[data-act="ord"][data-path="'+path+'"][data-i="'+j+'"]:not([disabled])');if(alt)alt.focus();}return;}
+ if(a==='print'){window.print();return;}
+ if(a==='copy'){copyReport();return;}});
+document.addEventListener('keydown',function(e){if(e.key==='Escape'){if(document.getElementById('modal').classList.contains('open'))closeModal();else if(document.body.classList.contains('exp-open')){document.body.classList.remove('exp-open');document.getElementById('expBtn').setAttribute('aria-expanded','false');document.getElementById('expBtn').focus();}}
+ if(e.key==='Tab'&&document.getElementById('modal').classList.contains('open')){var f=document.querySelectorAll('#modal button,#modal [href],#modal input');if(!f.length)return;var first=f[0],last=f[f.length-1];if(e.shiftKey&&document.activeElement===first){e.preventDefault();last.focus();}else if(!e.shiftKey&&document.activeElement===last){e.preventDefault();first.focus();}}});
+document.getElementById('modal').addEventListener('click',function(e){if(e.target.id==='modal')closeModal();});
+function copyReport(){var el=document.getElementById('report');if(!el)return;var txt=el.innerText;function ok(){toast('Informe copiado al portapapeles.');}function fb(){var t=document.createElement('textarea');t.value=txt;t.setAttribute('readonly','');t.style.position='fixed';t.style.top='-1000px';document.body.appendChild(t);t.select();var done=false;try{done=document.execCommand('copy');}catch(er){}document.body.removeChild(t);if(done)ok();else toast('No fue posible copiar automáticamente. Selecciona el texto del informe y cópialo manualmente.');}
+ if(navigator.clipboard&&window.isSecureContext){navigator.clipboard.writeText(txt).then(ok,fb);}else fb();}
+
+save();render(true);
+})();
+</script>
+</body>
+</html>
